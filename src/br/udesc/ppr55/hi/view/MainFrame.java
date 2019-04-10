@@ -1,6 +1,7 @@
 package br.udesc.ppr55.hi.view;
 
 import br.udesc.ppr55.hi.controller.HaruController;
+import br.udesc.ppr55.hi.controller.listeners.ClickItemListener;
 import static java.awt.BorderLayout.CENTER;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -68,7 +69,7 @@ public class MainFrame extends JFrame {
         this.haruController.initializeBoard();
 
         super.setTitle("Haru Ichiban");
-        super.setSize(500, 528);
+        super.setSize(500, 500);
         super.setDefaultCloseOperation(EXIT_ON_CLOSE);
         super.setLocationRelativeTo(null);
         super.setResizable(false);
@@ -90,7 +91,7 @@ public class MainFrame extends JFrame {
         gameBoard.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         gameBoard.setIntercellSpacing(new Dimension(0, 0));
         gameBoard.setDefaultRenderer(Object.class, new HaruItemRender());
-
+        gameBoard.addMouseListener(new ClickItemListener());
         this.add(gameBoard, CENTER);
     }
 
