@@ -1,17 +1,23 @@
 package br.udesc.ppr55.hi.controller;
 
+import br.udesc.ppr55.hi.controller.observer.Observer;
 import br.udesc.ppr55.hi.model.Piece;
 import br.udesc.ppr55.hi.model.Water;
 import br.udesc.ppr55.hi.model.WaterLily;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author João Pedro Schmitz, Mário Fronza
  * @since 07/04/2019
  */
-public class HaruController {
+public class HaruController implements IHaruController{
 
     private static HaruController instance;
     private Piece[][] gameBoard;
+
+    private List<Observer> observers = new ArrayList<>();
 
     public static HaruController getInstance() {
         if (instance == null)
@@ -24,6 +30,7 @@ public class HaruController {
         this.initializeBoard();
     }
 
+    @Override
     public void initializeBoard() {
         gameBoard = new Piece[5][5];
 
@@ -59,12 +66,31 @@ public class HaruController {
 
     }
 
+    @Override
     public String getPiece(int col, int row) {
         return (gameBoard[col][row] == null ? null : gameBoard[col][row].getImage());
     }
 
+    @Override
     public void itemClicked(int x, int y){
 
+        this.notifyItemClicked();
     }
 
+    @Override
+    public void addObserver(Observer observer) {
+        this.observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        this.observers.remove(observer);
+    }
+
+    @Override
+    public void notifyItemClicked() {
+        for (Observer observer: observers){
+            observer.notifyItemClicked();
+        }
+    }
 }

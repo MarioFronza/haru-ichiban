@@ -1,7 +1,9 @@
 package br.udesc.ppr55.hi.controller.observer;
 
-public abstract class Observer {
+public interface Observer {
 
+    void notifyItemClicked();
 
+    void notifyChangeBoard();
 
 }

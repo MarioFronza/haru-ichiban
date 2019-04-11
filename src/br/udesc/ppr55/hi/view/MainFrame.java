@@ -1,8 +1,8 @@
 package br.udesc.ppr55.hi.view;
 
 import br.udesc.ppr55.hi.controller.HaruController;
-import br.udesc.ppr55.hi.controller.listeners.ClickItemListener;
-import javafx.scene.layout.Border;
+import br.udesc.ppr55.hi.controller.IHaruController;
+import br.udesc.ppr55.hi.controller.observer.Observer;
 
 import static java.awt.BorderLayout.CENTER;
 
@@ -17,7 +17,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements Observer {
 
     private static final long serialVersionUID = 1L;
 
@@ -65,12 +65,12 @@ public class MainFrame extends JFrame {
 
     }
 
-    private HaruController haruController;
+    private IHaruController haruController;
     private JTable gameBoard;
 
     public MainFrame() {
         this.haruController = HaruController.getInstance();
-
+        this.haruController.addObserver(this);
         super.setTitle("Haru Ichiban");
         super.setSize(500, 500);
         super.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -96,7 +96,6 @@ public class MainFrame extends JFrame {
         gameBoard.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("Clicou");
                 haruController.itemClicked(gameBoard.getSelectedRow(), gameBoard.getSelectedColumn());
             }
 
@@ -121,6 +120,16 @@ public class MainFrame extends JFrame {
             }
         });
         this.add(gameBoard, CENTER);
+    }
+
+    @Override
+    public void notifyItemClicked() {
+        JOptionPane.showMessageDialog(null, "Clicou");
+    }
+
+    @Override
+    public void notifyChangeBoard() {
+
     }
 
 }
