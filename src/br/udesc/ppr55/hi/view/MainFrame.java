@@ -2,9 +2,13 @@ package br.udesc.ppr55.hi.view;
 
 import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.listeners.ClickItemListener;
+import javafx.scene.layout.Border;
+
 import static java.awt.BorderLayout.CENTER;
-import java.awt.Component;
-import java.awt.Dimension;
+
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -43,16 +47,16 @@ public class MainFrame extends JFrame {
         }
 
     }
-    
-    
+
+
     //transformar em classe separada
     class HaruItemRender extends DefaultTableCellRenderer {
 
         private static final long serialVersionUID = 1L;
 
         public Component getTableCellRendererComponent(JTable table,
-                Object value, boolean isSelected, boolean hasFocus, int row,
-                int column) {
+                                                       Object value, boolean isSelected, boolean hasFocus, int row,
+                                                       int column) {
 
             setIcon((ImageIcon) value);
 
@@ -65,15 +69,13 @@ public class MainFrame extends JFrame {
     private JTable gameBoard;
 
     public MainFrame() {
-        this.haruController = new HaruController();
-        this.haruController.initializeBoard();
+        this.haruController = HaruController.getInstance();
 
         super.setTitle("Haru Ichiban");
         super.setSize(500, 500);
         super.setDefaultCloseOperation(EXIT_ON_CLOSE);
         super.setLocationRelativeTo(null);
         super.setResizable(false);
-
         initComponents();
     }
 
@@ -87,11 +89,37 @@ public class MainFrame extends JFrame {
             gameBoard.getColumnModel().getColumn(x).setMaxWidth(100);
         }
         gameBoard.setRowHeight(100);
-        gameBoard.setShowGrid(true);
+        gameBoard.setShowGrid(false);
         gameBoard.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         gameBoard.setIntercellSpacing(new Dimension(0, 0));
         gameBoard.setDefaultRenderer(Object.class, new HaruItemRender());
-        gameBoard.addMouseListener(new ClickItemListener());
+        gameBoard.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Clicou");
+                haruController.itemClicked(gameBoard.getSelectedRow(), gameBoard.getSelectedColumn());
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
         this.add(gameBoard, CENTER);
     }
 

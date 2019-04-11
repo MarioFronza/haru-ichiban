@@ -1,15 +1,28 @@
 package br.udesc.ppr55.hi.controller;
 
 import br.udesc.ppr55.hi.model.Piece;
+import br.udesc.ppr55.hi.model.Water;
 import br.udesc.ppr55.hi.model.WaterLily;
 
 /**
- * @since 07/04/2019
  * @author João Pedro Schmitz, Mário Fronza
+ * @since 07/04/2019
  */
 public class HaruController {
 
+    private static HaruController instance;
     private Piece[][] gameBoard;
+
+    public static HaruController getInstance() {
+        if (instance == null)
+            instance = new HaruController();
+
+        return instance;
+    }
+
+    private HaruController() {
+        this.initializeBoard();
+    }
 
     public void initializeBoard() {
         gameBoard = new Piece[5][5];
@@ -48,6 +61,10 @@ public class HaruController {
 
     public String getPiece(int col, int row) {
         return (gameBoard[col][row] == null ? null : gameBoard[col][row].getImage());
+    }
+
+    public void itemClicked(int x, int y){
+
     }
 
 }

@@ -6,7 +6,7 @@ package br.udesc.ppr55.hi.model;
  */
 public class Water extends Piece{
     
-    public Water(String image) {
+    public Water() {
         super("images/Water.png");
     }
     
