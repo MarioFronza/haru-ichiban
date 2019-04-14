@@ -110,6 +110,11 @@ public class HaruController implements IHaruController {
     }
 
     @Override
+    public void addFlower(int x, int y) {
+        System.out.println("Adicionando flores");
+    }
+
+    @Override
     public String getPiece(int col, int row) {
         return (gameBoard[col][row] == null ? null : gameBoard[col][row].getImage());
     }

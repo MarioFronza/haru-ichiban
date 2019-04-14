@@ -8,9 +8,12 @@ public interface IHaruController extends Observed {
     String getScoreStone(int col, int row);
     String getPlayerFlower(int col, int row);
     String getFlower(int col, int row);
+
     void itemClicked(int x, int y);
     void initializeBoard();
     void initializeScorePanel();
     void initializePlayerPanel();
     void initializeFlowerPanel();
+
+    void addFlower(int x, int y);
 }

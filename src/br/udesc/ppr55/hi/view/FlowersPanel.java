@@ -2,26 +2,17 @@ package br.udesc.ppr55.hi.view;
 
 import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.IHaruController;
+import br.udesc.ppr55.hi.controller.listeners.ClickFlowerListener;
 import br.udesc.ppr55.hi.controller.observer.Observer;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 
-public class FlowersPanel extends JPanel implements Observer {
+public class FlowersPanel extends JPanel{
 
     private static final long serialVersionUID = 1L;
 
-    @Override
-    public void notifyItemClicked() {
-
-    }
-
-    @Override
-    public void notifyChangeBoard() {
-
-    }
 
     class HaruTableModel extends AbstractTableModel {
 
@@ -50,25 +41,11 @@ public class FlowersPanel extends JPanel implements Observer {
     }
 
 
-    class HaruItemRender extends DefaultTableCellRenderer {
-
-        private static final long serialVersionUID = 1L;
-
-        public Component getTableCellRendererComponent(JTable table,
-                                                       Object value, boolean isSelected, boolean hasFocus, int row,
-
-                                                       int column) {
-            setIcon((ImageIcon) value);
-            return this;
-        }
-    }
-
     private JTable flowersPanel;
     private IHaruController haruController;
 
     public FlowersPanel() {
         this.haruController = HaruController.getInstance();
-        this.haruController.addObserver(this);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         initComponents();
     }
@@ -83,10 +60,10 @@ public class FlowersPanel extends JPanel implements Observer {
         }
         flowersPanel.setRowHeight(100);
         flowersPanel.setShowGrid(true);
-        //flowersPanel.setBackground(new Color(147, 120, 64, 217));
         flowersPanel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         flowersPanel.setIntercellSpacing(new Dimension(0, 0));
         flowersPanel.setDefaultRenderer(Object.class, new HaruItemRender());
+        flowersPanel.addMouseListener(new ClickFlowerListener(flowersPanel.getSelectedRow(), flowersPanel.getSelectedColumn(), this.haruController));
 
         this.add(flowersPanel);
     }

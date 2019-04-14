@@ -1,19 +1,17 @@
 package br.udesc.ppr55.hi.view;
 
-
 import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.IHaruController;
 import br.udesc.ppr55.hi.controller.observer.Observer;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 
-public class BoardPanel extends JPanel implements Observer {
+public class BoardPanel extends JPanel {
 
     //Transformar em classe separada
     class HaruTableModel extends AbstractTableModel {
@@ -42,29 +40,11 @@ public class BoardPanel extends JPanel implements Observer {
 
     }
 
-
-    //transformar em classe separada
-    class HaruItemRender extends DefaultTableCellRenderer {
-
-        private static final long serialVersionUID = 1L;
-
-        public Component getTableCellRendererComponent(JTable table,
-                                                       Object value, boolean isSelected, boolean hasFocus, int row,
-                                                       int column) {
-
-            setIcon((ImageIcon) value);
-
-            return this;
-        }
-
-    }
-
     private IHaruController haruController;
     private JTable gameBoard;
 
-    public BoardPanel() {
-        this.haruController = HaruController.getInstance();
-        this.haruController.addObserver(this);
+    public BoardPanel(IHaruController haruController) {
+        this.haruController = haruController;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.initComponents();
         this.addComponents();
@@ -115,16 +95,6 @@ public class BoardPanel extends JPanel implements Observer {
 
             }
         });
-
-    }
-
-    @Override
-    public void notifyItemClicked() {
-        JOptionPane.showMessageDialog(null, "Clicou");
-    }
-
-    @Override
-    public void notifyChangeBoard() {
 
     }
 

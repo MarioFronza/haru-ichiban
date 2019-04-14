@@ -50,21 +50,6 @@ public class ScorePanel extends JPanel implements Observer {
     }
 
 
-    class HaruItemRender extends DefaultTableCellRenderer {
-
-        private static final long serialVersionUID = 1L;
-
-        public Component getTableCellRendererComponent(JTable table,
-                                                       Object value, boolean isSelected, boolean hasFocus, int row,
-                                                       int column) {
-
-            setIcon((ImageIcon) value);
-
-            return this;
-        }
-
-    }
-
     private JTable scoreTable;
     private IHaruController haruController;
 

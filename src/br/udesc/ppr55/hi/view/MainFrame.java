@@ -1,10 +1,14 @@
 package br.udesc.ppr55.hi.view;
 
+import br.udesc.ppr55.hi.controller.HaruController;
+import br.udesc.ppr55.hi.controller.IHaruController;
+import br.udesc.ppr55.hi.controller.observer.Observer;
+
 import javax.swing.*;
 import java.awt.*;
 
 
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements Observer {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,17 +25,22 @@ public class MainFrame extends JFrame {
 
     private Dimension dimension;
 
+    private IHaruController haruController;
+
 
     private GridBagConstraints c = new GridBagConstraints();
 
     public MainFrame() {
         this.dimension = new Dimension(800, 600);
+        this.haruController = HaruController.getInstance();
+        this.haruController.addObserver(this);
 
         super.setTitle("Haru Ichiban");
         super.setSize(dimension);
         super.setDefaultCloseOperation(EXIT_ON_CLOSE);
         super.setLocationRelativeTo(null);
         super.setResizable(false);
+
         this.initComponents();
         this.addComponents();
     }
@@ -41,7 +50,7 @@ public class MainFrame extends JFrame {
         this.mainPanel = new JPanel();
         this.mainPanel.setLayout(new GridBagLayout());
 
-        this.boardPanel = new BoardPanel();
+        this.boardPanel = new BoardPanel(this.haruController);
         this.scorePanel = new ScorePanel();
         this.playerPanel = new PlayerPanel();
         this.flowersPanel = new FlowersPanel();
@@ -88,37 +97,17 @@ public class MainFrame extends JFrame {
         c.gridy = 0;
         this.mainPanel.add(flowersPanel, c);
 
-
-//        c.fill = GridBagConstraints.VERTICAL;
-//        c.gridx = 0;
-//        c.gridy = 0;
-//        c.gridheight = 2;
-//        this.mainPanel.add(scorePanel, c);
-//
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.gridx = 1;
-//        c.gridy = 0;
-//        this.mainPanel.add(boardPanel, c);
-//
-//        c.fill = GridBagConstraints.VERTICAL;
-//        c.gridx = 2;
-//        c.gridy = 0;
-//        this.mainPanel.add(flowersPanel, c);
-//
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.gridx = 1;
-//        c.gridy = 2;
-//        this.mainPanel.add(playerPanel, c);
-//
-//
-//        c.fill = GridBagConstraints.VERTICAL;
-//        c.gridx = 2;
-//        c.gridy = 2;
-
-//        this.mainPanel.add(controlPanel, c);
     }
 
+    @Override
+    public void notifyItemClicked() {
+        System.out.println("Clicou");
+    }
 
+    @Override
+    public void notifyChangeBoard() {
+
+    }
 }
 
 

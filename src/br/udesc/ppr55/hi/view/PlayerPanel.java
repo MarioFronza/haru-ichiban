@@ -49,21 +49,6 @@ public class PlayerPanel extends JPanel implements Observer {
 
     }
 
-
-    class HaruItemRender extends DefaultTableCellRenderer {
-
-        private static final long serialVersionUID = 1L;
-
-        public Component getTableCellRendererComponent(JTable table,
-                                                       Object value, boolean isSelected, boolean hasFocus, int row,
-
-                                                       int column) {
-            this.setHorizontalAlignment(SwingConstants.CENTER);
-            setIcon((ImageIcon) value);
-            return this;
-        }
-    }
-
     private JTable playerTable;
     private IHaruController haruController;
 
