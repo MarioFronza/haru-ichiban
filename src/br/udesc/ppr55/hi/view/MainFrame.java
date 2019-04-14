@@ -1,160 +1,77 @@
 package br.udesc.ppr55.hi.view;
 
-import br.udesc.ppr55.hi.controller.HaruController;
-import br.udesc.ppr55.hi.controller.IHaruController;
-import br.udesc.ppr55.hi.controller.observer.Observer;
-
-import static java.awt.BorderLayout.CENTER;
-
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
 
-public class MainFrame extends JFrame implements Observer {
+import static javax.swing.SwingConstants.CENTER;
+
+
+public class MainFrame extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
-    //Transformar em classe separada
-    class HaruTableModel extends AbstractTableModel {
+    private JPanel mainPanel;
+    private BoardPanel boardPanel;
+    private ScorePanel scorePanel;
+    private PlayerPanel playerPanel;
+    private FlowersPanel flowersPanel;
 
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public int getRowCount() {
-            return 5;
-        }
-
-        @Override
-        public int getColumnCount() {
-            return 5;
-        }
-
-        @Override
-        public Object getValueAt(int rowIndex, int columnIndex) {
-            try {
-                return new ImageIcon(haruController.getPiece(rowIndex, columnIndex));
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e.toString());
-                return null;
-            }
-        }
-
-    }
+    private Dimension dimension;
+    private LayoutManager layout;
 
 
-    //transformar em classe separada
-    class HaruItemRender extends DefaultTableCellRenderer {
-
-        private static final long serialVersionUID = 1L;
-
-        public Component getTableCellRendererComponent(JTable table,
-                                                       Object value, boolean isSelected, boolean hasFocus, int row,
-                                                       int column) {
-
-            setIcon((ImageIcon) value);
-
-            return this;
-        }
-
-    }
-
-    private IHaruController haruController;
-    private JTable gameBoard;
+    private GridBagConstraints c = new GridBagConstraints();
 
     public MainFrame() {
-        this.haruController = HaruController.getInstance();
-        this.haruController.addObserver(this);
+        this.dimension = new Dimension(750, 600);
+
         super.setTitle("Haru Ichiban");
-        super.setSize(500, 500);
+        super.setSize(dimension);
         super.setDefaultCloseOperation(EXIT_ON_CLOSE);
         super.setLocationRelativeTo(null);
         super.setResizable(false);
-        initComponents();
+        this.initComponents();
+        this.addComponents();
     }
 
     private void initComponents() {
-        gameBoard = new JTable();
-        gameBoard.setModel(new HaruTableModel());
 
-        for (int x = 0; x < gameBoard.getColumnModel().getColumnCount(); x++) {
-            gameBoard.getColumnModel().getColumn(x).setWidth(100);
-            gameBoard.getColumnModel().getColumn(x).setMinWidth(100);
-            gameBoard.getColumnModel().getColumn(x).setMaxWidth(100);
-        }
-        gameBoard.setRowHeight(100);
-        gameBoard.setShowGrid(false);
-        gameBoard.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        gameBoard.setIntercellSpacing(new Dimension(0, 0));
-        gameBoard.setDefaultRenderer(Object.class, new HaruItemRender());
-        gameBoard.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                haruController.itemClicked(gameBoard.getSelectedRow(), gameBoard.getSelectedColumn());
-            }
+        this.mainPanel = new JPanel();
+        this.mainPanel.setLayout(new GridBagLayout());
 
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-        this.add(gameBoard, CENTER);
-    }
-
-    @Override
-    public void notifyItemClicked() {
-        JOptionPane.showMessageDialog(null, "Clicou");
-    }
-
-    @Override
-    public void notifyChangeBoard() {
+        this.boardPanel = new BoardPanel();
+        this.scorePanel = new ScorePanel();
+        this.playerPanel = new PlayerPanel();
+        this.flowersPanel = new FlowersPanel();
 
     }
+
+    private void addComponents() {
+        this.setContentPane(mainPanel);
+
+        c.fill = GridBagConstraints.VERTICAL;
+        c.gridx = 0;
+        c.gridy = 0;
+        this.mainPanel.add(scorePanel, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 1;
+        c.gridy = 0;
+        this.mainPanel.add(boardPanel, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 1;
+        c.gridy = -1;
+        c.gridwidth = 1;
+        this.mainPanel.add(playerPanel, c);
+
+        c.fill = GridBagConstraints.VERTICAL;
+        c.gridx = 2;
+        c.gridy = 0;
+        this.mainPanel.add(flowersPanel, c);
+    }
+
 
 }
 
-//    private ScorePanel panelScore;
-//
-//    public MainFrame() {
-//        super("Haru Ichiban");
-//        SwingUtilities.invokeLater(() -> {
-//            this.intializeFrame();
-//            this.initializeGame();
-//        });
-//    }
-//    
-//    private void initializeGame() {
-//        this.getContentPane().setBackground(Color.white);
-//        this.setLayout(new BorderLayout());
-//        
-//        this.panelScore = new ScorePanel();
-//        this.add(panelScore, BorderLayout.WEST);
-//    }
-//    
-//    private void intializeFrame() {
-//        this.setSize(new Dimension(1024, 768));
-//        this.setResizable(false);
-//        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-//        this.setVisible(true);
-//    }
+
