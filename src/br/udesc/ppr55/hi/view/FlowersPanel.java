@@ -69,8 +69,7 @@ public class FlowersPanel extends JPanel implements Observer {
     public FlowersPanel() {
         this.haruController = HaruController.getInstance();
         this.haruController.addObserver(this);
-        this.setLayout(new GridLayout(1, 1));
-        super.setSize(200, 400);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         initComponents();
     }
 
@@ -84,7 +83,7 @@ public class FlowersPanel extends JPanel implements Observer {
         }
         flowersPanel.setRowHeight(100);
         flowersPanel.setShowGrid(true);
-        flowersPanel.setBackground(new Color(147, 120, 64, 217));
+        //flowersPanel.setBackground(new Color(147, 120, 64, 217));
         flowersPanel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         flowersPanel.setIntercellSpacing(new Dimension(0, 0));
         flowersPanel.setDefaultRenderer(Object.class, new HaruItemRender());

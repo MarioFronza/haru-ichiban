@@ -15,8 +15,6 @@ import java.awt.event.MouseListener;
 
 public class BoardPanel extends JPanel implements Observer {
 
-    private static final long serialVersionUID = 1L;
-
     //Transformar em classe separada
     class HaruTableModel extends AbstractTableModel {
 
@@ -67,7 +65,7 @@ public class BoardPanel extends JPanel implements Observer {
     public BoardPanel() {
         this.haruController = HaruController.getInstance();
         this.haruController.addObserver(this);
-        this.setLayout(new GridLayout(1, 1));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.initComponents();
         this.addComponents();
     }

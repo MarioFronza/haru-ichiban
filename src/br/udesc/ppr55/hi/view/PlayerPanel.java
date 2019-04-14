@@ -13,8 +13,6 @@ import java.awt.*;
 
 public class PlayerPanel extends JPanel implements Observer {
 
-    private static final long serialVersionUID = 1L;
-
     @Override
     public void notifyItemClicked() {
 
@@ -72,8 +70,7 @@ public class PlayerPanel extends JPanel implements Observer {
     public PlayerPanel() {
         this.haruController = HaruController.getInstance();
         this.haruController.addObserver(this);
-        this.setLayout(new GridLayout(1, 1));
-        super.setSize(550, 100);
+        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         initComponents();
     }
 
@@ -87,7 +84,7 @@ public class PlayerPanel extends JPanel implements Observer {
         }
         playerTable.setRowHeight(100);
         playerTable.setShowGrid(true);
-        playerTable.setBackground(new Color(147, 120, 64, 217));
+        //playerTable.setBackground(new Color(147, 120, 64, 217));
         playerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         playerTable.setIntercellSpacing(new Dimension(0, 0));
         playerTable.setDefaultRenderer(Object.class, new HaruItemRender());

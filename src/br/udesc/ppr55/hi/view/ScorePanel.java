@@ -29,7 +29,7 @@ public class ScorePanel extends JPanel implements Observer {
 
         @Override
         public int getRowCount() {
-            return 10;
+            return 9;
         }
 
         @Override
@@ -71,8 +71,7 @@ public class ScorePanel extends JPanel implements Observer {
     public ScorePanel() {
         this.haruController = HaruController.getInstance();
         this.haruController.addObserver(this);
-        this.setLayout(new GridLayout(1, 1));
-        super.setSize(50, 500);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         initComponents();
     }
 
@@ -81,13 +80,12 @@ public class ScorePanel extends JPanel implements Observer {
         scoreTable.setModel(new HaruTableModel());
 
         for (int x = 0; x < scoreTable.getColumnModel().getColumnCount(); x++) {
-            scoreTable.getColumnModel().getColumn(x).setWidth(50);
-            scoreTable.getColumnModel().getColumn(x).setMinWidth(50);
-            scoreTable.getColumnModel().getColumn(x).setMaxWidth(50);
+            scoreTable.getColumnModel().getColumn(x).setWidth(100);
+            scoreTable.getColumnModel().getColumn(x).setMinWidth(100);
+            scoreTable.getColumnModel().getColumn(x).setMaxWidth(100);
         }
         scoreTable.setRowHeight(50);
         scoreTable.setShowGrid(true);
-        scoreTable.setBackground(new Color(116, 105, 97, 217));
         scoreTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         scoreTable.setIntercellSpacing(new Dimension(0, 0));
         scoreTable.setDefaultRenderer(Object.class, new HaruItemRender());
