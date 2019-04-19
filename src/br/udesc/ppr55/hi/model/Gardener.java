@@ -6,7 +6,7 @@ package br.udesc.ppr55.hi.model;
  */
 public class Gardener extends Piece{
     
-    public Gardener(String image) {
+    public Gardener() {
         super("images/Gardener.png");
     }
     

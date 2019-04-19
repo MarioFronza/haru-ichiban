@@ -1,9 +1,9 @@
 package br.udesc.ppr55.hi.controller;
 
 import br.udesc.ppr55.hi.controller.observer.Observer;
-import br.udesc.ppr55.hi.model.Flower;
-import br.udesc.ppr55.hi.model.Piece;
-import br.udesc.ppr55.hi.model.WaterLily;
+import br.udesc.ppr55.hi.model.*;
+import br.udesc.ppr55.hi.model.AbstractFactory.AbstractPieceFactory;
+import br.udesc.ppr55.hi.model.AbstractFactory.PieceFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +15,13 @@ import java.util.List;
 public class HaruController implements IHaruController {
 
     private static HaruController instance;
+    private AbstractPieceFactory factory;
     private Piece[][] gameBoard;
     private Piece[][] scorePanel;
     private Piece[][] playerPanel;
     private Piece[][] flowerPanel;
 
-    private List<Observer> observers = new ArrayList<>();
+    private List<Observer> observers;
 
     public static HaruController getInstance() {
         if (instance == null)
@@ -30,6 +31,9 @@ public class HaruController implements IHaruController {
     }
 
     private HaruController() {
+        this.factory = new PieceFactory();
+        this.observers = new ArrayList<>();
+
         this.initializeBoard();
         this.initializeScorePanel();
         this.initializePlayerPanel();
@@ -40,58 +44,61 @@ public class HaruController implements IHaruController {
     public void initializeBoard() {
         gameBoard = new Piece[5][5];
 
-        gameBoard[0][0] = new WaterLily();
-        gameBoard[0][1] = null;
-        gameBoard[0][2] = new WaterLily();
-        gameBoard[0][3] = null;
-        gameBoard[0][4] = new WaterLily();
+        gameBoard[0][0] = factory.createWaterLily();
+        gameBoard[0][1] = factory.createWater();
+        gameBoard[0][2] = factory.createWaterLily();
+        gameBoard[0][3] = factory.createWater();
+        gameBoard[0][4] = factory.createWaterLily();
 
-        gameBoard[1][0] = null;
-        gameBoard[1][1] = new WaterLily();
-        gameBoard[1][2] = new WaterLily();
-        gameBoard[1][3] = new WaterLily();
-        gameBoard[1][4] = null;
+        gameBoard[1][0] = factory.createWater();
+        gameBoard[1][1] = factory.createWaterLily();
+        gameBoard[1][2] = factory.createWaterLily();
+        gameBoard[1][3] = factory.createWaterLily();
+        gameBoard[1][4] = factory.createWater();
 
-        gameBoard[2][0] = new WaterLily();
-        gameBoard[2][1] = new WaterLily();
-        gameBoard[2][2] = null;
-        gameBoard[2][3] = new WaterLily();
-        gameBoard[2][4] = new WaterLily();
+        gameBoard[2][0] = factory.createWaterLily();
+        gameBoard[2][1] = factory.createWaterLily();
+        gameBoard[2][2] = factory.createWater();
+        gameBoard[2][3] = factory.createWaterLily();
+        gameBoard[2][4] = factory.createWaterLily();
 
-        gameBoard[3][0] = null;
-        gameBoard[3][1] = new WaterLily();
-        gameBoard[3][2] = new WaterLily();
-        gameBoard[3][3] = new WaterLily();
-        gameBoard[3][4] = null;
+        gameBoard[3][0] = factory.createWater();
+        gameBoard[3][1] = factory.createWaterLily();
+        gameBoard[3][2] = factory.createWaterLily();
+        gameBoard[3][3] = factory.createWaterLily();
+        gameBoard[3][4] = factory.createWater();
 
-        gameBoard[4][0] = new WaterLily();
-        gameBoard[4][1] = null;
-        gameBoard[4][2] = new WaterLily();
-        gameBoard[4][3] = null;
-        gameBoard[4][4] = new WaterLily();
+        gameBoard[4][0] = factory.createWaterLily();
+        gameBoard[4][1] = factory.createWater();
+        gameBoard[4][2] = factory.createWaterLily();
+        gameBoard[4][3] = factory.createWater();
+        gameBoard[4][4] = factory.createWaterLily();
 
     }
 
     @Override
     public void initializeScorePanel() {
 
-        scorePanel = new Piece[5][1];
+        scorePanel = new Piece[9][1];
 
-        scorePanel[0][0] = null;
-        scorePanel[1][0] = null;
-        scorePanel[2][0] = null;
-        scorePanel[3][0] = null;
-        scorePanel[4][0] = null;
-
+        scorePanel[0][0] = factory.createStone(1);
+        scorePanel[1][0] = factory.createStone(2);
+        scorePanel[2][0] = factory.createStone(3);
+        scorePanel[3][0] = factory.createStone(4);
+        scorePanel[4][0] = factory.createStone(5);
+        scorePanel[5][0] = factory.createStone(4);
+        scorePanel[6][0] = factory.createStone(3);
+        scorePanel[7][0] = factory.createStone(2);
+        scorePanel[8][0] = factory.createStone(1);
     }
 
     @Override
     public void initializePlayerPanel() {
         playerPanel = new Piece[1][3];
 
-        playerPanel[0][0] = new Flower();
-        playerPanel[0][1] = new Flower();
-        playerPanel[0][2] = new Flower();
+        playerPanel[0][0] = null;
+        playerPanel[0][1] = null;
+        playerPanel[0][2] = null;
 
     }
 
@@ -99,19 +106,43 @@ public class HaruController implements IHaruController {
     public void initializeFlowerPanel() {
         flowerPanel = new Piece[4][2];
 
-        flowerPanel[0][0] = new Flower();
-        flowerPanel[0][1] = new Flower();
-        flowerPanel[1][0] = new Flower();
-        flowerPanel[1][1] = new Flower();
-        flowerPanel[2][0] = new Flower();
-        flowerPanel[2][1] = null;
-        flowerPanel[3][0] = null;
-        flowerPanel[3][1] = null;
+        flowerPanel[0][0] = factory.createFlower(1);
+        flowerPanel[0][1] = factory.createFlower(2);
+        flowerPanel[1][0] = factory.createFlower(3);
+        flowerPanel[1][1] = factory.createFlower(4);
+        flowerPanel[2][0] = factory.createFlower(5);
+        flowerPanel[2][1] = factory.createFlower(6);
+        flowerPanel[3][0] = factory.createFlower(7);
+        flowerPanel[3][1] = factory.createFlower(8);
+    }
+
+    //Método responsável por escolher flores no panel de flores
+    @Override
+    public void addFlower(int x, int y) {
+        if (playerPanel[0][0] == null) {
+            this.playerPanel[0][0] = flowerPanel[x][y];
+            this.flowerPanel[x][y] = null;
+            notifyPlayerPanelUpdate();
+            notifyFlowersPanelUpdate();
+        } else if (playerPanel[0][1] == null) {
+            playerPanel[0][1] = flowerPanel[x][y];
+            this.flowerPanel[x][y] = null;
+            notifyPlayerPanelUpdate();
+            notifyFlowersPanelUpdate();
+        } else if (playerPanel[0][2] == null) {
+            playerPanel[0][2] = flowerPanel[x][y];
+            this.flowerPanel[x][y] = flowerPanel[x][y];
+            this.flowerPanel[x][y] = null;
+            notifyPlayerPanelUpdate();
+            notifyFlowersPanelUpdate();
+        } else {
+            notifyErrorMessage();
+        }
     }
 
     @Override
-    public void addFlower(int x, int y) {
-        System.out.println("Adicionando flores");
+    public void chooseFlower(int x, int y) {
+
     }
 
     @Override
@@ -121,7 +152,7 @@ public class HaruController implements IHaruController {
 
     @Override
     public String getScoreStone(int col, int row) {
-        return null;
+        return scorePanel[col][row].getImage();
     }
 
     @Override
@@ -136,7 +167,6 @@ public class HaruController implements IHaruController {
 
     @Override
     public void itemClicked(int x, int y) {
-
         this.notifyItemClicked();
     }
 
@@ -152,8 +182,32 @@ public class HaruController implements IHaruController {
 
     @Override
     public void notifyItemClicked() {
+
+    }
+
+    @Override
+    public void notifyPlayerPanelUpdate() {
         for (Observer observer : observers) {
-            observer.notifyItemClicked();
+            observer.playerPanelUpdate();
+        }
+    }
+
+    @Override
+    public void notifyBoardPanelUpdate() {
+
+    }
+
+    @Override
+    public void notifyFlowersPanelUpdate() {
+        for (Observer observer : observers) {
+            observer.flowersPanelUpdate();
+        }
+    }
+
+    @Override
+    public void notifyErrorMessage() {
+        for (Observer observer : observers) {
+            observer.errorMessage();
         }
     }
 }

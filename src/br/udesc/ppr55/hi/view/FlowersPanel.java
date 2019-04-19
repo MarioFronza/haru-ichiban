@@ -1,15 +1,16 @@
 package br.udesc.ppr55.hi.view;
 
-import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.IHaruController;
-import br.udesc.ppr55.hi.controller.listeners.ClickFlowerListener;
-import br.udesc.ppr55.hi.controller.observer.Observer;
+import br.udesc.ppr55.hi.controller.command.AddFlower;
+import br.udesc.ppr55.hi.controller.command.CommandInvoker;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class FlowersPanel extends JPanel{
+public class FlowersPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,11 +44,18 @@ public class FlowersPanel extends JPanel{
 
     private JTable flowersPanel;
     private IHaruController haruController;
+    private CommandInvoker commandInvoker;
 
-    public FlowersPanel() {
-        this.haruController = HaruController.getInstance();
+
+    public FlowersPanel(IHaruController haruController, CommandInvoker commandInvoker) {
+        this.haruController = haruController;
+        this.commandInvoker = commandInvoker;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         initComponents();
+    }
+
+    public void update() {
+        this.flowersPanel.updateUI();
     }
 
     private void initComponents() {
@@ -63,7 +71,33 @@ public class FlowersPanel extends JPanel{
         flowersPanel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         flowersPanel.setIntercellSpacing(new Dimension(0, 0));
         flowersPanel.setDefaultRenderer(Object.class, new HaruItemRender());
-        flowersPanel.addMouseListener(new ClickFlowerListener(flowersPanel.getSelectedRow(), flowersPanel.getSelectedColumn(), this.haruController));
+        flowersPanel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                commandInvoker.add(new AddFlower(flowersPanel.getSelectedRow(), flowersPanel.getSelectedColumn(), haruController));
+                commandInvoker.execute();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
         this.add(flowersPanel);
     }

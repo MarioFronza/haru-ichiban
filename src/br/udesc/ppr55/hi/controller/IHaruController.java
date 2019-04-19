@@ -16,4 +16,5 @@ public interface IHaruController extends Observed {
     void initializeFlowerPanel();
 
     void addFlower(int x, int y);
+    void chooseFlower(int x, int y);
 }

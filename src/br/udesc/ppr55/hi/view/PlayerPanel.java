@@ -3,6 +3,7 @@ package br.udesc.ppr55.hi.view;
 
 import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.IHaruController;
+import br.udesc.ppr55.hi.controller.command.CommandInvoker;
 import br.udesc.ppr55.hi.controller.observer.Observer;
 
 import javax.swing.*;
@@ -11,17 +12,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 
 
-public class PlayerPanel extends JPanel implements Observer {
+public class PlayerPanel extends JPanel{
 
-    @Override
-    public void notifyItemClicked() {
-
-    }
-
-    @Override
-    public void notifyChangeBoard() {
-
-    }
 
     class HaruTableModel extends AbstractTableModel {
 
@@ -51,12 +43,17 @@ public class PlayerPanel extends JPanel implements Observer {
 
     private JTable playerTable;
     private IHaruController haruController;
+    private CommandInvoker commandInvoker;
 
-    public PlayerPanel() {
-        this.haruController = HaruController.getInstance();
-        this.haruController.addObserver(this);
+    public PlayerPanel(IHaruController haruController, CommandInvoker commandInvoker) {
+        this.haruController = haruController;
+        this.commandInvoker = commandInvoker;
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         initComponents();
+    }
+
+    public void update(){
+        this.playerTable.updateUI();
     }
 
     private void initComponents() {
@@ -69,7 +66,6 @@ public class PlayerPanel extends JPanel implements Observer {
         }
         playerTable.setRowHeight(100);
         playerTable.setShowGrid(true);
-        //playerTable.setBackground(new Color(147, 120, 64, 217));
         playerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         playerTable.setIntercellSpacing(new Dimension(0, 0));
         playerTable.setDefaultRenderer(Object.class, new HaruItemRender());

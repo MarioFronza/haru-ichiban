@@ -9,19 +9,11 @@ import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class ScorePanel extends JPanel implements Observer {
+public class ScorePanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    @Override
-    public void notifyItemClicked() {
 
-    }
-
-    @Override
-    public void notifyChangeBoard() {
-
-    }
 
     class HaruTableModel extends AbstractTableModel {
 
@@ -55,7 +47,6 @@ public class ScorePanel extends JPanel implements Observer {
 
     public ScorePanel() {
         this.haruController = HaruController.getInstance();
-        this.haruController.addObserver(this);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         initComponents();
     }

@@ -13,7 +13,6 @@ class HaruItemRender extends DefaultTableCellRenderer {
 
         this.setHorizontalAlignment(SwingConstants.CENTER);
         setIcon((ImageIcon) value);
-
         return this;
     }
 

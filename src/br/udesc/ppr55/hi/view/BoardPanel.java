@@ -2,6 +2,7 @@ package br.udesc.ppr55.hi.view;
 
 import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.IHaruController;
+import br.udesc.ppr55.hi.controller.command.CommandInvoker;
 import br.udesc.ppr55.hi.controller.observer.Observer;
 
 import javax.swing.*;
@@ -41,10 +42,12 @@ public class BoardPanel extends JPanel {
     }
 
     private IHaruController haruController;
+    private CommandInvoker commandInvoker;
     private JTable gameBoard;
 
-    public BoardPanel(IHaruController haruController) {
+    public BoardPanel(IHaruController haruController, CommandInvoker commandInvoker) {
         this.haruController = haruController;
+        this.commandInvoker = commandInvoker;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.initComponents();
         this.addComponents();
@@ -65,7 +68,7 @@ public class BoardPanel extends JPanel {
         }
         gameBoard.setRowHeight(100);
         gameBoard.setShowGrid(true);
-        gameBoard.setBackground(new Color(45, 68, 255, 168));
+        //gameBoard.setBackground(new Color(45, 68, 255, 168));
         gameBoard.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         gameBoard.setIntercellSpacing(new Dimension(0, 0));
         gameBoard.setDefaultRenderer(Object.class, new HaruItemRender());

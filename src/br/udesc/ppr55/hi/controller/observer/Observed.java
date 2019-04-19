@@ -8,4 +8,12 @@ public interface Observed {
 
     void notifyItemClicked();
 
+    void notifyPlayerPanelUpdate();
+
+    void notifyBoardPanelUpdate();
+
+    void notifyFlowersPanelUpdate();
+
+    void notifyErrorMessage();
+
 }

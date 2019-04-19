@@ -2,6 +2,7 @@ package br.udesc.ppr55.hi.view;
 
 import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.IHaruController;
+import br.udesc.ppr55.hi.controller.command.CommandInvoker;
 import br.udesc.ppr55.hi.controller.observer.Observer;
 
 import javax.swing.*;
@@ -26,12 +27,14 @@ public class MainFrame extends JFrame implements Observer {
     private Dimension dimension;
 
     private IHaruController haruController;
+    private CommandInvoker commandInvoker;
 
 
     private GridBagConstraints c = new GridBagConstraints();
 
     public MainFrame() {
         this.dimension = new Dimension(800, 600);
+        this.commandInvoker = new CommandInvoker();
         this.haruController = HaruController.getInstance();
         this.haruController.addObserver(this);
 
@@ -50,10 +53,10 @@ public class MainFrame extends JFrame implements Observer {
         this.mainPanel = new JPanel();
         this.mainPanel.setLayout(new GridBagLayout());
 
-        this.boardPanel = new BoardPanel(this.haruController);
+        this.boardPanel = new BoardPanel(this.haruController, this.commandInvoker);
         this.scorePanel = new ScorePanel();
-        this.playerPanel = new PlayerPanel();
-        this.flowersPanel = new FlowersPanel();
+        this.playerPanel = new PlayerPanel(this.haruController, this.commandInvoker);
+        this.flowersPanel = new FlowersPanel(this.haruController, this.commandInvoker);
         this.controlPanel = new ControlPanel();
 
         this.testPanel.setPreferredSize(new Dimension(100, 150));
@@ -100,12 +103,28 @@ public class MainFrame extends JFrame implements Observer {
     }
 
     @Override
-    public void notifyItemClicked() {
-        System.out.println("Clicou");
+    public void itemClicked() {
+
     }
 
     @Override
-    public void notifyChangeBoard() {
+    public void playerPanelUpdate() {
+        this.playerPanel.update();
+    }
+
+    @Override
+    public void boardPanelUpdate() {
+
+    }
+
+    @Override
+    public void flowersPanelUpdate() {
+        this.flowersPanel.update();
+    }
+
+    @Override
+    public void errorMessage() {
+        JOptionPane.showMessageDialog(this, "Não é possível escolher mais flores");
 
     }
 }
