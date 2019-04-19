@@ -1,6 +1,6 @@
 # Haru Ichiban
 
-Haru Ichiban game created with Java!
+Board Game Haru Ichiban implemented using Java!
 
 ## Authors
 
