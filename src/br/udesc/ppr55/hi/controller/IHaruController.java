@@ -8,6 +8,7 @@ public interface IHaruController extends Observed {
     String getScoreStone(int col, int row);
     String getPlayerFlower(int col, int row);
     String getFlower(int col, int row);
+    int getFlowerNumber(int col, int row);
 
     void itemClicked(int x, int y);
     void initializeBoard();
@@ -17,4 +18,7 @@ public interface IHaruController extends Observed {
 
     void addFlower(int x, int y);
     void chooseFlower(int x, int y);
+
+    void eyePressed();
+    void eyeReleased();
 }

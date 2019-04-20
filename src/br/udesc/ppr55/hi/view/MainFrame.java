@@ -7,9 +7,11 @@ import br.udesc.ppr55.hi.controller.observer.Observer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 
-public class MainFrame extends JFrame implements Observer {
+public class MainFrame extends JFrame implements Observer, KeyListener {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,6 +22,7 @@ public class MainFrame extends JFrame implements Observer {
     private PlayerPanel playerPanel;
     private FlowersPanel flowersPanel;
     private ControlPanel controlPanel;
+    private EyePanel eyePanel;
 
     private JPanel testPanel = new JPanel();
     private JPanel testPanel2 = new JPanel();
@@ -37,13 +40,14 @@ public class MainFrame extends JFrame implements Observer {
         this.commandInvoker = new CommandInvoker();
         this.haruController = HaruController.getInstance();
         this.haruController.addObserver(this);
-
+        addKeyListener(this);
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
         super.setTitle("Haru Ichiban");
         super.setSize(dimension);
         super.setDefaultCloseOperation(EXIT_ON_CLOSE);
         super.setLocationRelativeTo(null);
         super.setResizable(false);
-
         this.initComponents();
         this.addComponents();
     }
@@ -51,38 +55,40 @@ public class MainFrame extends JFrame implements Observer {
     private void initComponents() {
 
         this.mainPanel = new JPanel();
+
         this.mainPanel.setLayout(new GridBagLayout());
 
         this.boardPanel = new BoardPanel(this.haruController, this.commandInvoker);
         this.scorePanel = new ScorePanel();
         this.playerPanel = new PlayerPanel(this.haruController, this.commandInvoker);
         this.flowersPanel = new FlowersPanel(this.haruController, this.commandInvoker);
+        this.eyePanel = new EyePanel(this.haruController);
         this.controlPanel = new ControlPanel();
 
-        this.testPanel.setPreferredSize(new Dimension(100, 150));
-        this.testPanel.setBackground(new Color(243, 0, 1, 218));
+
         this.testPanel2.setSize(200, 200);
         this.testPanel2.setBackground(new Color(243, 204, 7, 218));
 
     }
 
+
     private void addComponents() {
         this.setContentPane(mainPanel);
 
-//        c.fill = GridBagConstraints.VERTICAL;
-//        c.gridx = 0;
-//        c.gridy = 1;
-//        this.mainPanel.add(testPanel, c);
+        c.fill = GridBagConstraints.VERTICAL;
+        c.gridx = 0;
+        c.gridy = 1;
+        this.mainPanel.add(eyePanel, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 1;
         c.gridy = 1;
         this.mainPanel.add(playerPanel, c);
 
-//        c.fill = GridBagConstraints.VERTICAL;
-//        c.gridx = 2;
-//        c.gridy = 1;
-//        this.mainPanel.add(testPanel2, c);
+        c.fill = GridBagConstraints.VERTICAL;
+        c.gridx = 2;
+        c.gridy = 1;
+        this.mainPanel.add(testPanel2, c);
 
         c.fill = GridBagConstraints.VERTICAL;
         c.gridx = 0;
@@ -123,10 +129,41 @@ public class MainFrame extends JFrame implements Observer {
     }
 
     @Override
-    public void errorMessage() {
-        JOptionPane.showMessageDialog(this, "Não é possível escolher mais flores");
+    public void showFlowerNumber() {
+        this.playerPanel.showNumber();
+    }
+
+    @Override
+    public void showFlower() {
+        this.playerPanel.showFlower();
+    }
+
+    @Override
+    public void errorMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
 
     }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    //Vamos deixar isso pro final
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_Z) {
+            this.commandInvoker.undo();
+        } else if (e.getKeyCode() == KeyEvent.VK_Y) {
+            this.commandInvoker.redo();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+
 }
 
 

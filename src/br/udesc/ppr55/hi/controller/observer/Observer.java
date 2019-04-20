@@ -10,6 +10,10 @@ public interface Observer {
 
     void flowersPanelUpdate();
 
-    void errorMessage();
+    void showFlowerNumber();
+
+    void showFlower();
+
+    void errorMessage(String message);
 
 }

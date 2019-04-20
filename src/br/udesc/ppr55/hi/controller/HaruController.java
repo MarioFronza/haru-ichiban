@@ -20,7 +20,6 @@ public class HaruController implements IHaruController {
     private Piece[][] scorePanel;
     private Piece[][] playerPanel;
     private Piece[][] flowerPanel;
-
     private List<Observer> observers;
 
     public static HaruController getInstance() {
@@ -79,7 +78,7 @@ public class HaruController implements IHaruController {
     @Override
     public void initializeScorePanel() {
 
-        scorePanel = new Piece[9][1];
+        scorePanel = new Piece[10][1];
 
         scorePanel[0][0] = factory.createStone(1);
         scorePanel[1][0] = factory.createStone(2);
@@ -90,6 +89,7 @@ public class HaruController implements IHaruController {
         scorePanel[6][0] = factory.createStone(3);
         scorePanel[7][0] = factory.createStone(2);
         scorePanel[8][0] = factory.createStone(1);
+        scorePanel[9][0] = factory.createStone(0);
     }
 
     @Override
@@ -116,7 +116,6 @@ public class HaruController implements IHaruController {
         flowerPanel[3][1] = factory.createFlower(8);
     }
 
-    //Método responsável por escolher flores no panel de flores
     @Override
     public void addFlower(int x, int y) {
         if (playerPanel[0][0] == null) {
@@ -136,13 +135,28 @@ public class HaruController implements IHaruController {
             notifyPlayerPanelUpdate();
             notifyFlowersPanelUpdate();
         } else {
-            notifyErrorMessage();
+            notifyErrorMessage("Não é possível escolher mais flores");
         }
     }
 
     @Override
     public void chooseFlower(int x, int y) {
 
+    }
+
+    @Override
+    public void eyePressed() {
+        if (this.playerPanel[0][2] == null) {
+            this.notifyErrorMessage("Você precisa escolher todas as flores antes");
+        } else {
+            this.notifyShowFlowerNumber();
+        }
+
+    }
+
+    @Override
+    public void eyeReleased() {
+        this.notifyShowFlower();
     }
 
     @Override
@@ -163,6 +177,12 @@ public class HaruController implements IHaruController {
     @Override
     public String getFlower(int col, int row) {
         return (flowerPanel[col][row] == null ? null : flowerPanel[col][row].getImage());
+    }
+
+    @Override
+    public int getFlowerNumber(int col, int row) {
+        Flower flower = (Flower) playerPanel[col][row];
+        return (playerPanel[col][row] == null ? null : flower.getNumber());
     }
 
     @Override
@@ -205,9 +225,23 @@ public class HaruController implements IHaruController {
     }
 
     @Override
-    public void notifyErrorMessage() {
+    public void notifyShowFlowerNumber() {
         for (Observer observer : observers) {
-            observer.errorMessage();
+            observer.showFlowerNumber();
+        }
+    }
+
+    @Override
+    public void notifyShowFlower() {
+        for (Observer observer : observers) {
+            observer.showFlower();
+        }
+    }
+
+    @Override
+    public void notifyErrorMessage(String message) {
+        for (Observer observer : observers) {
+            observer.errorMessage(message);
         }
     }
 }

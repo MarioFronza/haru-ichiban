@@ -14,6 +14,10 @@ public interface Observed {
 
     void notifyFlowersPanelUpdate();
 
-    void notifyErrorMessage();
+    void notifyShowFlowerNumber();
+
+    void notifyShowFlower();
+
+    void notifyErrorMessage(String message);
 
 }

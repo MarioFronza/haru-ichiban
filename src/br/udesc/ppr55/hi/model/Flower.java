@@ -13,4 +13,7 @@ public class Flower extends Piece {
         this.number = number;
     }
 
+    public int getNumber() {
+        return number;
+    }
 }

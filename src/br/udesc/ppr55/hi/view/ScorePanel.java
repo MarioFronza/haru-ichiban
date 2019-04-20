@@ -21,7 +21,7 @@ public class ScorePanel extends JPanel {
 
         @Override
         public int getRowCount() {
-            return 9;
+            return 10;
         }
 
         @Override

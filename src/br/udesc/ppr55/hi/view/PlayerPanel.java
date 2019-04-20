@@ -1,23 +1,26 @@
 package br.udesc.ppr55.hi.view;
 
 
-import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.IHaruController;
 import br.udesc.ppr55.hi.controller.command.CommandInvoker;
-import br.udesc.ppr55.hi.controller.observer.Observer;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 
 
-public class PlayerPanel extends JPanel{
+public class PlayerPanel extends JPanel {
 
 
     class HaruTableModel extends AbstractTableModel {
 
         private static final long serialVersionUID = 1L;
+
+        private boolean showFlower;
+
+        public HaruTableModel(boolean showFlower) {
+            this.showFlower = showFlower;
+        }
 
         @Override
         public int getRowCount() {
@@ -32,7 +35,12 @@ public class PlayerPanel extends JPanel{
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
             try {
-                return new ImageIcon(haruController.getPlayerFlower(rowIndex, columnIndex));
+                if (showFlower) {
+                    return new ImageIcon(haruController.getPlayerFlower(rowIndex, columnIndex));
+                } else {
+                    return new ImageIcon("images/"+haruController.getFlowerNumber(rowIndex, columnIndex)+".png");
+                }
+
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.toString());
                 return null;
@@ -52,13 +60,22 @@ public class PlayerPanel extends JPanel{
         initComponents();
     }
 
-    public void update(){
+    public void update() {
         this.playerTable.updateUI();
+    }
+
+    public void showNumber() {
+        playerTable.setModel(new HaruTableModel(false));
+
+    }
+
+    public void showFlower() {
+        playerTable.setModel(new HaruTableModel(true));
     }
 
     private void initComponents() {
         playerTable = new JTable();
-        playerTable.setModel(new HaruTableModel());
+        playerTable.setModel(new HaruTableModel(true));
 
         for (int x = 0; x < playerTable.getColumnModel().getColumnCount(); x++) {
             playerTable.getColumnModel().getColumn(x).setWidth(100);
@@ -70,6 +87,8 @@ public class PlayerPanel extends JPanel{
         playerTable.setIntercellSpacing(new Dimension(0, 0));
         playerTable.setDefaultRenderer(Object.class, new HaruItemRender());
 
+
         this.add(playerTable);
     }
+
 }
