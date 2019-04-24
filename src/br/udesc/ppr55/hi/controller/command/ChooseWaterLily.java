@@ -4,8 +4,13 @@ import br.udesc.ppr55.hi.controller.IHaruController;
 
 public class ChooseWaterLily extends HaruCommand{
 
-    public ChooseWaterLily(int x, int y, IHaruController haruController) {
-        super(x, y, haruController);
+    private int x;
+    private int y;
+
+    public ChooseWaterLily(IHaruController haruController) {
+        super(haruController);
+        this.x = x;
+        this.y = y;
     }
 
     @Override

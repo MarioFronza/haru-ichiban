@@ -32,4 +32,11 @@ public interface IHaruController extends Observed {
 
     void chooseWaterLily(int x, int y);
 
+    void moveWaterLilyDown();
+
+    void moveWaterLilyUp();
+
+    void moveWaterLilyLeft();
+
+    void moveWaterLilyRight();
 }

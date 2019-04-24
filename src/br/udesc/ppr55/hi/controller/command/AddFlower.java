@@ -4,9 +4,13 @@ import br.udesc.ppr55.hi.controller.IHaruController;
 
 public class AddFlower extends HaruCommand {
 
+    private int x;
+    private int y;
 
     public AddFlower(int x, int y, IHaruController haruController) {
-        super(x, y, haruController);
+        super(haruController);
+        this.x = x;
+        this.y = y;
     }
 
     @Override

@@ -63,7 +63,7 @@ public class MainFrame extends JFrame implements Observer, KeyListener {
         this.playerPanel = new PlayerPanel(this.haruController, this.commandInvoker);
         this.flowersPanel = new FlowersPanel(this.haruController, this.commandInvoker);
         this.eyePanel = new EyePanel(this.haruController);
-        this.controlPanel = new ControlPanel();
+        this.controlPanel = new ControlPanel(this.haruController, this.commandInvoker);
 
 
         this.testPanel2.setSize(200, 200);
@@ -88,7 +88,7 @@ public class MainFrame extends JFrame implements Observer, KeyListener {
         c.fill = GridBagConstraints.VERTICAL;
         c.gridx = 2;
         c.gridy = 1;
-        this.mainPanel.add(testPanel2, c);
+        this.mainPanel.add(controlPanel, c);
 
         c.fill = GridBagConstraints.VERTICAL;
         c.gridx = 0;

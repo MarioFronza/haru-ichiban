@@ -106,7 +106,7 @@ public class HaruController implements IHaruController {
 
     @Override
     public void initializeFlowerPanel() {
-        flowerPanel = new Piece[4][2];
+        flowerPanel = new Piece[5][2];
 
         flowerPanel[0][0] = factory.createFlower(1);
         flowerPanel[0][1] = factory.createFlower(2);
@@ -116,28 +116,32 @@ public class HaruController implements IHaruController {
         flowerPanel[2][1] = factory.createFlower(6);
         flowerPanel[3][0] = factory.createFlower(7);
         flowerPanel[3][1] = factory.createFlower(8);
+        flowerPanel[4][0] = factory.createGardener();
+        flowerPanel[4][1] = factory.createGardener();
     }
 
     @Override
     public void addFlower(int x, int y) {
-        if (playerPanel[0][0] == null) {
-            this.playerPanel[0][0] = flowerPanel[x][y];
-            this.flowerPanel[x][y] = null;
-            notifyPlayerPanelUpdate();
-            notifyFlowersPanelUpdate();
-        } else if (playerPanel[0][1] == null) {
-            playerPanel[0][1] = flowerPanel[x][y];
-            this.flowerPanel[x][y] = null;
-            notifyPlayerPanelUpdate();
-            notifyFlowersPanelUpdate();
-        } else if (playerPanel[0][2] == null) {
-            playerPanel[0][2] = flowerPanel[x][y];
-            this.flowerPanel[x][y] = flowerPanel[x][y];
-            this.flowerPanel[x][y] = null;
-            notifyPlayerPanelUpdate();
-            notifyFlowersPanelUpdate();
-        } else {
-            notifyErrorMessage("Não é possível escolher mais flores");
+        if (flowerPanel[x][y].getClass() != Gardener.class) {
+            if (playerPanel[0][0] == null) {
+                this.playerPanel[0][0] = flowerPanel[x][y];
+                this.flowerPanel[x][y] = null;
+                notifyPlayerPanelUpdate();
+                notifyFlowersPanelUpdate();
+            } else if (playerPanel[0][1] == null) {
+                playerPanel[0][1] = flowerPanel[x][y];
+                this.flowerPanel[x][y] = null;
+                notifyPlayerPanelUpdate();
+                notifyFlowersPanelUpdate();
+            } else if (playerPanel[0][2] == null) {
+                playerPanel[0][2] = flowerPanel[x][y];
+                this.flowerPanel[x][y] = flowerPanel[x][y];
+                this.flowerPanel[x][y] = null;
+                notifyPlayerPanelUpdate();
+                notifyFlowersPanelUpdate();
+            } else {
+                notifyErrorMessage("Não é possível escolher mais flores");
+            }
         }
     }
 
@@ -151,8 +155,6 @@ public class HaruController implements IHaruController {
             this.currentFlower = this.playerPanel[x][y];
             this.playerPanel[x][y] = playerPanel[0][2];
         }
-
-
     }
 
     @Override
@@ -186,6 +188,26 @@ public class HaruController implements IHaruController {
             this.notifyBoardPanelUpdate();
             this.notifyPlayerPanelUpdate();
         }
+    }
+
+    @Override
+    public void moveWaterLilyDown() {
+        System.out.println("Movendo para baixo");
+    }
+
+    @Override
+    public void moveWaterLilyUp() {
+        System.out.println("Movendo para cima");
+    }
+
+    @Override
+    public void moveWaterLilyLeft() {
+        System.out.println("Movendo para esquerdo");
+    }
+
+    @Override
+    public void moveWaterLilyRight() {
+        System.out.println("Movendo para o lado direito");
     }
 
     @Override

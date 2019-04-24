@@ -9,7 +9,7 @@ public class Gardener extends Piece{
     private boolean isJunior;
 
     public Gardener() {
-        super("images/Gardener.png");
+        super("images/Stone.png");
     }
 
     public boolean isJunior() {

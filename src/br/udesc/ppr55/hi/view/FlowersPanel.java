@@ -21,7 +21,7 @@ public class FlowersPanel extends JPanel {
 
         @Override
         public int getRowCount() {
-            return 4;
+            return 5;
         }
 
         @Override
