@@ -25,8 +25,18 @@ public class PieceFactory extends AbstractPieceFactory {
     }
 
     @Override
-    public Piece createFrog() {
-        return new Frog();
+    public Piece createRedFrog() {
+        return new RedFrog();
+    }
+
+    @Override
+    public Piece createYellowFrog() {
+        return new YellowFrog();
+    }
+
+    @Override
+    public Piece createDarkWaterLily() {
+        return new DarkWaterLily();
     }
 
     @Override

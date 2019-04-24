@@ -108,10 +108,6 @@ public class MainFrame extends JFrame implements Observer, KeyListener {
 
     }
 
-    @Override
-    public void itemClicked() {
-
-    }
 
     @Override
     public void playerPanelUpdate() {
@@ -120,7 +116,7 @@ public class MainFrame extends JFrame implements Observer, KeyListener {
 
     @Override
     public void boardPanelUpdate() {
-
+        this.boardPanel.update();
     }
 
     @Override

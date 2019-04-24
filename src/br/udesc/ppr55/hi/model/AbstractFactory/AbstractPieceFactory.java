@@ -12,7 +12,11 @@ public abstract class AbstractPieceFactory {
 
     public abstract Piece createGardener();
 
-    public abstract Piece createFrog();
+    public abstract Piece createRedFrog();
+
+    public abstract Piece createYellowFrog();
+
+    public abstract Piece createDarkWaterLily();
 
     public abstract Piece createFlower(int number);
 

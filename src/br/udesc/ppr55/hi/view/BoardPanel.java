@@ -14,7 +14,7 @@ import java.awt.event.MouseListener;
 
 public class BoardPanel extends JPanel {
 
-    //Transformar em classe separada
+
     class HaruTableModel extends AbstractTableModel {
 
         private static final long serialVersionUID = 1L;
@@ -57,6 +57,10 @@ public class BoardPanel extends JPanel {
         this.add(gameBoard);
     }
 
+    public void update() {
+        this.updateUI();
+    }
+
     private void initComponents() {
         gameBoard = new JTable();
         gameBoard.setModel(new HaruTableModel());
@@ -75,7 +79,7 @@ public class BoardPanel extends JPanel {
         gameBoard.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                haruController.itemClicked(gameBoard.getSelectedRow(), gameBoard.getSelectedColumn());
+                haruController.chooseWaterLily(gameBoard.getSelectedRow(), gameBoard.getSelectedColumn());
             }
 
             @Override

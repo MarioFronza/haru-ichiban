@@ -2,17 +2,14 @@ package br.udesc.ppr55.hi.view;
 
 import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.IHaruController;
-import br.udesc.ppr55.hi.controller.observer.Observer;
 
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
 
 public class ScorePanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
-
 
 
     class HaruTableModel extends AbstractTableModel {

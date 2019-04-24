@@ -16,4 +16,7 @@ public abstract class Piece {
         return image;
     }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
 }

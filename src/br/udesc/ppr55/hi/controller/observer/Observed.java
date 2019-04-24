@@ -6,8 +6,6 @@ public interface Observed {
 
     void removeObserver(Observer observer);
 
-    void notifyItemClicked();
-
     void notifyPlayerPanelUpdate();
 
     void notifyBoardPanelUpdate();

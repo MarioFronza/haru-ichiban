@@ -68,6 +68,7 @@ public class FlowersPanel extends JPanel {
         }
         flowersPanel.setRowHeight(100);
         flowersPanel.setShowGrid(true);
+        flowersPanel.setBackground(new Color(53, 178, 72, 162));
         flowersPanel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         flowersPanel.setIntercellSpacing(new Dimension(0, 0));
         flowersPanel.setDefaultRenderer(Object.class, new HaruItemRender());

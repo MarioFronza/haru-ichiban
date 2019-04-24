@@ -2,11 +2,14 @@ package br.udesc.ppr55.hi.view;
 
 
 import br.udesc.ppr55.hi.controller.IHaruController;
+import br.udesc.ppr55.hi.controller.command.ChooseFlower;
 import br.udesc.ppr55.hi.controller.command.CommandInvoker;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 
 public class PlayerPanel extends JPanel {
@@ -38,7 +41,7 @@ public class PlayerPanel extends JPanel {
                 if (showFlower) {
                     return new ImageIcon(haruController.getPlayerFlower(rowIndex, columnIndex));
                 } else {
-                    return new ImageIcon("images/"+haruController.getFlowerNumber(rowIndex, columnIndex)+".png");
+                    return new ImageIcon("images/" + haruController.getFlowerNumber(rowIndex, columnIndex) + ".png");
                 }
 
             } catch (Exception e) {
@@ -52,10 +55,19 @@ public class PlayerPanel extends JPanel {
     private JTable playerTable;
     private IHaruController haruController;
     private CommandInvoker commandInvoker;
+    private ImageIcon icon;
+    private JLabel imagem;
+
 
     public PlayerPanel(IHaruController haruController, CommandInvoker commandInvoker) {
         this.haruController = haruController;
         this.commandInvoker = commandInvoker;
+//        icon = new ImageIcon("images/wood.png");
+//        imagem = new JLabel(icon);
+//        imagem.setBounds(300, 30, 70, 96);
+//        imagem.setSize(this.getSize().width, this.getSize().height);
+//        imagem.setVisible(true);
+//        this.add(imagem);
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         initComponents();
     }
@@ -86,9 +98,36 @@ public class PlayerPanel extends JPanel {
         playerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         playerTable.setIntercellSpacing(new Dimension(0, 0));
         playerTable.setDefaultRenderer(Object.class, new HaruItemRender());
+        playerTable.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                commandInvoker.add(new ChooseFlower(playerTable.getSelectedRow(), playerTable.getSelectedColumn(), haruController));
+                commandInvoker.execute();
+            }
 
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
         this.add(playerTable);
     }
+
 
 }
