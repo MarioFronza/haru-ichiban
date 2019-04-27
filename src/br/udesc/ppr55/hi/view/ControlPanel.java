@@ -1,7 +1,7 @@
 package br.udesc.ppr55.hi.view;
 
 import br.udesc.ppr55.hi.controller.IHaruController;
-import br.udesc.ppr55.hi.controller.command.*;
+import br.udesc.ppr55.hi.model.command.*;
 
 import javax.swing.*;
 import java.awt.*;

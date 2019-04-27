@@ -1,8 +1,8 @@
 package br.udesc.ppr55.hi.view;
 
 import br.udesc.ppr55.hi.controller.IHaruController;
-import br.udesc.ppr55.hi.controller.command.AddFlower;
-import br.udesc.ppr55.hi.controller.command.CommandInvoker;
+import br.udesc.ppr55.hi.model.command.AddFlower;
+import br.udesc.ppr55.hi.model.command.CommandInvoker;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -68,7 +68,7 @@ public class FlowersPanel extends JPanel {
         }
         flowersPanel.setRowHeight(100);
         flowersPanel.setShowGrid(true);
-        flowersPanel.setBackground(new Color(53, 178, 72, 162));
+        //flowersPanel.setBackground(new Color(53, 178, 72, 162));
         flowersPanel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         flowersPanel.setIntercellSpacing(new Dimension(0, 0));
         flowersPanel.setDefaultRenderer(Object.class, new HaruItemRender());

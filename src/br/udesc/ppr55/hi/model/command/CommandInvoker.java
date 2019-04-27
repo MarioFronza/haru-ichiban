@@ -1,4 +1,4 @@
-package br.udesc.ppr55.hi.controller.command;
+package br.udesc.ppr55.hi.model.command;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,9 +1,7 @@
 package br.udesc.ppr55.hi.view;
 
-import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.IHaruController;
-import br.udesc.ppr55.hi.controller.command.CommandInvoker;
-import br.udesc.ppr55.hi.controller.observer.Observer;
+import br.udesc.ppr55.hi.model.command.CommandInvoker;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;

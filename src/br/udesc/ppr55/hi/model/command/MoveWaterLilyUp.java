@@ -1,16 +1,16 @@
-package br.udesc.ppr55.hi.controller.command;
+package br.udesc.ppr55.hi.model.command;
 
 import br.udesc.ppr55.hi.controller.IHaruController;
 
-public class MoveWaterLilyDown extends HaruCommand {
+public class MoveWaterLilyUp extends HaruCommand {
 
-    public MoveWaterLilyDown(IHaruController haruController) {
+    public MoveWaterLilyUp(IHaruController haruController) {
         super(haruController);
     }
 
     @Override
     public void execute() {
-        haruController.moveWaterLilyDown();
+        haruController.moveWaterLilyUp();
     }
 
     @Override
@@ -22,4 +22,5 @@ public class MoveWaterLilyDown extends HaruCommand {
     public void redo() {
 
     }
+
 }

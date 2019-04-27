@@ -24,12 +24,13 @@ public class HaruController implements IHaruController {
     private List<Observer> observers;
 
     private Piece currentFlower = null;
-    private Piece currentWaterLily = null;
+    private int currentWaterLilyX = -1;
+    private int currentWaterLilyY = -1;
     private boolean isHaruIchiban = false;
 
 
-    private Gardener redGardener;
-    private Gardener yellowGardener;
+    private RedGardener redGardener;
+    private YellowGardener yellowGardener;
 
     public static HaruController getInstance() {
         if (instance == null)
@@ -124,42 +125,41 @@ public class HaruController implements IHaruController {
         flowerPanel[2][1] = factory.createFlower(6);
         flowerPanel[3][0] = factory.createFlower(7);
         flowerPanel[3][1] = factory.createFlower(8);
-        flowerPanel[4][0] = factory.createGardener();
-        flowerPanel[4][1] = factory.createGardener();
+        flowerPanel[4][0] = factory.createRedGardener();
+        flowerPanel[4][1] = factory.createYellowGardener();
     }
 
     @Override
     public void setGardeners(String redName, String yellowName) {
-        this.redGardener = factory.createGardener();
-        this.yellowGardener = factory.createGardener();
+        this.redGardener = (RedGardener) flowerPanel[4][0];
+        this.yellowGardener = (YellowGardener) flowerPanel[4][1];
 
         this.redGardener.setName(redName);
         this.yellowGardener.setName(yellowName);
 
         System.out.println(redGardener.getName());
         System.out.println(yellowGardener.getName());
-
-        this.notifyErrorMessage(redGardener.getName() + " escolha três flores");
-
+        notifyHideControlPanel();
+        notifyErrorMessage(redGardener.getName() + " escolha três flores");
     }
 
     @Override
     public void addFlower(int x, int y) {
-        if (flowerPanel[x][y].getClass() != Gardener.class && flowerPanel[x][y] != null) {
+        if (flowerPanel[x][y].getClass() != RedGardener.class && flowerPanel[x][y].getClass() != YellowGardener.class && flowerPanel[x][y].getClass() != Stone.class) {
             if (playerPanel[0][0] == null) {
                 this.playerPanel[0][0] = flowerPanel[x][y];
-                this.flowerPanel[x][y] = null;
+                this.flowerPanel[x][y] = factory.createStone(0);
                 notifyPlayerPanelUpdate();
                 notifyFlowersPanelUpdate();
             } else if (playerPanel[0][1] == null) {
                 playerPanel[0][1] = flowerPanel[x][y];
-                this.flowerPanel[x][y] = null;
+                this.flowerPanel[x][y] = factory.createStone(0);
                 notifyPlayerPanelUpdate();
                 notifyFlowersPanelUpdate();
             } else if (playerPanel[0][2] == null) {
                 playerPanel[0][2] = flowerPanel[x][y];
                 this.flowerPanel[x][y] = flowerPanel[x][y];
-                this.flowerPanel[x][y] = null;
+                this.flowerPanel[x][y] = factory.createStone(0);
                 notifyPlayerPanelUpdate();
                 notifyFlowersPanelUpdate();
             } else {
@@ -197,9 +197,10 @@ public class HaruController implements IHaruController {
 
     @Override
     public void chooseWaterLily(int x, int y) {
-        if (isHaruIchiban) {
-            this.currentWaterLily = gameBoard[x][y];
-            System.out.println("é haru ichiban");
+        if (isHaruIchiban && gameBoard[x][y].getClass() != Water.class) {
+            this.currentWaterLilyX = x;
+            this.currentWaterLilyY = y;
+            this.notifyShowControlPanel();
             isHaruIchiban = false;
         } else {
             if (this.playerPanel[0][2] == null) {
@@ -210,13 +211,13 @@ public class HaruController implements IHaruController {
                 this.notifyErrorMessage("Posição inválida");
             } else {
                 this.playerPanel[0][2] = null;
-                this.currentFlower.setImage("images/RedFlowerWaterlily.png");
+                this.currentFlower.setImage("images/water-lily-with-pink-petal.png");
                 this.gameBoard[x][y] = currentFlower;
                 this.currentFlower = null;
                 this.notifyBoardPanelUpdate();
                 this.notifyPlayerPanelUpdate();
+                isHaruIchiban = true;
             }
-            isHaruIchiban = true;
         }
 
 
@@ -229,22 +230,67 @@ public class HaruController implements IHaruController {
 
     @Override
     public void moveWaterLilyDown() {
-        System.out.println("Movendo para baixo");
+        if (this.currentWaterLilyX != -1) {
+
+        } else {
+            this.notifyErrorMessage("Escolha uma vitória régia");
+        }
     }
 
     @Override
     public void moveWaterLilyUp() {
-        System.out.println("Movendo para cima");
+        if (this.currentWaterLilyX != -1 && this.gameBoard[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class) {
+            if (currentWaterLilyX - 1 != -1) {
+                System.out.println(gameBoard[currentWaterLilyX - 1][currentWaterLilyY].getClass() == Water.class);
+                if (gameBoard[currentWaterLilyX - 1][currentWaterLilyY].getClass() == Water.class) {
+                    Piece auxPosition = gameBoard[currentWaterLilyX - 1][currentWaterLilyY];
+                    gameBoard[currentWaterLilyX - 1][currentWaterLilyY] = gameBoard[currentWaterLilyX][currentWaterLilyY];
+                    gameBoard[currentWaterLilyX][currentWaterLilyY] = auxPosition;
+                    this.notifyBoardPanelUpdate();
+                    this.notifyHideControlPanel();
+                } else {
+                    int x = -1;
+                    for (int i = currentWaterLilyX - 1; i >= 0; i--) {
+                        if (gameBoard[i][currentWaterLilyY].getClass() == Water.class) {
+                            x = i;
+                        }
+                    }
+                    if (x != -1) {
+                        for (int i = x; i < currentWaterLilyX; i++) {
+                            Piece auxPosition = gameBoard[i][currentWaterLilyY];
+                            gameBoard[i][currentWaterLilyY] = gameBoard[i + 1][currentWaterLilyY];
+                            gameBoard[i + 1][currentWaterLilyY] = auxPosition;
+                            this.notifyBoardPanelUpdate();
+                            this.notifyHideControlPanel();
+                        }
+                    } else {
+                        this.notifyErrorMessage("Não é possível realizar este movimento!");
+                    }
+                }
+            } else {
+                this.notifyErrorMessage("Não é possível realizar este movimento!");
+            }
+        } else {
+            this.notifyErrorMessage("Escolha uma vitória régia");
+        }
     }
 
     @Override
     public void moveWaterLilyLeft() {
-        System.out.println("Movendo para esquerdo");
+        if (this.currentWaterLilyX != -1) {
+
+        } else {
+            this.notifyErrorMessage("Escolha uma vitória régia");
+        }
     }
 
     @Override
     public void moveWaterLilyRight() {
-        System.out.println("Movendo para o lado direito");
+        if (this.currentWaterLilyX != -1) {
+
+        } else {
+            this.notifyErrorMessage("Escolha uma vitória régia");
+        }
     }
 
     @Override
@@ -315,6 +361,20 @@ public class HaruController implements IHaruController {
     public void notifyShowFlower() {
         for (Observer observer : observers) {
             observer.showFlower();
+        }
+    }
+
+    @Override
+    public void notifyShowControlPanel() {
+        for (Observer observer : observers) {
+            observer.showControlPanel();
+        }
+    }
+
+    @Override
+    public void notifyHideControlPanel() {
+        for (Observer observer : observers) {
+            observer.hideControlPanel();
         }
     }
 

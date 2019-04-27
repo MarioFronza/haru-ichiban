@@ -4,13 +4,13 @@ package br.udesc.ppr55.hi.model;
  * @since 07/04/2019
  * @author João Pedro Schmitz, Mário Fronza
  */
-public class Gardener extends Piece{
+public class YellowGardener extends Piece{
 
     private boolean isJunior;
     private String name;
 
-    public Gardener() {
-        super("images/Stone.png");
+    public YellowGardener() {
+        super("images/gardener-yellow.png");
     }
 
     public boolean isJunior() {

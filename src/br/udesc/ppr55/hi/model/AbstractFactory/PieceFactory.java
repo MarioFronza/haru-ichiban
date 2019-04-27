@@ -20,9 +20,15 @@ public class PieceFactory extends AbstractPieceFactory {
     }
 
     @Override
-    public Gardener createGardener() {
-        return new Gardener();
+    public RedGardener createRedGardener() {
+        return new RedGardener();
     }
+
+    @Override
+    public YellowGardener createYellowGardener() {
+        return new YellowGardener();
+    }
+
 
     @Override
     public Piece createRedFrog() {

@@ -2,8 +2,8 @@ package br.udesc.ppr55.hi.view;
 
 
 import br.udesc.ppr55.hi.controller.IHaruController;
-import br.udesc.ppr55.hi.controller.command.ChooseFlower;
-import br.udesc.ppr55.hi.controller.command.CommandInvoker;
+import br.udesc.ppr55.hi.model.command.ChooseFlower;
+import br.udesc.ppr55.hi.model.command.CommandInvoker;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -41,7 +41,7 @@ public class PlayerPanel extends JPanel {
                 if (showFlower) {
                     return new ImageIcon(haruController.getPlayerFlower(rowIndex, columnIndex));
                 } else {
-                    return new ImageIcon("images/" + haruController.getFlowerNumber(rowIndex, columnIndex) + ".png");
+                    return new ImageIcon("images/petal-pink-" + haruController.getFlowerNumber(rowIndex, columnIndex) + ".png");
                 }
 
             } catch (Exception e) {
@@ -78,6 +78,7 @@ public class PlayerPanel extends JPanel {
 
     public void showNumber() {
         playerTable.setModel(new HaruTableModel(false));
+
 
     }
 

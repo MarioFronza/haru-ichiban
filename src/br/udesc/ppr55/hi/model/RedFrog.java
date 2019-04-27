@@ -7,7 +7,7 @@ package br.udesc.ppr55.hi.model;
 public class RedFrog extends Piece {
 
     public RedFrog() {
-        super("images/RedFrog.png");
+        super("images/water-lily-with-pink-frog.png");
     }
 
 }

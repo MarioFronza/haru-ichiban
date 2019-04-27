@@ -12,6 +12,10 @@ public interface Observer {
 
     void showFlower();
 
+    void showControlPanel();
+
+    void hideControlPanel();
+
     void errorMessage(String message);
 
 }

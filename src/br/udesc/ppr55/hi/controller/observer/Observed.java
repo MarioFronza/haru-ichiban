@@ -16,6 +16,10 @@ public interface Observed {
 
     void notifyShowFlower();
 
+    void notifyShowControlPanel();
+    
+    void notifyHideControlPanel();
+
     void notifyErrorMessage(String message);
 
 }

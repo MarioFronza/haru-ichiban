@@ -2,7 +2,7 @@ package br.udesc.ppr55.hi.view;
 
 import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.IHaruController;
-import br.udesc.ppr55.hi.controller.command.CommandInvoker;
+import br.udesc.ppr55.hi.model.command.CommandInvoker;
 import br.udesc.ppr55.hi.controller.observer.Observer;
 
 import javax.swing.*;
@@ -132,6 +132,16 @@ public class MainFrame extends JFrame implements Observer, KeyListener {
     @Override
     public void showFlower() {
         this.playerPanel.showFlower();
+    }
+
+    @Override
+    public void showControlPanel() {
+        this.controlPanel.setVisible(true);
+    }
+
+    @Override
+    public void hideControlPanel() {
+        this.controlPanel.setVisible(false);
     }
 
     @Override

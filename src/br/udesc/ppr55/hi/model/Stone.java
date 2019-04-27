@@ -5,7 +5,7 @@ public class Stone extends Piece{
     private int number;
 
     public Stone(int number) {
-        super("images/Stone.png");
+        super("images/rock-"+number+".png");
         this.number = number;
     }
 
