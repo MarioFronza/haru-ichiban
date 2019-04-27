@@ -7,6 +7,7 @@ package br.udesc.ppr55.hi.model;
 public class Gardener extends Piece{
 
     private boolean isJunior;
+    private String name;
 
     public Gardener() {
         super("images/Stone.png");
@@ -19,4 +20,13 @@ public class Gardener extends Piece{
     public void setJunior(boolean junior) {
         isJunior = junior;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
+

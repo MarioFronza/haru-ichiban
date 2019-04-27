@@ -20,7 +20,7 @@ public class PieceFactory extends AbstractPieceFactory {
     }
 
     @Override
-    public Piece createGardener() {
+    public Gardener createGardener() {
         return new Gardener();
     }
 
@@ -41,6 +41,6 @@ public class PieceFactory extends AbstractPieceFactory {
 
     @Override
     public Piece createFlower(int number) {
-        return new Flower(number);
+        return new RedFlower(number);
     }
 }

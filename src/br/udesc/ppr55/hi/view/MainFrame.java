@@ -137,7 +137,6 @@ public class MainFrame extends JFrame implements Observer, KeyListener {
     @Override
     public void errorMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
-
     }
 
     @Override

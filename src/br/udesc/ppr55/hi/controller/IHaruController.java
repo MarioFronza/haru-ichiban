@@ -22,6 +22,8 @@ public interface IHaruController extends Observed {
 
     void initializeFlowerPanel();
 
+    void setGardeners(String redName, String yellowName);
+
     void addFlower(int x, int y);
 
     void chooseFlower(int x, int y);
@@ -31,6 +33,8 @@ public interface IHaruController extends Observed {
     void eyeReleased();
 
     void chooseWaterLily(int x, int y);
+
+    void addFlowerInWaterLily(int x, int y);
 
     void moveWaterLilyDown();
 

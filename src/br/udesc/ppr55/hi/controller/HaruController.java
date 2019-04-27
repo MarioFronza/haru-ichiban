@@ -20,9 +20,16 @@ public class HaruController implements IHaruController {
     private Piece[][] scorePanel;
     private Piece[][] playerPanel;
     private Piece[][] flowerPanel;
+
     private List<Observer> observers;
 
     private Piece currentFlower = null;
+    private Piece currentWaterLily = null;
+    private boolean isHaruIchiban = false;
+
+
+    private Gardener redGardener;
+    private Gardener yellowGardener;
 
     public static HaruController getInstance() {
         if (instance == null)
@@ -75,6 +82,7 @@ public class HaruController implements IHaruController {
         gameBoard[4][3] = factory.createWater();
         gameBoard[4][4] = factory.createWaterLily();
 
+
     }
 
     @Override
@@ -121,8 +129,23 @@ public class HaruController implements IHaruController {
     }
 
     @Override
+    public void setGardeners(String redName, String yellowName) {
+        this.redGardener = factory.createGardener();
+        this.yellowGardener = factory.createGardener();
+
+        this.redGardener.setName(redName);
+        this.yellowGardener.setName(yellowName);
+
+        System.out.println(redGardener.getName());
+        System.out.println(yellowGardener.getName());
+
+        this.notifyErrorMessage(redGardener.getName() + " escolha três flores");
+
+    }
+
+    @Override
     public void addFlower(int x, int y) {
-        if (flowerPanel[x][y].getClass() != Gardener.class) {
+        if (flowerPanel[x][y].getClass() != Gardener.class && flowerPanel[x][y] != null) {
             if (playerPanel[0][0] == null) {
                 this.playerPanel[0][0] = flowerPanel[x][y];
                 this.flowerPanel[x][y] = null;
@@ -174,20 +197,34 @@ public class HaruController implements IHaruController {
 
     @Override
     public void chooseWaterLily(int x, int y) {
-        if (this.playerPanel[0][2] == null) {
-            this.notifyErrorMessage("Você precisa escolher todas as flores antes");
-        } else if (this.currentFlower == null) {
-            this.notifyErrorMessage("Você precisa escolher uma de suas flores");
-        } else if (gameBoard[x][y].getClass() == Water.class || gameBoard[x][y].getClass() == DarkWaterLily.class) {
-            this.notifyErrorMessage("Posição inválida");
+        if (isHaruIchiban) {
+            this.currentWaterLily = gameBoard[x][y];
+            System.out.println("é haru ichiban");
+            isHaruIchiban = false;
         } else {
-            this.playerPanel[0][2] = null;
-            this.currentFlower.setImage("images/RedFlowerWaterlily.png");
-            this.gameBoard[x][y] = currentFlower;
-            this.currentFlower = null;
-            this.notifyBoardPanelUpdate();
-            this.notifyPlayerPanelUpdate();
+            if (this.playerPanel[0][2] == null) {
+                this.notifyErrorMessage("Você precisa escolher todas as flores antes");
+            } else if (this.currentFlower == null) {
+                this.notifyErrorMessage("Você precisa escolher uma de suas flores");
+            } else if (gameBoard[x][y].getClass() == Water.class || gameBoard[x][y].getClass() == DarkWaterLily.class) {
+                this.notifyErrorMessage("Posição inválida");
+            } else {
+                this.playerPanel[0][2] = null;
+                this.currentFlower.setImage("images/RedFlowerWaterlily.png");
+                this.gameBoard[x][y] = currentFlower;
+                this.currentFlower = null;
+                this.notifyBoardPanelUpdate();
+                this.notifyPlayerPanelUpdate();
+            }
+            isHaruIchiban = true;
         }
+
+
+    }
+
+    @Override
+    public void addFlowerInWaterLily(int x, int y) {
+
     }
 
     @Override
@@ -232,8 +269,8 @@ public class HaruController implements IHaruController {
 
     @Override
     public int getFlowerNumber(int col, int row) {
-        Flower flower = (Flower) playerPanel[col][row];
-        return (playerPanel[col][row] == null ? null : flower.getNumber());
+        RedFlower redFlower = (RedFlower) playerPanel[col][row];
+        return (playerPanel[col][row] == null ? null : redFlower.getNumber());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package br.udesc.ppr55.hi.model.AbstractFactory;
 
+import br.udesc.ppr55.hi.model.Gardener;
 import br.udesc.ppr55.hi.model.Piece;
 
 public abstract class AbstractPieceFactory {
@@ -10,7 +11,7 @@ public abstract class AbstractPieceFactory {
 
     public abstract Piece createStone(int number);
 
-    public abstract Piece createGardener();
+    public abstract Gardener createGardener();
 
     public abstract Piece createRedFrog();
 
