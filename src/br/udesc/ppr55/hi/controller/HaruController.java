@@ -2,8 +2,11 @@ package br.udesc.ppr55.hi.controller;
 
 import br.udesc.ppr55.hi.controller.observer.Observer;
 import br.udesc.ppr55.hi.model.*;
-import br.udesc.ppr55.hi.model.AbstractFactory.AbstractPieceFactory;
-import br.udesc.ppr55.hi.model.AbstractFactory.PieceFactory;
+import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
+import br.udesc.ppr55.hi.model.abstractfactory.PieceFactory;
+import br.udesc.ppr55.hi.model.builder.BuildGameTable;
+import br.udesc.ppr55.hi.model.builder.Builder;
+import br.udesc.ppr55.hi.model.builder.Director;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +23,8 @@ public class HaruController implements IHaruController {
     private Piece[][] scorePanel;
     private Piece[][] playerPanel;
     private Piece[][] flowerPanel;
+
+    private Builder builderGameTable = new BuildGameTable();
 
     private List<Observer> observers;
 
@@ -51,37 +56,39 @@ public class HaruController implements IHaruController {
 
     @Override
     public void initializeBoard() {
-        gameBoard = new Piece[5][5];
-
-        gameBoard[0][0] = factory.createWaterLily();
-        gameBoard[0][1] = factory.createWater();
-        gameBoard[0][2] = factory.createWaterLily();
-        gameBoard[0][3] = factory.createWater();
-        gameBoard[0][4] = factory.createWaterLily();
-
-        gameBoard[1][0] = factory.createWater();
-        gameBoard[1][1] = factory.createWaterLily();
-        gameBoard[1][2] = factory.createYellowFrog();
-        gameBoard[1][3] = factory.createDarkWaterLily();
-        gameBoard[1][4] = factory.createWater();
-
-        gameBoard[2][0] = factory.createWaterLily();
-        gameBoard[2][1] = factory.createWaterLily();
-        gameBoard[2][2] = factory.createWater();
-        gameBoard[2][3] = factory.createWaterLily();
-        gameBoard[2][4] = factory.createWaterLily();
-
-        gameBoard[3][0] = factory.createWater();
-        gameBoard[3][1] = factory.createWaterLily();
-        gameBoard[3][2] = factory.createWaterLily();
-        gameBoard[3][3] = factory.createRedFrog();
-        gameBoard[3][4] = factory.createWater();
-
-        gameBoard[4][0] = factory.createWaterLily();
-        gameBoard[4][1] = factory.createWater();
-        gameBoard[4][2] = factory.createWaterLily();
-        gameBoard[4][3] = factory.createWater();
-        gameBoard[4][4] = factory.createWaterLily();
+        Director director = new Director(builderGameTable);
+        director.build();
+//        gameBoard = new Piece[5][5];
+//
+//        gameBoard[0][0] = factory.createWaterLily();
+//        gameBoard[0][1] = factory.createWater();
+//        gameBoard[0][2] = factory.createWaterLily();
+//        gameBoard[0][3] = factory.createWater();
+//        gameBoard[0][4] = factory.createWaterLily();
+//
+//        gameBoard[1][0] = factory.createWater();
+//        gameBoard[1][1] = factory.createWaterLily();
+//        gameBoard[1][2] = factory.createYellowFrog();
+//        gameBoard[1][3] = factory.createDarkWaterLily();
+//        gameBoard[1][4] = factory.createWater();
+//
+//        gameBoard[2][0] = factory.createWaterLily();
+//        gameBoard[2][1] = factory.createWaterLily();
+//        gameBoard[2][2] = factory.createWater();
+//        gameBoard[2][3] = factory.createWaterLily();
+//        gameBoard[2][4] = factory.createWaterLily();
+//
+//        gameBoard[3][0] = factory.createWater();
+//        gameBoard[3][1] = factory.createWaterLily();
+//        gameBoard[3][2] = factory.createWaterLily();
+//        gameBoard[3][3] = factory.createRedFrog();
+//        gameBoard[3][4] = factory.createWater();
+//
+//        gameBoard[4][0] = factory.createWaterLily();
+//        gameBoard[4][1] = factory.createWater();
+//        gameBoard[4][2] = factory.createWaterLily();
+//        gameBoard[4][3] = factory.createWater();
+//        gameBoard[4][4] = factory.createWaterLily();
 
 
     }
@@ -230,8 +237,36 @@ public class HaruController implements IHaruController {
 
     @Override
     public void moveWaterLilyDown() {
-        if (this.currentWaterLilyX != -1) {
-
+        if (this.currentWaterLilyX != -1 && this.gameBoard[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class) {
+            if (currentWaterLilyX + 1 != 5) {
+                if (gameBoard[currentWaterLilyX + 1][currentWaterLilyY].getClass() == Water.class) {
+                    Piece auxPosition = gameBoard[currentWaterLilyX + 1][currentWaterLilyY];
+                    gameBoard[currentWaterLilyX + 1][currentWaterLilyY] = gameBoard[currentWaterLilyX][currentWaterLilyY];
+                    gameBoard[currentWaterLilyX][currentWaterLilyY] = auxPosition;
+                    this.notifyBoardPanelUpdate();
+                    this.notifyHideControlPanel();
+                } else {
+                    int x = -1;
+                    for (int i = currentWaterLilyX + 1; i <= 4; i++) {
+                        if (gameBoard[i][currentWaterLilyY].getClass() == Water.class) {
+                            x = i;
+                        }
+                    }
+                    if (x != -1) {
+                        for (int i = x; i > currentWaterLilyX; i--) {
+                            Piece auxPosition = gameBoard[i][currentWaterLilyY];
+                            gameBoard[i][currentWaterLilyY] = gameBoard[i - 1][currentWaterLilyY];
+                            gameBoard[i - 1][currentWaterLilyY] = auxPosition;
+                            this.notifyBoardPanelUpdate();
+                            this.notifyHideControlPanel();
+                        }
+                    } else {
+                        this.notifyErrorMessage("Não é possível realizar este movimento!");
+                    }
+                }
+            } else {
+                this.notifyErrorMessage("Não é possível realizar este movimento!");
+            }
         } else {
             this.notifyErrorMessage("Escolha uma vitória régia");
         }
@@ -241,7 +276,6 @@ public class HaruController implements IHaruController {
     public void moveWaterLilyUp() {
         if (this.currentWaterLilyX != -1 && this.gameBoard[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class) {
             if (currentWaterLilyX - 1 != -1) {
-                System.out.println(gameBoard[currentWaterLilyX - 1][currentWaterLilyY].getClass() == Water.class);
                 if (gameBoard[currentWaterLilyX - 1][currentWaterLilyY].getClass() == Water.class) {
                     Piece auxPosition = gameBoard[currentWaterLilyX - 1][currentWaterLilyY];
                     gameBoard[currentWaterLilyX - 1][currentWaterLilyY] = gameBoard[currentWaterLilyX][currentWaterLilyY];
@@ -277,8 +311,36 @@ public class HaruController implements IHaruController {
 
     @Override
     public void moveWaterLilyLeft() {
-        if (this.currentWaterLilyX != -1) {
-
+        if (this.currentWaterLilyY != -1 && this.gameBoard[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class) {
+            if (currentWaterLilyY - 1 != -1) {
+                if (gameBoard[currentWaterLilyX][currentWaterLilyY - 1].getClass() == Water.class) {
+                    Piece auxPosition = gameBoard[currentWaterLilyX][currentWaterLilyY - 1];
+                    gameBoard[currentWaterLilyX][currentWaterLilyY - 1] = gameBoard[currentWaterLilyX][currentWaterLilyY];
+                    gameBoard[currentWaterLilyX][currentWaterLilyY] = auxPosition;
+                    this.notifyBoardPanelUpdate();
+                    this.notifyHideControlPanel();
+                } else {
+                    int x = -1;
+                    for (int i = currentWaterLilyY - 1; i >= 0; i--) {
+                        if (gameBoard[currentWaterLilyX][i].getClass() == Water.class) {
+                            x = i;
+                        }
+                    }
+                    if (x != -1) {
+                        for (int i = x; i < currentWaterLilyY; i++) {
+                            Piece auxPosition = gameBoard[currentWaterLilyX][i];
+                            gameBoard[currentWaterLilyX][i] = gameBoard[currentWaterLilyX][i + 1];
+                            gameBoard[currentWaterLilyX][i + 1] = auxPosition;
+                            this.notifyBoardPanelUpdate();
+                            this.notifyHideControlPanel();
+                        }
+                    } else {
+                        this.notifyErrorMessage("Não é possível realizar este movimento!");
+                    }
+                }
+            } else {
+                this.notifyErrorMessage("Não é possível realizar este movimento!");
+            }
         } else {
             this.notifyErrorMessage("Escolha uma vitória régia");
         }
@@ -286,16 +348,46 @@ public class HaruController implements IHaruController {
 
     @Override
     public void moveWaterLilyRight() {
-        if (this.currentWaterLilyX != -1) {
-
+        if (this.currentWaterLilyY != -1 && this.gameBoard[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class) {
+            if (currentWaterLilyY + 1 != 5) {
+                if (gameBoard[currentWaterLilyX][currentWaterLilyY + 1].getClass() == Water.class) {
+                    Piece auxPosition = gameBoard[currentWaterLilyX][currentWaterLilyY + 1];
+                    gameBoard[currentWaterLilyX][currentWaterLilyY + 1] = gameBoard[currentWaterLilyX][currentWaterLilyY];
+                    gameBoard[currentWaterLilyX][currentWaterLilyY] = auxPosition;
+                    this.notifyBoardPanelUpdate();
+                    this.notifyHideControlPanel();
+                } else {
+                    int x = -1;
+                    for (int i = currentWaterLilyY + 1; i <= 4; i++) {
+                        if (gameBoard[currentWaterLilyX][i].getClass() == Water.class) {
+                            x = i;
+                        }
+                    }
+                    if (x != -1) {
+                        for (int i = x; i > currentWaterLilyY; i--) {
+                            Piece auxPosition = gameBoard[currentWaterLilyX][i];
+                            gameBoard[currentWaterLilyX][i] = gameBoard[currentWaterLilyX][i - 1];
+                            gameBoard[currentWaterLilyX][i - 1] = auxPosition;
+                            this.notifyBoardPanelUpdate();
+                            this.notifyHideControlPanel();
+                        }
+                    } else {
+                        this.notifyErrorMessage("Não é possível realizar este movimento!");
+                    }
+                }
+            } else {
+                this.notifyErrorMessage("Não é possível realizar este movimento!");
+            }
         } else {
             this.notifyErrorMessage("Escolha uma vitória régia");
         }
+
     }
 
     @Override
     public String getPiece(int col, int row) {
-        return (gameBoard[col][row] == null ? null : gameBoard[col][row].getImage());
+//        return (gameBoard[col][row] == null ? null : gameBoard[col][row].getImage());
+        return (builderGameTable.getTable().getGrid()[col][row] == null ? null : builderGameTable.getTable().getGrid()[col][row].getImage());
     }
 
     @Override

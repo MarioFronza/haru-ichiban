@@ -1,4 +1,4 @@
-package br.udesc.ppr55.hi.model.AbstractFactory;
+package br.udesc.ppr55.hi.model.abstractfactory;
 
 import br.udesc.ppr55.hi.model.*;
 
