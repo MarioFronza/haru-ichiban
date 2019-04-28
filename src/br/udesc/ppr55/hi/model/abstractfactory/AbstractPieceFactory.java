@@ -1,8 +1,6 @@
 package br.udesc.ppr55.hi.model.abstractfactory;
 
-import br.udesc.ppr55.hi.model.RedGardener;
-import br.udesc.ppr55.hi.model.Piece;
-import br.udesc.ppr55.hi.model.YellowGardener;
+import br.udesc.ppr55.hi.model.*;
 
 public abstract class AbstractPieceFactory {
 
@@ -22,6 +20,8 @@ public abstract class AbstractPieceFactory {
 
     public abstract Piece createDarkWaterLily();
 
-    public abstract Piece createFlower(int number);
+    public abstract RedFlower createRedFlower(int number);
+
+    public abstract YellowFlower createYellowFlower(int number);
 
 }

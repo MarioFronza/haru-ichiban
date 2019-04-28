@@ -1,6 +1,7 @@
 package br.udesc.ppr55.hi.controller;
 
 import br.udesc.ppr55.hi.controller.observer.Observed;
+import br.udesc.ppr55.hi.model.Piece;
 
 public interface IHaruController extends Observed {
 
@@ -11,6 +12,10 @@ public interface IHaruController extends Observed {
     String getPlayerFlower(int col, int row);
 
     String getFlower(int col, int row);
+
+    Piece getFlowerType(int col, int row);
+
+    void setFlowerType(int col, int row, Piece piece);
 
     int getFlowerNumber(int col, int row);
 

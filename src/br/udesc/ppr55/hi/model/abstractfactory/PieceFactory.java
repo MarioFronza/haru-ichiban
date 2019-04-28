@@ -46,7 +46,14 @@ public class PieceFactory extends AbstractPieceFactory {
     }
 
     @Override
-    public Piece createFlower(int number) {
+    public RedFlower createRedFlower(int number) {
         return new RedFlower(number);
     }
+
+    @Override
+    public YellowFlower createYellowFlower(int number) {
+        return new YellowFlower(number);
+    }
+
+
 }

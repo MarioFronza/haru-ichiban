@@ -4,9 +4,7 @@ import br.udesc.ppr55.hi.controller.observer.Observer;
 import br.udesc.ppr55.hi.model.*;
 import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
 import br.udesc.ppr55.hi.model.abstractfactory.PieceFactory;
-import br.udesc.ppr55.hi.model.builder.BuildGameTable;
-import br.udesc.ppr55.hi.model.builder.Builder;
-import br.udesc.ppr55.hi.model.builder.Director;
+import br.udesc.ppr55.hi.model.builder.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +17,19 @@ public class HaruController implements IHaruController {
 
     private static HaruController instance;
     private AbstractPieceFactory factory;
-    private Piece[][] gameBoard;
     private Piece[][] scorePanel;
     private Piece[][] playerPanel;
-    private Piece[][] flowerPanel;
 
-    private Builder builderGameTable = new BuildGameTable();
+    //private Piece[][] gameBoard;
+    //private Piece[][] flowerPanel;
+
+    private Builder builderGameTable;
+    private Builder builderRedFlowerTable;
+    private Builder builderYellowFlowerTable;
+    private Director director;
+
+    private List<Piece> redPlayerPanel;
+    private List<Piece> yellowPlayerPanel;
 
     private List<Observer> observers;
 
@@ -32,6 +37,7 @@ public class HaruController implements IHaruController {
     private int currentWaterLilyX = -1;
     private int currentWaterLilyY = -1;
     private boolean isHaruIchiban = false;
+    private String currentRotation = "red";
 
 
     private RedGardener redGardener;
@@ -56,41 +62,9 @@ public class HaruController implements IHaruController {
 
     @Override
     public void initializeBoard() {
-        Director director = new Director(builderGameTable);
+        builderGameTable = new BuildGameTable();
+        director = new Director(builderGameTable);
         director.build();
-//        gameBoard = new Piece[5][5];
-//
-//        gameBoard[0][0] = factory.createWaterLily();
-//        gameBoard[0][1] = factory.createWater();
-//        gameBoard[0][2] = factory.createWaterLily();
-//        gameBoard[0][3] = factory.createWater();
-//        gameBoard[0][4] = factory.createWaterLily();
-//
-//        gameBoard[1][0] = factory.createWater();
-//        gameBoard[1][1] = factory.createWaterLily();
-//        gameBoard[1][2] = factory.createYellowFrog();
-//        gameBoard[1][3] = factory.createDarkWaterLily();
-//        gameBoard[1][4] = factory.createWater();
-//
-//        gameBoard[2][0] = factory.createWaterLily();
-//        gameBoard[2][1] = factory.createWaterLily();
-//        gameBoard[2][2] = factory.createWater();
-//        gameBoard[2][3] = factory.createWaterLily();
-//        gameBoard[2][4] = factory.createWaterLily();
-//
-//        gameBoard[3][0] = factory.createWater();
-//        gameBoard[3][1] = factory.createWaterLily();
-//        gameBoard[3][2] = factory.createWaterLily();
-//        gameBoard[3][3] = factory.createRedFrog();
-//        gameBoard[3][4] = factory.createWater();
-//
-//        gameBoard[4][0] = factory.createWaterLily();
-//        gameBoard[4][1] = factory.createWater();
-//        gameBoard[4][2] = factory.createWaterLily();
-//        gameBoard[4][3] = factory.createWater();
-//        gameBoard[4][4] = factory.createWaterLily();
-
-
     }
 
     @Override
@@ -118,28 +92,27 @@ public class HaruController implements IHaruController {
         playerPanel[0][1] = null;
         playerPanel[0][2] = null;
 
+        redPlayerPanel = new ArrayList<>();
+        yellowPlayerPanel = new ArrayList<>();
+
     }
 
     @Override
     public void initializeFlowerPanel() {
-        flowerPanel = new Piece[5][2];
+        builderRedFlowerTable = new BuildRedFlowerTable();
+        builderYellowFlowerTable = new BuildYellowFlowerTable();
 
-        flowerPanel[0][0] = factory.createFlower(1);
-        flowerPanel[0][1] = factory.createFlower(2);
-        flowerPanel[1][0] = factory.createFlower(3);
-        flowerPanel[1][1] = factory.createFlower(4);
-        flowerPanel[2][0] = factory.createFlower(5);
-        flowerPanel[2][1] = factory.createFlower(6);
-        flowerPanel[3][0] = factory.createFlower(7);
-        flowerPanel[3][1] = factory.createFlower(8);
-        flowerPanel[4][0] = factory.createRedGardener();
-        flowerPanel[4][1] = factory.createYellowGardener();
+        director = new Director(builderRedFlowerTable);
+        director.build();
+
+        director = new Director(builderYellowFlowerTable);
+        director.build();
     }
 
     @Override
     public void setGardeners(String redName, String yellowName) {
-        this.redGardener = (RedGardener) flowerPanel[4][0];
-        this.yellowGardener = (YellowGardener) flowerPanel[4][1];
+        this.redGardener = (RedGardener) getFlowerType(4, 0);
+        this.yellowGardener = (YellowGardener) getFlowerType(4, 1);
 
         this.redGardener.setName(redName);
         this.yellowGardener.setName(yellowName);
@@ -152,21 +125,21 @@ public class HaruController implements IHaruController {
 
     @Override
     public void addFlower(int x, int y) {
-        if (flowerPanel[x][y].getClass() != RedGardener.class && flowerPanel[x][y].getClass() != YellowGardener.class && flowerPanel[x][y].getClass() != Stone.class) {
-            if (playerPanel[0][0] == null) {
-                this.playerPanel[0][0] = flowerPanel[x][y];
-                this.flowerPanel[x][y] = factory.createStone(0);
+        if (getFlowerType(x, y).getClass() != RedGardener.class && getFlowerType(x, y).getClass() != YellowGardener.class && getFlowerType(x, y).getClass() != Stone.class) {
+            if (redPlayerPanel.get(0) == null) {
+                this.playerPanel[0][0] = getFlowerType(x, y);
+                setFlowerType(x, y, factory.createStone(0));
                 notifyPlayerPanelUpdate();
                 notifyFlowersPanelUpdate();
             } else if (playerPanel[0][1] == null) {
-                playerPanel[0][1] = flowerPanel[x][y];
-                this.flowerPanel[x][y] = factory.createStone(0);
+                playerPanel[0][1] = getFlowerType(x, y);
+                setFlowerType(x, y, factory.createStone(0));
                 notifyPlayerPanelUpdate();
                 notifyFlowersPanelUpdate();
             } else if (playerPanel[0][2] == null) {
-                playerPanel[0][2] = flowerPanel[x][y];
-                this.flowerPanel[x][y] = flowerPanel[x][y];
-                this.flowerPanel[x][y] = factory.createStone(0);
+                playerPanel[0][2] = getFlowerType(x, y);
+                setFlowerType(x, y, getFlowerType(x, y));
+                setFlowerType(x, y, factory.createStone(0));
                 notifyPlayerPanelUpdate();
                 notifyFlowersPanelUpdate();
             } else {
@@ -184,6 +157,8 @@ public class HaruController implements IHaruController {
         } else {
             this.currentFlower = this.playerPanel[x][y];
             this.playerPanel[x][y] = playerPanel[0][2];
+            currentRotation = "yellow";
+            notifyFlowersPanelUpdate();
         }
     }
 
@@ -194,7 +169,6 @@ public class HaruController implements IHaruController {
         } else {
             this.notifyShowFlowerNumber();
         }
-
     }
 
     @Override
@@ -204,22 +178,22 @@ public class HaruController implements IHaruController {
 
     @Override
     public void chooseWaterLily(int x, int y) {
-        if (isHaruIchiban && gameBoard[x][y].getClass() != Water.class) {
+        if (isHaruIchiban && builderGameTable.getTable().getGrid()[x][y].getClass() != Water.class) {
             this.currentWaterLilyX = x;
             this.currentWaterLilyY = y;
-            this.notifyShowControlPanel();
-            isHaruIchiban = false;
+            this.isHaruIchiban = false;
+            notifyShowControlPanel();
         } else {
-            if (this.playerPanel[0][2] == null) {
+            if (playerPanel[0][2] == null) {
                 this.notifyErrorMessage("Você precisa escolher todas as flores antes");
             } else if (this.currentFlower == null) {
                 this.notifyErrorMessage("Você precisa escolher uma de suas flores");
-            } else if (gameBoard[x][y].getClass() == Water.class || gameBoard[x][y].getClass() == DarkWaterLily.class) {
+            } else if (builderGameTable.getTable().getGrid()[x][y].getClass() == Water.class || builderGameTable.getTable().getGrid()[x][y].getClass() == DarkWaterLily.class) {
                 this.notifyErrorMessage("Posição inválida");
             } else {
                 this.playerPanel[0][2] = null;
                 this.currentFlower.setImage("images/water-lily-with-pink-petal.png");
-                this.gameBoard[x][y] = currentFlower;
+                this.builderGameTable.getTable().getGrid()[x][y] = currentFlower;
                 this.currentFlower = null;
                 this.notifyBoardPanelUpdate();
                 this.notifyPlayerPanelUpdate();
@@ -237,26 +211,26 @@ public class HaruController implements IHaruController {
 
     @Override
     public void moveWaterLilyDown() {
-        if (this.currentWaterLilyX != -1 && this.gameBoard[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class) {
+        if (this.currentWaterLilyX != -1 && builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class) {
             if (currentWaterLilyX + 1 != 5) {
-                if (gameBoard[currentWaterLilyX + 1][currentWaterLilyY].getClass() == Water.class) {
-                    Piece auxPosition = gameBoard[currentWaterLilyX + 1][currentWaterLilyY];
-                    gameBoard[currentWaterLilyX + 1][currentWaterLilyY] = gameBoard[currentWaterLilyX][currentWaterLilyY];
-                    gameBoard[currentWaterLilyX][currentWaterLilyY] = auxPosition;
+                if (builderGameTable.getTable().getGrid()[currentWaterLilyX + 1][currentWaterLilyY].getClass() == Water.class) {
+                    Piece auxPosition = builderGameTable.getTable().getGrid()[currentWaterLilyX + 1][currentWaterLilyY];
+                    builderGameTable.getTable().getGrid()[currentWaterLilyX + 1][currentWaterLilyY] = builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY];
+                    builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY] = auxPosition;
                     this.notifyBoardPanelUpdate();
                     this.notifyHideControlPanel();
                 } else {
                     int x = -1;
                     for (int i = currentWaterLilyX + 1; i <= 4; i++) {
-                        if (gameBoard[i][currentWaterLilyY].getClass() == Water.class) {
+                        if (builderGameTable.getTable().getGrid()[i][currentWaterLilyY].getClass() == Water.class) {
                             x = i;
                         }
                     }
                     if (x != -1) {
                         for (int i = x; i > currentWaterLilyX; i--) {
-                            Piece auxPosition = gameBoard[i][currentWaterLilyY];
-                            gameBoard[i][currentWaterLilyY] = gameBoard[i - 1][currentWaterLilyY];
-                            gameBoard[i - 1][currentWaterLilyY] = auxPosition;
+                            Piece auxPosition = builderGameTable.getTable().getGrid()[i][currentWaterLilyY];
+                            builderGameTable.getTable().getGrid()[i][currentWaterLilyY] = builderGameTable.getTable().getGrid()[i - 1][currentWaterLilyY];
+                            builderGameTable.getTable().getGrid()[i - 1][currentWaterLilyY] = auxPosition;
                             this.notifyBoardPanelUpdate();
                             this.notifyHideControlPanel();
                         }
@@ -274,26 +248,26 @@ public class HaruController implements IHaruController {
 
     @Override
     public void moveWaterLilyUp() {
-        if (this.currentWaterLilyX != -1 && this.gameBoard[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class) {
+        if (this.currentWaterLilyX != -1 && builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class) {
             if (currentWaterLilyX - 1 != -1) {
-                if (gameBoard[currentWaterLilyX - 1][currentWaterLilyY].getClass() == Water.class) {
-                    Piece auxPosition = gameBoard[currentWaterLilyX - 1][currentWaterLilyY];
-                    gameBoard[currentWaterLilyX - 1][currentWaterLilyY] = gameBoard[currentWaterLilyX][currentWaterLilyY];
-                    gameBoard[currentWaterLilyX][currentWaterLilyY] = auxPosition;
+                if (builderGameTable.getTable().getGrid()[currentWaterLilyX - 1][currentWaterLilyY].getClass() == Water.class) {
+                    Piece auxPosition = builderGameTable.getTable().getGrid()[currentWaterLilyX - 1][currentWaterLilyY];
+                    builderGameTable.getTable().getGrid()[currentWaterLilyX - 1][currentWaterLilyY] = builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY];
+                    builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY] = auxPosition;
                     this.notifyBoardPanelUpdate();
                     this.notifyHideControlPanel();
                 } else {
                     int x = -1;
                     for (int i = currentWaterLilyX - 1; i >= 0; i--) {
-                        if (gameBoard[i][currentWaterLilyY].getClass() == Water.class) {
+                        if (builderGameTable.getTable().getGrid()[i][currentWaterLilyY].getClass() == Water.class) {
                             x = i;
                         }
                     }
                     if (x != -1) {
                         for (int i = x; i < currentWaterLilyX; i++) {
-                            Piece auxPosition = gameBoard[i][currentWaterLilyY];
-                            gameBoard[i][currentWaterLilyY] = gameBoard[i + 1][currentWaterLilyY];
-                            gameBoard[i + 1][currentWaterLilyY] = auxPosition;
+                            Piece auxPosition = builderGameTable.getTable().getGrid()[i][currentWaterLilyY];
+                            builderGameTable.getTable().getGrid()[i][currentWaterLilyY] = builderGameTable.getTable().getGrid()[i + 1][currentWaterLilyY];
+                            builderGameTable.getTable().getGrid()[i + 1][currentWaterLilyY] = auxPosition;
                             this.notifyBoardPanelUpdate();
                             this.notifyHideControlPanel();
                         }
@@ -311,26 +285,26 @@ public class HaruController implements IHaruController {
 
     @Override
     public void moveWaterLilyLeft() {
-        if (this.currentWaterLilyY != -1 && this.gameBoard[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class) {
+        if (this.currentWaterLilyY != -1 && builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class) {
             if (currentWaterLilyY - 1 != -1) {
-                if (gameBoard[currentWaterLilyX][currentWaterLilyY - 1].getClass() == Water.class) {
-                    Piece auxPosition = gameBoard[currentWaterLilyX][currentWaterLilyY - 1];
-                    gameBoard[currentWaterLilyX][currentWaterLilyY - 1] = gameBoard[currentWaterLilyX][currentWaterLilyY];
-                    gameBoard[currentWaterLilyX][currentWaterLilyY] = auxPosition;
+                if (builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY - 1].getClass() == Water.class) {
+                    Piece auxPosition = builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY - 1];
+                    builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY - 1] = builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY];
+                    builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY] = auxPosition;
                     this.notifyBoardPanelUpdate();
                     this.notifyHideControlPanel();
                 } else {
                     int x = -1;
                     for (int i = currentWaterLilyY - 1; i >= 0; i--) {
-                        if (gameBoard[currentWaterLilyX][i].getClass() == Water.class) {
+                        if (builderGameTable.getTable().getGrid()[currentWaterLilyX][i].getClass() == Water.class) {
                             x = i;
                         }
                     }
                     if (x != -1) {
                         for (int i = x; i < currentWaterLilyY; i++) {
-                            Piece auxPosition = gameBoard[currentWaterLilyX][i];
-                            gameBoard[currentWaterLilyX][i] = gameBoard[currentWaterLilyX][i + 1];
-                            gameBoard[currentWaterLilyX][i + 1] = auxPosition;
+                            Piece auxPosition = builderGameTable.getTable().getGrid()[currentWaterLilyX][i];
+                            builderGameTable.getTable().getGrid()[currentWaterLilyX][i] = builderGameTable.getTable().getGrid()[currentWaterLilyX][i + 1];
+                            builderGameTable.getTable().getGrid()[currentWaterLilyX][i + 1] = auxPosition;
                             this.notifyBoardPanelUpdate();
                             this.notifyHideControlPanel();
                         }
@@ -348,26 +322,26 @@ public class HaruController implements IHaruController {
 
     @Override
     public void moveWaterLilyRight() {
-        if (this.currentWaterLilyY != -1 && this.gameBoard[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class) {
+        if (this.currentWaterLilyY != -1 && this.builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class) {
             if (currentWaterLilyY + 1 != 5) {
-                if (gameBoard[currentWaterLilyX][currentWaterLilyY + 1].getClass() == Water.class) {
-                    Piece auxPosition = gameBoard[currentWaterLilyX][currentWaterLilyY + 1];
-                    gameBoard[currentWaterLilyX][currentWaterLilyY + 1] = gameBoard[currentWaterLilyX][currentWaterLilyY];
-                    gameBoard[currentWaterLilyX][currentWaterLilyY] = auxPosition;
+                if (builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY + 1].getClass() == Water.class) {
+                    Piece auxPosition = builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY + 1];
+                    builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY + 1] = builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY];
+                    builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY] = auxPosition;
                     this.notifyBoardPanelUpdate();
                     this.notifyHideControlPanel();
                 } else {
                     int x = -1;
                     for (int i = currentWaterLilyY + 1; i <= 4; i++) {
-                        if (gameBoard[currentWaterLilyX][i].getClass() == Water.class) {
+                        if (builderGameTable.getTable().getGrid()[currentWaterLilyX][i].getClass() == Water.class) {
                             x = i;
                         }
                     }
                     if (x != -1) {
                         for (int i = x; i > currentWaterLilyY; i--) {
-                            Piece auxPosition = gameBoard[currentWaterLilyX][i];
-                            gameBoard[currentWaterLilyX][i] = gameBoard[currentWaterLilyX][i - 1];
-                            gameBoard[currentWaterLilyX][i - 1] = auxPosition;
+                            Piece auxPosition = builderGameTable.getTable().getGrid()[currentWaterLilyX][i];
+                            builderGameTable.getTable().getGrid()[currentWaterLilyX][i] = builderGameTable.getTable().getGrid()[currentWaterLilyX][i - 1];
+                            builderGameTable.getTable().getGrid()[currentWaterLilyX][i - 1] = auxPosition;
                             this.notifyBoardPanelUpdate();
                             this.notifyHideControlPanel();
                         }
@@ -402,7 +376,30 @@ public class HaruController implements IHaruController {
 
     @Override
     public String getFlower(int col, int row) {
-        return (flowerPanel[col][row] == null ? null : flowerPanel[col][row].getImage());
+        if (currentRotation == "red") {
+            return (builderRedFlowerTable.getTable().getGrid()[col][row] == null ? null : builderRedFlowerTable.getTable().getGrid()[col][row].getImage());
+        } else {
+            return (builderYellowFlowerTable.getTable().getGrid()[col][row] == null ? null : builderYellowFlowerTable.getTable().getGrid()[col][row].getImage());
+        }
+
+    }
+
+    @Override
+    public Piece getFlowerType(int col, int row) {
+        if (currentRotation == "red") {
+            return builderRedFlowerTable.getTable().getGrid()[col][row];
+        } else {
+            return builderYellowFlowerTable.getTable().getGrid()[col][row];
+        }
+    }
+
+    @Override
+    public void setFlowerType(int col, int row, Piece piece) {
+        if (currentRotation == "red") {
+            builderRedFlowerTable.getTable().getGrid()[col][row] = piece;
+        } else {
+            builderYellowFlowerTable.getTable().getGrid()[col][row] = piece;
+        }
     }
 
     @Override
