@@ -9,7 +9,7 @@ public class RedFlower extends Piece {
     private int number;
 
     public RedFlower(int number) {
-        super("images/petal-pink.png");
+        super("images/petal-red.png");
         this.number = number;
     }
 

@@ -39,9 +39,9 @@ public class PlayerPanel extends JPanel {
         public Object getValueAt(int rowIndex, int columnIndex) {
             try {
                 if (showFlower) {
-                    return new ImageIcon(haruController.getPlayerFlower(rowIndex, columnIndex));
+                    return new ImageIcon(haruController.getPlayerFlower(columnIndex));
                 } else {
-                    return new ImageIcon("images/petal-pink-" + haruController.getFlowerNumber(rowIndex, columnIndex) + ".png");
+                    return new ImageIcon("images/petal-" + haruController.getCurrentRotation() + "-" + haruController.getFlowerNumber(rowIndex, columnIndex) + ".png");
                 }
 
             } catch (Exception e) {

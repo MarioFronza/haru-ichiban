@@ -5,17 +5,17 @@ import br.udesc.ppr55.hi.model.*;
 public class PieceFactory extends AbstractPieceFactory {
 
     @Override
-    public Piece createWater() {
+    public Water createWater() {
         return new Water();
     }
 
     @Override
-    public Piece createWaterLily() {
+    public WaterLily createWaterLily() {
         return new WaterLily();
     }
 
     @Override
-    public Piece createStone(int number) {
+    public Stone createStone(int number) {
         return new Stone(number);
     }
 
@@ -29,19 +29,18 @@ public class PieceFactory extends AbstractPieceFactory {
         return new YellowGardener();
     }
 
-
     @Override
-    public Piece createRedFrog() {
+    public RedFrog createRedFrog() {
         return new RedFrog();
     }
 
     @Override
-    public Piece createYellowFrog() {
+    public YellowFrog createYellowFrog() {
         return new YellowFrog();
     }
 
     @Override
-    public Piece createDarkWaterLily() {
+    public DarkWaterLily createDarkWaterLily() {
         return new DarkWaterLily();
     }
 
