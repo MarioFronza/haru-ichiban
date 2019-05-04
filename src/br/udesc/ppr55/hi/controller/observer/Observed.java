@@ -20,6 +20,6 @@ public interface Observed {
     
     void notifyHideControlPanel();
 
-    void notifyErrorMessage(String message);
+    void notifyMessage(String message);
 
 }

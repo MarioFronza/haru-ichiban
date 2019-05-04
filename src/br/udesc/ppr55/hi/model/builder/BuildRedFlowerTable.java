@@ -2,19 +2,26 @@ package br.udesc.ppr55.hi.model.builder;
 
 import br.udesc.ppr55.hi.model.Piece;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class BuildRedFlowerTable extends Builder {
 
     public BuildRedFlowerTable() {
         tablePiece = new Piece[5][2];
+        Collections.shuffle(numbers);
 
-        tablePiece[0][0] = factory.createRedFlower(1);
-        tablePiece[0][1] = factory.createRedFlower(2);
-        tablePiece[1][0] = factory.createRedFlower(3);
-        tablePiece[1][1] = factory.createRedFlower(4);
-        tablePiece[2][0] = factory.createRedFlower(5);
-        tablePiece[2][1] = factory.createRedFlower(6);
-        tablePiece[3][0] = factory.createRedFlower(7);
-        tablePiece[3][1] = factory.createRedFlower(8);
+
+
+        tablePiece[0][0] = factory.createRedFlower(numbers.get(0));
+        tablePiece[0][1] = factory.createRedFlower(numbers.get(1));
+        tablePiece[1][0] = factory.createRedFlower(numbers.get(2));
+        tablePiece[1][1] = factory.createRedFlower(numbers.get(3));
+        tablePiece[2][0] = factory.createRedFlower(numbers.get(4));
+        tablePiece[2][1] = factory.createRedFlower(numbers.get(5));
+        tablePiece[3][0] = factory.createRedFlower(numbers.get(6));
+        tablePiece[3][1] = factory.createRedFlower(numbers.get(7));
         tablePiece[4][0] = factory.createRedGardener();
         tablePiece[4][1] = factory.createYellowGardener();
     }

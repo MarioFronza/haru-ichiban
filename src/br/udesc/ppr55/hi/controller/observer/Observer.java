@@ -16,6 +16,6 @@ public interface Observer {
 
     void hideControlPanel();
 
-    void errorMessage(String message);
+    void message(String message);
 
 }

@@ -15,9 +15,9 @@ public interface IHaruController extends Observed {
 
     String getFlower(int col, int row);
 
-    Piece getFlowerType(int col, int row);
+    Piece getCurrentFlowerTable(int col, int row);
 
-    void setFlowerType(int col, int row, Piece piece);
+    void setCurrentFlowerTable(int col, int row, Piece piece);
 
     void addFlowerPlayerPanel(Piece piece);
 
@@ -26,8 +26,10 @@ public interface IHaruController extends Observed {
     Piece getCurrentFlower();
 
     String getCurrentRotation();
-    //mudar nome
-    boolean getCurrentPlayer();
+
+    String getCurrentNamePlayer();
+
+    boolean getJuniorPlayer();
 
     void setCurrentFlower(Piece piece);
 
@@ -36,6 +38,8 @@ public interface IHaruController extends Observed {
     boolean checkFlowerValue();
 
     int getFlowerNumber(int col, int row);
+
+    void verifyNextPhase();
 
     void initializeBoard();
 
