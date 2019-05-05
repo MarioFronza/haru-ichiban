@@ -21,6 +21,7 @@ public class HaruController implements IHaruController {
     final private String CHOOSE_WATERLILY = "choose_waterlily";
     final private String MOVE_WATERLILY = "move_waterlily";
     final private String CHOOSE_DARK_WATERLILY = "choose_dark_waterlily";
+    final private String CHOOSE_FROG = "choose_frog";
 
 
     private static HaruController instance; //Singleton
@@ -176,9 +177,17 @@ public class HaruController implements IHaruController {
 
     @Override
     public void chooseWaterLily(int x, int y) {
-        if (currentPhase.equals(CHOOSE_DARK_WATERLILY)) {
-            this.currentWaterLilyX = x;
-            this.currentWaterLilyY = y;
+        if (currentPhase.equals(CHOOSE_FROG)) {
+            if (builderGameTable.getTable().getGrid()[x][y].getClass() == WaterLily.class) {
+                this.builderGameTable.getTable().getGrid()[x][y] = factory.createYellowFrog();
+                setAppropriateRotation();
+                notifyBoardPanelUpdate();
+                notifyFlowersPanelUpdate();
+                notifyPlayerPanelUpdate();
+                setCurrentFlower(null);
+                currentPhase = MOVE_WATERLILY;
+            } else notifyMessage("Posição inválida");
+        } else if (currentPhase.equals(CHOOSE_DARK_WATERLILY)) {
             if (builderGameTable.getTable().getGrid()[x][y].getClass() == WaterLily.class) {
                 this.builderGameTable.getTable().getGrid()[x][y] = factory.createDarkWaterLily();
                 setAppropriateRotation();
@@ -203,11 +212,17 @@ public class HaruController implements IHaruController {
                 }
             } else {
                 getCurrentFlower().setImage("images/water-lily-with-" + getCurrentRotation() + "-petal.png");
-                this.builderGameTable.getTable().getGrid()[x][y] = getCurrentFlower();
-                setCurrentFlower(null);
-                setAppropriateRotation();
-                this.currentPhase = MOVE_WATERLILY;
-                notifyMessage("Cada jogador deve mover uma vitória régia");
+                if (builderGameTable.getTable().getGrid()[x][y].getClass() == YellowFrog.class || builderGameTable.getTable().getGrid()[x][y].getClass() == RedFrog.class) {
+                    this.builderGameTable.getTable().getGrid()[x][y] = getCurrentFlower();
+                    this.currentPhase = CHOOSE_FROG;
+                    notifyMessage("Escolha um novo local para o sapo");
+                } else {
+                    this.builderGameTable.getTable().getGrid()[x][y] = getCurrentFlower();
+                    setAppropriateRotation();
+                    setCurrentFlower(null);
+                    this.currentPhase = MOVE_WATERLILY;
+                    notifyMessage("Cada jogador deve mover uma vitória régia");
+                }
             }
             notifyBoardPanelUpdate();
             notifyFlowersPanelUpdate();
