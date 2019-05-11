@@ -7,24 +7,22 @@ import java.util.List;
  * Command Invoker class
  *
  * @author João Pedro Schmitz, Mário Fronza
- * @since 14/04/2019
  * @version 1.0.0
+ * @since 14/04/2019
  */
 public class CommandInvoker {
 
-    private List<Command> imediatos = new ArrayList<>();
-    private List<Command> todos = new ArrayList<>();
+    private List<Command> commands = new ArrayList<>();
 
     public void add(Command comm) {
-        imediatos.add(comm);
+        commands.add(comm);
     }
 
     public void execute() {
-        for (Command comm : imediatos) {
+        for (Command comm : commands) {
             comm.execute();
-            todos.add(comm);
         }
-        imediatos.clear();
+        commands.clear();
     }
 
 }
