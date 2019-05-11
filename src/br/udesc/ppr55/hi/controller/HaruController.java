@@ -240,23 +240,23 @@ public class HaruController implements IHaruController {
 
     @Override
     public void moveWaterLilyDown() {
-        if (this.currentWaterLilyX != -1 && builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class && currentPhase == MOVE_WATERLILY) {
+        if (this.currentWaterLilyX != -1 && getGridGameTable()[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class && currentPhase == MOVE_WATERLILY) {
             if (currentWaterLilyX + 1 != 5) {
-                if (builderGameTable.getTable().getGrid()[currentWaterLilyX + 1][currentWaterLilyY].getClass() == Water.class) {
-                    Piece auxPosition = builderGameTable.getTable().getGrid()[currentWaterLilyX + 1][currentWaterLilyY];
-                    this.builderGameTable.getTable().getGrid()[currentWaterLilyX + 1][currentWaterLilyY] = builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY];
-                    this.builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY] = auxPosition;
+                if (getGridGameTable()[currentWaterLilyX + 1][currentWaterLilyY].getClass() == Water.class) {
+                    Piece auxPosition = getGridGameTable()[currentWaterLilyX + 1][currentWaterLilyY];
+                    getGridGameTable()[currentWaterLilyX + 1][currentWaterLilyY] = getGridGameTable()[currentWaterLilyX][currentWaterLilyY];
+                    getGridGameTable()[currentWaterLilyX][currentWaterLilyY] = auxPosition;
                     verifyNextPhase();
                 } else {
                     int x = -1;
                     for (int i = currentWaterLilyX + 1; i <= 4; i++)
-                        if (builderGameTable.getTable().getGrid()[i][currentWaterLilyY].getClass() == Water.class)
+                        if (getGridGameTable()[i][currentWaterLilyY].getClass() == Water.class)
                             x = i;
                     if (x != -1) {
                         for (int i = x; i > currentWaterLilyX; i--) {
-                            Piece auxPosition = builderGameTable.getTable().getGrid()[i][currentWaterLilyY];
-                            this.builderGameTable.getTable().getGrid()[i][currentWaterLilyY] = builderGameTable.getTable().getGrid()[i - 1][currentWaterLilyY];
-                            this.builderGameTable.getTable().getGrid()[i - 1][currentWaterLilyY] = auxPosition;
+                            Piece auxPosition = getGridGameTable()[i][currentWaterLilyY];
+                            getGridGameTable()[i][currentWaterLilyY] = getGridGameTable()[i - 1][currentWaterLilyY];
+                            getGridGameTable()[i - 1][currentWaterLilyY] = auxPosition;
                         }
                         verifyNextPhase();
                     } else this.notifyMessage("Não é possível realizar este movimento!");
@@ -267,24 +267,24 @@ public class HaruController implements IHaruController {
 
     @Override
     public void moveWaterLilyUp() {
-        if (this.currentWaterLilyX != -1 && builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class && currentPhase == MOVE_WATERLILY) {
+        if (this.currentWaterLilyX != -1 && getGridGameTable()[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class && currentPhase == MOVE_WATERLILY) {
             if (currentWaterLilyX - 1 != -1) {
-                if (builderGameTable.getTable().getGrid()[currentWaterLilyX - 1][currentWaterLilyY].getClass() == Water.class) {
-                    Piece auxPosition = builderGameTable.getTable().getGrid()[currentWaterLilyX - 1][currentWaterLilyY];
-                    this.builderGameTable.getTable().getGrid()[currentWaterLilyX - 1][currentWaterLilyY] = builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY];
-                    this.builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY] = auxPosition;
+                if (getGridGameTable()[currentWaterLilyX - 1][currentWaterLilyY].getClass() == Water.class) {
+                    Piece auxPosition = getGridGameTable()[currentWaterLilyX - 1][currentWaterLilyY];
+                    getGridGameTable()[currentWaterLilyX - 1][currentWaterLilyY] = getGridGameTable()[currentWaterLilyX][currentWaterLilyY];
+                    getGridGameTable()[currentWaterLilyX][currentWaterLilyY] = auxPosition;
                     verifyNextPhase();
                 } else {
                     int x = -1;
                     for (int i = currentWaterLilyX - 1; i >= 0; i--) {
-                        if (builderGameTable.getTable().getGrid()[i][currentWaterLilyY].getClass() == Water.class)
+                        if (getGridGameTable()[i][currentWaterLilyY].getClass() == Water.class)
                             x = i;
                     }
                     if (x != -1) {
                         for (int i = x; i < currentWaterLilyX; i++) {
-                            Piece auxPosition = builderGameTable.getTable().getGrid()[i][currentWaterLilyY];
-                            this.builderGameTable.getTable().getGrid()[i][currentWaterLilyY] = builderGameTable.getTable().getGrid()[i + 1][currentWaterLilyY];
-                            this.builderGameTable.getTable().getGrid()[i + 1][currentWaterLilyY] = auxPosition;
+                            Piece auxPosition = getGridGameTable()[i][currentWaterLilyY];
+                            getGridGameTable()[i][currentWaterLilyY] = getGridGameTable()[i + 1][currentWaterLilyY];
+                            getGridGameTable()[i + 1][currentWaterLilyY] = auxPosition;
                         }
                         verifyNextPhase();
                     } else this.notifyMessage("Não é possível realizar este movimento!");
@@ -295,24 +295,24 @@ public class HaruController implements IHaruController {
 
     @Override
     public void moveWaterLilyLeft() {
-        if (this.currentWaterLilyY != -1 && builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class && currentPhase == MOVE_WATERLILY) {
+        if (this.currentWaterLilyY != -1 && getGridGameTable()[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class && currentPhase == MOVE_WATERLILY) {
             if (currentWaterLilyY - 1 != -1) {
-                if (builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY - 1].getClass() == Water.class) {
-                    Piece auxPosition = builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY - 1];
-                    this.builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY - 1] = builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY];
-                    this.builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY] = auxPosition;
+                if (getGridGameTable()[currentWaterLilyX][currentWaterLilyY - 1].getClass() == Water.class) {
+                    Piece auxPosition = getGridGameTable()[currentWaterLilyX][currentWaterLilyY - 1];
+                    getGridGameTable()[currentWaterLilyX][currentWaterLilyY - 1] = getGridGameTable()[currentWaterLilyX][currentWaterLilyY];
+                    getGridGameTable()[currentWaterLilyX][currentWaterLilyY] = auxPosition;
                     verifyNextPhase();
                 } else {
                     int x = -1;
                     for (int i = currentWaterLilyY - 1; i >= 0; i--) {
-                        if (builderGameTable.getTable().getGrid()[currentWaterLilyX][i].getClass() == Water.class)
+                        if (getGridGameTable()[currentWaterLilyX][i].getClass() == Water.class)
                             x = i;
                     }
                     if (x != -1) {
                         for (int i = x; i < currentWaterLilyY; i++) {
-                            Piece auxPosition = builderGameTable.getTable().getGrid()[currentWaterLilyX][i];
-                            this.builderGameTable.getTable().getGrid()[currentWaterLilyX][i] = builderGameTable.getTable().getGrid()[currentWaterLilyX][i + 1];
-                            this.builderGameTable.getTable().getGrid()[currentWaterLilyX][i + 1] = auxPosition;
+                            Piece auxPosition = getGridGameTable()[currentWaterLilyX][i];
+                            getGridGameTable()[currentWaterLilyX][i] = getGridGameTable()[currentWaterLilyX][i + 1];
+                            getGridGameTable()[currentWaterLilyX][i + 1] = auxPosition;
                         }
                         verifyNextPhase();
                     } else this.notifyMessage("Não é possível realizar este movimento!");
@@ -323,24 +323,24 @@ public class HaruController implements IHaruController {
 
     @Override
     public void moveWaterLilyRight() {
-        if (this.currentWaterLilyY != -1 && this.builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class && currentPhase == MOVE_WATERLILY) {
+        if (this.currentWaterLilyY != -1 && getGridGameTable()[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class && currentPhase == MOVE_WATERLILY) {
             if (currentWaterLilyY + 1 != 5) {
-                if (builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY + 1].getClass() == Water.class) {
-                    Piece auxPosition = builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY + 1];
-                    this.builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY + 1] = builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY];
-                    this.builderGameTable.getTable().getGrid()[currentWaterLilyX][currentWaterLilyY] = auxPosition;
+                if (getGridGameTable()[currentWaterLilyX][currentWaterLilyY + 1].getClass() == Water.class) {
+                    Piece auxPosition = getGridGameTable()[currentWaterLilyX][currentWaterLilyY + 1];
+                    getGridGameTable()[currentWaterLilyX][currentWaterLilyY + 1] = getGridGameTable()[currentWaterLilyX][currentWaterLilyY];
+                    getGridGameTable()[currentWaterLilyX][currentWaterLilyY] = auxPosition;
                     verifyNextPhase();
                 } else {
                     int x = -1;
                     for (int i = currentWaterLilyY + 1; i <= 4; i++) {
-                        if (builderGameTable.getTable().getGrid()[currentWaterLilyX][i].getClass() == Water.class)
+                        if (getGridGameTable()[currentWaterLilyX][i].getClass() == Water.class)
                             x = i;
                     }
                     if (x != -1) {
                         for (int i = x; i > currentWaterLilyY; i--) {
-                            Piece auxPosition = builderGameTable.getTable().getGrid()[currentWaterLilyX][i];
-                            this.builderGameTable.getTable().getGrid()[currentWaterLilyX][i] = builderGameTable.getTable().getGrid()[currentWaterLilyX][i - 1];
-                            this.builderGameTable.getTable().getGrid()[currentWaterLilyX][i - 1] = auxPosition;
+                            Piece auxPosition = getGridGameTable()[currentWaterLilyX][i];
+                            getGridGameTable()[currentWaterLilyX][i] = getGridGameTable()[currentWaterLilyX][i - 1];
+                            getGridGameTable()[currentWaterLilyX][i - 1] = auxPosition;
                         }
                         verifyNextPhase();
                     } else this.notifyMessage("Não é possível realizar este movimento!");
@@ -489,10 +489,10 @@ public class HaruController implements IHaruController {
     @Override
     public int getFlowerNumber(int col, int row) {
         if (currentRotation.equals("red")) {
-            RedFlower redFlower = (RedFlower) getFlowerPlayerPanel().get(row);
+            Flower redFlower = getFlowerPlayerPanel().get(row);
             return redFlower.getNumber();
         } else {
-            YellowFlower yellowFlower = (YellowFlower) getFlowerPlayerPanel().get(row);
+            Flower yellowFlower = getFlowerPlayerPanel().get(row);
             return yellowFlower.getNumber();
         }
     }

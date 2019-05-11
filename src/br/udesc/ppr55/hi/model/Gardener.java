@@ -1,6 +1,6 @@
 package br.udesc.ppr55.hi.model;
 
-public class Gardener extends Piece {
+public abstract class Gardener extends Piece {
 
     protected boolean isJunior;
     protected String name;

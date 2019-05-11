@@ -1,6 +1,6 @@
 package br.udesc.ppr55.hi.model;
 
-public class Flower extends Piece {
+public abstract class Flower extends Piece {
 
     protected int number;
 
