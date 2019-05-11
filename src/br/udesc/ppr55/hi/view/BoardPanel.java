@@ -1,7 +1,8 @@
 package br.udesc.ppr55.hi.view;
 
 import br.udesc.ppr55.hi.controller.IHaruController;
-import br.udesc.ppr55.hi.model.command.CommandInvoker;
+import br.udesc.ppr55.hi.view.command.ChooseWaterLily;
+import br.udesc.ppr55.hi.view.command.CommandInvoker;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -70,14 +71,14 @@ public class BoardPanel extends JPanel {
         }
         gameBoard.setRowHeight(100);
         gameBoard.setShowGrid(true);
-        //gameBoard.setBackground(new Color(45, 68, 255, 168));
         gameBoard.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         gameBoard.setIntercellSpacing(new Dimension(0, 0));
         gameBoard.setDefaultRenderer(Object.class, new HaruItemRender());
         gameBoard.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                haruController.chooseWaterLily(gameBoard.getSelectedRow(), gameBoard.getSelectedColumn());
+                commandInvoker.add(new ChooseWaterLily(gameBoard.getSelectedRow(), gameBoard.getSelectedColumn(), haruController));
+                commandInvoker.execute();
             }
 
             @Override
