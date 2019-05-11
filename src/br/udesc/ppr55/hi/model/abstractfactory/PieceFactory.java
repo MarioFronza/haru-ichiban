@@ -5,52 +5,52 @@ import br.udesc.ppr55.hi.model.*;
 public class PieceFactory extends AbstractPieceFactory {
 
     @Override
-    public Water createWater() {
+    public Piece createWater() {
         return new Water();
     }
 
     @Override
-    public WaterLily createWaterLily() {
+    public Piece createWaterLily() {
         return new WaterLily();
     }
 
     @Override
-    public Stone createStone(int number) {
+    public Piece createStone(int number) {
         return new Stone(number);
     }
 
     @Override
-    public RedGardener createRedGardener() {
+    public Piece createRedGardener() {
         return new RedGardener();
     }
 
     @Override
-    public YellowGardener createYellowGardener() {
+    public Piece createYellowGardener() {
         return new YellowGardener();
     }
 
     @Override
-    public RedFrog createRedFrog() {
+    public Piece createRedFrog() {
         return new RedFrog();
     }
 
     @Override
-    public YellowFrog createYellowFrog() {
+    public Piece createYellowFrog() {
         return new YellowFrog();
     }
 
     @Override
-    public DarkWaterLily createDarkWaterLily() {
+    public Piece createDarkWaterLily() {
         return new DarkWaterLily();
     }
 
     @Override
-    public RedFlower createRedFlower(int number) {
+    public Piece createRedFlower(int number) {
         return new RedFlower(number);
     }
 
     @Override
-    public YellowFlower createYellowFlower(int number) {
+    public Piece createYellowFlower(int number) {
         return new YellowFlower(number);
     }
 

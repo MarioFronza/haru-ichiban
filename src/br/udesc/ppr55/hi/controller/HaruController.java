@@ -32,13 +32,13 @@ public class HaruController implements IHaruController {
     private Builder builderYellowFlowerTable;
     private Builder builderScorePanel;
 
-    private List<Piece> redPlayerPanel; //flores do jogador vermelho
-    private List<Piece> yellowPlayerPanel; //flores do jogador amarelo
+    private List<Flower> redPlayerPanel; //flores do jogador vermelho
+    private List<Flower> yellowPlayerPanel; //flores do jogador amarelo
 
     private List<Observer> observers; //Observer
 
-    private Piece currentRedFlower = null; //Flor atual do jogador vermelho
-    private Piece currentYellowFlower = null; //Flor atual do jogador amarelo
+    private Flower currentRedFlower = null; //Flor atual do jogador vermelho
+    private Flower currentYellowFlower = null; //Flor atual do jogador amarelo
     private String currentFrog;
 
     private int currentWaterLilyX = -1;
@@ -48,8 +48,8 @@ public class HaruController implements IHaruController {
     private String previousPhase; //Fase anterior
 
 
-    private RedGardener redGardener;
-    private YellowGardener yellowGardener;
+    private Gardener redGardener;
+    private Gardener yellowGardener;
 
     public static HaruController getInstance() {
         if (instance == null)
@@ -116,7 +116,7 @@ public class HaruController implements IHaruController {
     @Override
     public void addFlower(int x, int y) {
         if (currentPhase.equals(ADD_FLOWER) && (getCurrentFlowerTable(x, y).getClass() != RedGardener.class) && (getCurrentFlowerTable(x, y).getClass() != YellowGardener.class) && (getCurrentFlowerTable(x, y).getClass() != Stone.class) && (getFlowerPlayerPanel().size() < 3)) {
-            addFlowerPlayerPanel(getCurrentFlowerTable(x, y));
+            addFlowerPlayerPanel((Flower) getCurrentFlowerTable(x, y));
             setCurrentFlowerTable(x, y, factory.createStone(0));
             if (getFlowerPlayerPanel().size() == 3) setAppropriateRotation();
             notifyPlayerPanelUpdate();
@@ -388,19 +388,19 @@ public class HaruController implements IHaruController {
     }
 
     @Override
-    public void addFlowerPlayerPanel(Piece piece) {
-        if (currentRotation.equals("red")) this.redPlayerPanel.add(piece);
-        else this.yellowPlayerPanel.add(piece);
+    public void addFlowerPlayerPanel(Flower flower) {
+        if (currentRotation.equals("red")) this.redPlayerPanel.add(flower);
+        else this.yellowPlayerPanel.add(flower);
     }
 
     @Override
-    public List<Piece> getFlowerPlayerPanel() {
+    public List<Flower> getFlowerPlayerPanel() {
         if (currentRotation.equals("red")) return redPlayerPanel;
         else return yellowPlayerPanel;
     }
 
     @Override
-    public Piece getCurrentFlower() {
+    public Flower getCurrentFlower() {
         if (currentRotation.equals("red")) return currentRedFlower;
         else return currentYellowFlower;
     }
@@ -423,9 +423,9 @@ public class HaruController implements IHaruController {
     }
 
     @Override
-    public void setCurrentFlower(Piece piece) {
-        if (currentRotation.equals("red")) this.currentRedFlower = piece;
-        else this.currentYellowFlower = piece;
+    public void setCurrentFlower(Flower flower) {
+        if (currentRotation.equals("red")) this.currentRedFlower = flower;
+        else this.currentYellowFlower = flower;
     }
 
     @Override
@@ -452,8 +452,8 @@ public class HaruController implements IHaruController {
     @Override
     public boolean checkFlowerValue() {
         if (currentRedFlower != null && currentYellowFlower != null) {
-            RedFlower redFlower = (RedFlower) currentRedFlower;
-            YellowFlower yellowFlower = (YellowFlower) currentYellowFlower;
+            Flower redFlower = currentRedFlower;
+            Flower yellowFlower = currentYellowFlower;
             this.yellowGardener.setJunior(false);
             this.redGardener.setJunior(false);
             if (redFlower.getNumber() > yellowFlower.getNumber()) {

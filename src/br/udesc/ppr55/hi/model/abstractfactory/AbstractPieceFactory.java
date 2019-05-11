@@ -4,24 +4,24 @@ import br.udesc.ppr55.hi.model.*;
 
 public abstract class AbstractPieceFactory {
 
-    public abstract Water createWater();
+    public abstract Piece createWater();
 
-    public abstract WaterLily createWaterLily();
+    public abstract Piece createWaterLily();
 
-    public abstract Stone createStone(int number);
+    public abstract Piece createStone(int number);
 
-    public abstract RedGardener createRedGardener();
+    public abstract Piece createRedGardener();
 
-    public abstract YellowGardener createYellowGardener();
+    public abstract Piece createYellowGardener();
 
-    public abstract RedFrog createRedFrog();
+    public abstract Piece createRedFrog();
 
-    public abstract YellowFrog createYellowFrog();
+    public abstract Piece createYellowFrog();
 
-    public abstract DarkWaterLily createDarkWaterLily();
+    public abstract Piece createDarkWaterLily();
 
-    public abstract RedFlower createRedFlower(int number);
+    public abstract Piece createRedFlower(int number);
 
-    public abstract YellowFlower createYellowFlower(int number);
+    public abstract Piece createYellowFlower(int number);
 
 }
