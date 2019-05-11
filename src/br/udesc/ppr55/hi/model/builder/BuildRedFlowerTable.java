@@ -2,9 +2,7 @@ package br.udesc.ppr55.hi.model.builder;
 
 import br.udesc.ppr55.hi.model.Piece;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 public class BuildRedFlowerTable extends Builder {
 
@@ -22,6 +20,7 @@ public class BuildRedFlowerTable extends Builder {
         tablePiece[3][1] = factory.createRedFlower(numbers.get(7));
         tablePiece[4][0] = factory.createRedGardener();
         tablePiece[4][1] = factory.createYellowGardener();
+
     }
 
     @Override

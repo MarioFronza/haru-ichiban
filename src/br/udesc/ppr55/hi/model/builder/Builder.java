@@ -18,20 +18,20 @@ public abstract class Builder {
     public Builder() {
         this.factory = new PieceFactory();
         this.numbers = new ArrayList<>();
-        for(int i = 1; i<=8; i++){
+        for (int i = 1; i <= 8; i++) {
             numbers.add(i);
         }
     }
 
-    public Table getTable(){
+    public Table getTable() {
         return table;
     }
 
-    public void reset(){
+    public void reset() {
         this.table = new Table();
     }
 
-    public void buildTable(){
+    public void buildTable() {
         this.table.setGrid(tablePiece);
     }
 

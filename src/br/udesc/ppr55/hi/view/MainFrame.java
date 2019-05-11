@@ -7,7 +7,8 @@ import br.udesc.ppr55.hi.controller.observer.Observer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 
 public class MainFrame extends JFrame implements Observer {
@@ -31,11 +32,12 @@ public class MainFrame extends JFrame implements Observer {
     private IHaruController haruController;
     private CommandInvoker commandInvoker;
 
+    public static final Color BG_COLOR = new Color(178, 190, 195, 168);
 
     private GridBagConstraints c = new GridBagConstraints();
 
     public MainFrame() {
-        this.dimension = new Dimension(800, 600);
+        this.dimension = new Dimension(1000, 700);
         this.commandInvoker = new CommandInvoker();
         this.haruController = HaruController.getInstance();
         this.haruController.addObserver(this);
@@ -46,6 +48,11 @@ public class MainFrame extends JFrame implements Observer {
         super.setDefaultCloseOperation(EXIT_ON_CLOSE);
         super.setLocationRelativeTo(null);
         super.setResizable(false);
+        super.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent windowEvent){
+                System.exit(0);
+            }
+        });
         this.initComponents();
         this.addComponents();
     }
@@ -148,5 +155,3 @@ public class MainFrame extends JFrame implements Observer {
     }
 
 }
-
-
