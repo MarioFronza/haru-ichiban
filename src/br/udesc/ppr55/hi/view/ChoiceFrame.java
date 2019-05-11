@@ -29,11 +29,11 @@ public class ChoiceFrame extends JFrame {
     private JPanel choicePanel;
     private JPanel p1Panel;
     private JPanel p2Panel;
+    private JPanel errorPanel;
     private JButton buttonStart;
     private JTextField player1;
     private JTextField player2;
-    private JLabel messageErrorRed;
-    private JLabel messageErrorYellow;
+    private JLabel messageError;
 
     public ChoiceFrame() {
         try {
@@ -42,6 +42,7 @@ public class ChoiceFrame extends JFrame {
             this.choicePanel = new JPanel();
             this.p1Panel = new JPanel();
             this.p2Panel = new JPanel();
+            this.errorPanel = new JPanel();
             this.choiceFrame.setVisible(false);
             this.choiceFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.choiceFrame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("images/choiceFrame.png")))));
@@ -74,6 +75,11 @@ public class ChoiceFrame extends JFrame {
         this.choicePanel.setLayout(choiceBoxlayout);
         this.choicePanel.setBorder(new EmptyBorder(new Insets(150, 200, 150, 200)));
         this.choicePanel.setOpaque(false);
+        
+        BoxLayout errorBoxlayout = new BoxLayout(this.errorPanel, BoxLayout.Y_AXIS);
+        this.errorPanel.setLayout(errorBoxlayout);
+        this.errorPanel.setBorder(new EmptyBorder(new Insets(10, 0, 10, 0)));
+        this.errorPanel.setOpaque(false);
 
         BoxLayout p1Boxlayout = new BoxLayout(this.p1Panel, BoxLayout.Y_AXIS);
         this.p1Panel.setLayout(p1Boxlayout);
@@ -88,21 +94,15 @@ public class ChoiceFrame extends JFrame {
 
     private boolean validateFields() {
         boolean error = false;
-        if (player1.getText().equals("")) {
-            this.messageErrorRed.setText("Campo obrigatório");
+        if (player1.getText().equals("") || player2.getText().equals("")) {
+            this.messageError.setText("Campos obrigatórios");
             error = true;
+        } else {
+            if (player2.getText().equals(player1.getText()) || player1.getText().equals(player2.getText())) {
+                this.messageError.setText("Nomes iguais");
+                error = true;
+            }
         }
-
-        if (player2.getText().equals("")) {
-            this.messageErrorYellow.setText("Campo obrigatório");
-            error = true;
-        }
-        
-        if (player2.getText().equals(player1.getText()) || player1.getText().equals(player2.getText())) {
-            this.messageErrorYellow.setText("Nomes iguais");
-            error = true;
-        }
-        
         return !error;
     }
 
@@ -117,10 +117,9 @@ public class ChoiceFrame extends JFrame {
         this.player1.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.p1Panel.add(player1);
 
-        this.messageErrorRed = new JLabel();
-        this.messageErrorRed.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.messageErrorRed.setForeground(Color.RED);
-        this.p1Panel.add(this.messageErrorRed);
+        this.messageError = new JLabel();
+        this.messageError.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.messageError.setForeground(Color.RED);
 
         JLabel labelYellow = new JLabel("Player 2 (Yellow): ");
         labelYellow.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -131,11 +130,6 @@ public class ChoiceFrame extends JFrame {
         this.player2.setSize(300, 20);
         this.player2.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.p2Panel.add(player2);
-
-        this.messageErrorYellow = new JLabel();
-        this.messageErrorYellow.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.messageErrorYellow.setForeground(Color.RED);
-        this.p2Panel.add(this.messageErrorYellow);
 
         this.buttonStart = new JButton();
         this.buttonStart.setText("Novo Jogo");
@@ -151,10 +145,16 @@ public class ChoiceFrame extends JFrame {
         this.buttonStart.setForeground(new Color(52, 52, 52));
         this.buttonStart.setBackground(MainFrame.BG_COLOR);
         this.buttonStart.setOpaque(true);
+        
+        this.messageError = new JLabel();
+        this.messageError.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.messageError.setForeground(Color.RED);
+        this.errorPanel.add(this.messageError);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
 
+        this.choicePanel.add(this.messageError);
         this.choicePanel.add(this.p1Panel);
         this.choicePanel.add(this.p2Panel);
         this.choicePanel.add(this.buttonStart);

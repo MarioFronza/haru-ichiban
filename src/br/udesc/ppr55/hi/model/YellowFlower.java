@@ -7,16 +7,11 @@ package br.udesc.ppr55.hi.model;
  * @since 07/04/2019
  * @version 1.0.0
  */
-public class YellowFlower extends Piece {
-
-    private int number;
+public class YellowFlower extends Flower {
 
     public YellowFlower(int number) {
         super("images/petal-yellow.png");
         this.number = number;
     }
 
-    public int getNumber() {
-        return number;
-    }
 }

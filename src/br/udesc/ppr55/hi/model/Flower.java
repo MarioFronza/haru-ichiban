@@ -7,5 +7,16 @@ package br.udesc.ppr55.hi.model;
  * @since 11/05/2019
  * @version 1.0.0
  */
-public class Flower {
+public abstract class Flower extends Piece {
+
+    protected int number;
+
+    public Flower(String image) {
+        super(image);
+    }
+
+    public int getNumber() {
+        return number;
+    }
+    
 }

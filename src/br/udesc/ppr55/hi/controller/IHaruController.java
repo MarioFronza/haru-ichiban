@@ -1,6 +1,7 @@
 package br.udesc.ppr55.hi.controller;
 
 import br.udesc.ppr55.hi.controller.observer.Observed;
+import br.udesc.ppr55.hi.model.Flower;
 import br.udesc.ppr55.hi.model.Piece;
 
 import java.util.List;
@@ -26,13 +27,13 @@ public interface IHaruController extends Observed {
 
     void setCurrentFlowerTable(int col, int row, Piece piece);
 
-    void addFlowerPlayerPanel(Piece piece);
+    void addFlowerPlayerPanel(Flower flower);
 
     void updateChooseWaterLily();
 
-    List<Piece> getFlowerPlayerPanel();
+    List<Flower> getFlowerPlayerPanel();
 
-    Piece getCurrentFlower();
+    Flower getCurrentFlower();
 
     Piece[][] getGridGameTable();
 
@@ -42,7 +43,7 @@ public interface IHaruController extends Observed {
 
     boolean getJuniorPlayer();
 
-    void setCurrentFlower(Piece piece);
+    void setCurrentFlower(Flower flower);
 
     void setNextPhase(String previousPhase, String nextPhase);
 
