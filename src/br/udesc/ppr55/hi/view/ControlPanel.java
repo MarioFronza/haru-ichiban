@@ -8,9 +8,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+/**
+ * Control panel
+ *
+ * @author João Pedro Schmitz, Mário Fronza
+ * @since 13/04/2019
+ * @version 1.0.0
+ */
 public class ControlPanel extends JPanel {
-
 
     private IHaruController haruController;
     private CommandInvoker commandInvoker;
@@ -20,14 +25,12 @@ public class ControlPanel extends JPanel {
     private JButton right;
     private JButton down;
 
-
     public ControlPanel(IHaruController haruController, CommandInvoker commandInvoker) {
         this.haruController = haruController;
         this.commandInvoker = commandInvoker;
         this.setLayout(new GridLayout(3, 3));
         initComponents();
     }
-
 
     private void initComponents() {
         this.up = new JButton("\uD83E\uDC45");

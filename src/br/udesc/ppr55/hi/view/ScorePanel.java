@@ -7,10 +7,16 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 
+/**
+ * Score panel
+ *
+ * @author João Pedro Schmitz, Mário Fronza
+ * @since 13/04/2019
+ * @version 1.0.0
+ */
 public class ScorePanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
-
 
     class HaruTableModel extends AbstractTableModel {
 
@@ -37,7 +43,6 @@ public class ScorePanel extends JPanel {
         }
 
     }
-
 
     private JTable scoreTable;
     private IHaruController haruController;
@@ -66,6 +71,5 @@ public class ScorePanel extends JPanel {
 
         this.add(scoreTable);
     }
-
 
 }

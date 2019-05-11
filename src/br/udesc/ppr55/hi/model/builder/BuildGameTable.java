@@ -2,7 +2,14 @@ package br.udesc.ppr55.hi.model.builder;
 
 import br.udesc.ppr55.hi.model.Piece;
 
-public class BuildGameTable extends Builder{
+/**
+ * Builder game table class
+ *
+ * @author João Pedro Schmitz, Mário Fronza
+ * @since 28/04/2019
+ * @version 1.0.0
+ */
+public class BuildGameTable extends Builder {
 
     public BuildGameTable() {
         tablePiece = new Piece[5][5];

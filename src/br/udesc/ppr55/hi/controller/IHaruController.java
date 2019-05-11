@@ -6,6 +6,13 @@ import br.udesc.ppr55.hi.model.Piece;
 
 import java.util.List;
 
+/**
+ * Controller interface
+ *
+ * @author João Pedro Schmitz, Mário Fronza
+ * @since 07/04/2019
+ * @version 1.0.0
+ */
 public interface IHaruController extends Observed {
 
     String getPiece(int col, int row);
@@ -75,4 +82,5 @@ public interface IHaruController extends Observed {
     void moveWaterLilyLeft();
 
     void moveWaterLilyRight();
+
 }
