@@ -8,6 +8,13 @@ import br.udesc.ppr55.hi.model.abstractfactory.PieceFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Builder class
+ *
+ * @author João Pedro Schmitz, Mário Fronza
+ * @since 28/04/2019
+ * @version 1.0.0
+ */
 public abstract class Builder {
 
     private Table table;

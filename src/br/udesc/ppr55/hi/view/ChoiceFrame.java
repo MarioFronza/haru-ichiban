@@ -15,8 +15,13 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.border.EmptyBorder;
 
-/*
-*/
+/**
+ * Board panel
+ *
+ * @author João Pedro Schmitz, Mário Fronza
+ * @since 13/04/2019
+ * @version 1.0.0
+ */
 public class ChoiceFrame extends JFrame {
     
     private IHaruController haruController;

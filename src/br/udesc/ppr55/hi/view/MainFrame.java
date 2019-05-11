@@ -10,7 +10,13 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-
+/**
+ * Main frame
+ *
+ * @author João Pedro Schmitz, Mário Fronza
+ * @since 13/04/2019
+ * @version 1.0.0
+ */
 public class MainFrame extends JFrame implements Observer {
 
     private static final long serialVersionUID = 1L;

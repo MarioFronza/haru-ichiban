@@ -4,6 +4,13 @@ import br.udesc.ppr55.hi.model.Piece;
 
 import java.util.Collections;
 
+/**
+ * Builder red flower table class
+ *
+ * @author João Pedro Schmitz, Mário Fronza
+ * @since 28/04/2019
+ * @version 1.0.0
+ */
 public class BuildRedFlowerTable extends Builder {
 
     public BuildRedFlowerTable() {

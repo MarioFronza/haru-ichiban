@@ -10,10 +10,16 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**
+ * Flowers panel
+ *
+ * @author João Pedro Schmitz, Mário Fronza
+ * @since 13/04/2019
+ * @version 1.0.0
+ */
 public class FlowersPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
-
 
     class HaruTableModel extends AbstractTableModel {
 
@@ -41,11 +47,9 @@ public class FlowersPanel extends JPanel {
 
     }
 
-
     private JTable flowersPanel;
     private IHaruController haruController;
     private CommandInvoker commandInvoker;
-
 
     public FlowersPanel(IHaruController haruController, CommandInvoker commandInvoker) {
         this.haruController = haruController;

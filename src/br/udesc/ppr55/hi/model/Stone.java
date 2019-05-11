@@ -1,11 +1,18 @@
 package br.udesc.ppr55.hi.model;
 
-public class Stone extends Piece{
+/**
+ * Stone class
+ *
+ * @author João Pedro Schmitz, Mário Fronza
+ * @since 07/04/2019
+ * @version 1.0.0
+ */
+public class Stone extends Piece {
 
     private int number;
 
     public Stone(int number) {
-        super("images/rock-"+number+".png");
+        super("images/rock-" + number + ".png");
         this.number = number;
     }
 

@@ -10,9 +10,14 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-
+/**
+ * Board panel
+ *
+ * @author João Pedro Schmitz, Mário Fronza
+ * @since 13/04/2019
+ * @version 1.0.0
+ */
 public class BoardPanel extends JPanel {
-
 
     class HaruTableModel extends AbstractTableModel {
 
