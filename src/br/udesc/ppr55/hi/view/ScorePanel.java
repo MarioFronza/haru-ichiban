@@ -51,12 +51,13 @@ public class ScorePanel extends JPanel {
     private void initComponents() {
         scoreTable = new JTable();
         scoreTable.setModel(new HaruTableModel());
-
         for (int x = 0; x < scoreTable.getColumnModel().getColumnCount(); x++) {
             scoreTable.getColumnModel().getColumn(x).setWidth(100);
             scoreTable.getColumnModel().getColumn(x).setMinWidth(100);
             scoreTable.getColumnModel().getColumn(x).setMaxWidth(100);
         }
+        scoreTable.setBackground(MainFrame.BG_COLOR);
+        scoreTable.setOpaque(false);
         scoreTable.setRowHeight(50);
         scoreTable.setShowGrid(true);
         scoreTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

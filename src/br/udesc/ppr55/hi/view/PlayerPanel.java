@@ -1,6 +1,5 @@
 package br.udesc.ppr55.hi.view;
 
-
 import br.udesc.ppr55.hi.controller.IHaruController;
 import br.udesc.ppr55.hi.model.command.ChooseFlower;
 import br.udesc.ppr55.hi.model.command.CommandInvoker;
@@ -11,9 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-
 public class PlayerPanel extends JPanel {
-
 
     class HaruTableModel extends AbstractTableModel {
 
@@ -58,16 +55,9 @@ public class PlayerPanel extends JPanel {
     private ImageIcon icon;
     private JLabel imagem;
 
-
     public PlayerPanel(IHaruController haruController, CommandInvoker commandInvoker) {
         this.haruController = haruController;
         this.commandInvoker = commandInvoker;
-//        icon = new ImageIcon("images/wood.png");
-//        imagem = new JLabel(icon);
-//        imagem.setBounds(300, 30, 70, 96);
-//        imagem.setSize(this.getSize().width, this.getSize().height);
-//        imagem.setVisible(true);
-//        this.add(imagem);
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         initComponents();
     }
@@ -79,7 +69,6 @@ public class PlayerPanel extends JPanel {
     public void showNumber() {
         playerTable.setModel(new HaruTableModel(false));
 
-
     }
 
     public void showFlower() {
@@ -89,7 +78,6 @@ public class PlayerPanel extends JPanel {
     private void initComponents() {
         playerTable = new JTable();
         playerTable.setModel(new HaruTableModel(true));
-
         for (int x = 0; x < playerTable.getColumnModel().getColumnCount(); x++) {
             playerTable.getColumnModel().getColumn(x).setWidth(100);
             playerTable.getColumnModel().getColumn(x).setMinWidth(100);
@@ -129,6 +117,5 @@ public class PlayerPanel extends JPanel {
 
         this.add(playerTable);
     }
-
 
 }

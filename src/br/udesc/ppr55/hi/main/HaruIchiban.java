@@ -1,9 +1,7 @@
 package br.udesc.ppr55.hi.main;
 
 import br.udesc.ppr55.hi.view.ChoiceFrame;
-import br.udesc.ppr55.hi.view.MainFrame;
-
-import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 /**
  * @author João Pedro Schmitz, Mário Fronza
@@ -13,12 +11,12 @@ import javax.swing.JFrame;
 public class HaruIchiban {
 
     public static void main(String[] args) {
-
-//        JFrame haruIchiban = new MainFrame();
-//        haruIchiban.setVisible(true);
-        JFrame choiceFrame = new ChoiceFrame();
-        choiceFrame.setVisible(true);
-
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new ChoiceFrame().start();
+            }
+        });
     }
 
 }
