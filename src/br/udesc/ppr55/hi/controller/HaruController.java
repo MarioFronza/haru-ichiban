@@ -8,6 +8,7 @@ import br.udesc.ppr55.hi.model.builder.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author Joao Pedro Schmitz, Mario Fronza
@@ -144,8 +145,6 @@ public class HaruController implements IHaruController {
                     } else if (yellowGardener.isJunior()) {
                         this.currentRotation = "yellow";
                         setNextPhase(CHOOSE_FLOWER_VALUE, CHOOSE_WATERLILY);
-                    } else {
-                        setNextPhase(CHOOSE_FLOWER_VALUE, CHOOSE_FLOWER_VALUE);
                     }
                     notifyMessage("Cada jogador deve escolher uma vitória régia");
                 }
@@ -465,9 +464,17 @@ public class HaruController implements IHaruController {
                 notifyMessage(redGardener.getName() + " é o jardineiro junior");
                 return true;
             } else {
-                this.currentYellowFlower = null;
-                this.currentRedFlower = null;
-                notifyMessage("Cada jogador deve escolher novamente uma flor");
+                Random random = new Random();
+                int number = random.nextInt(1);
+                if (number == 0) {
+                    this.redGardener.setJunior(true);
+                    notifyMessage(redGardener.getName() + " é o jardineiro junior");
+                } else {
+                    this.yellowGardener.setJunior(true);
+                    notifyMessage(yellowGardener.getName() + " é o jardineiro junior");
+                }
+
+
                 return true;
             }
         }
