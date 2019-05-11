@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class HaruController implements IHaruController {
 
-    //Fases do jogo
+    //Fases do jogo, podemos transformar isso em um ENUM
     final private String ADD_FLOWER = "add_flower";
     final private String CHOOSE_FLOWER_VALUE = "choose_flower_value";
     final private String CHOOSE_WATERLILY = "choose_waterlily";
