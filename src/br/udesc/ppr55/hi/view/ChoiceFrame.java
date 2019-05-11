@@ -23,7 +23,7 @@ import javax.swing.border.EmptyBorder;
  * @version 1.0.0
  */
 public class ChoiceFrame extends JFrame {
-    
+
     private IHaruController haruController;
     private JFrame choiceFrame;
     private JPanel choicePanel;
@@ -32,7 +32,9 @@ public class ChoiceFrame extends JFrame {
     private JButton buttonStart;
     private JTextField player1;
     private JTextField player2;
-    
+    private JLabel messageErrorRed;
+    private JLabel messageErrorYellow;
+
     public ChoiceFrame() {
         try {
             JFrame.setDefaultLookAndFeelDecorated(true);
@@ -60,7 +62,7 @@ public class ChoiceFrame extends JFrame {
             Logger.getLogger(ChoiceFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void start() {
         this.choiceFrame.pack();
         this.choiceFrame.setLocationRelativeTo(null);
@@ -72,55 +74,87 @@ public class ChoiceFrame extends JFrame {
         this.choicePanel.setLayout(choiceBoxlayout);
         this.choicePanel.setBorder(new EmptyBorder(new Insets(150, 200, 150, 200)));
         this.choicePanel.setOpaque(false);
-        
+
         BoxLayout p1Boxlayout = new BoxLayout(this.p1Panel, BoxLayout.Y_AXIS);
         this.p1Panel.setLayout(p1Boxlayout);
         this.p1Panel.setBorder(new EmptyBorder(new Insets(10, 0, 10, 0)));
         this.p1Panel.setOpaque(false);
-        
+
         BoxLayout p2Boxlayout = new BoxLayout(this.p2Panel, BoxLayout.Y_AXIS);
         this.p2Panel.setLayout(p2Boxlayout);
         this.p2Panel.setBorder(new EmptyBorder(new Insets(10, 0, 20, 0)));
         this.p2Panel.setOpaque(false);
     }
-    
+
+    private boolean validateFields() {
+        boolean error = false;
+        if (player1.getText().equals("")) {
+            this.messageErrorRed.setText("Campo obrigatório");
+            error = true;
+        }
+
+        if (player2.getText().equals("")) {
+            this.messageErrorYellow.setText("Campo obrigatório");
+            error = true;
+        }
+        
+        if (player2.getText().equals(player1.getText()) || player1.getText().equals(player2.getText())) {
+            this.messageErrorYellow.setText("Nomes iguais");
+            error = true;
+        }
+        
+        return !error;
+    }
+
     private void addComponents() {
         JLabel labelRed = new JLabel("Player 1 (Red): ");
         labelRed.setAlignmentX(Component.CENTER_ALIGNMENT);
         labelRed.setForeground(new Color(52, 52, 52));
         this.p1Panel.add(labelRed);
-        
+
         this.player1 = new JTextField();
         this.player1.setSize(300, 20);
         this.player1.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.p1Panel.add(player1);
-        
+
+        this.messageErrorRed = new JLabel();
+        this.messageErrorRed.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.messageErrorRed.setForeground(Color.RED);
+        this.p1Panel.add(this.messageErrorRed);
+
         JLabel labelYellow = new JLabel("Player 2 (Yellow): ");
         labelYellow.setAlignmentX(Component.CENTER_ALIGNMENT);
         labelYellow.setForeground(new Color(52, 52, 52));
         this.p2Panel.add(labelYellow);
-        
+
         this.player2 = new JTextField();
         this.player2.setSize(300, 20);
         this.player2.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.p2Panel.add(player2);
-        
+
+        this.messageErrorYellow = new JLabel();
+        this.messageErrorYellow.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.messageErrorYellow.setForeground(Color.RED);
+        this.p2Panel.add(this.messageErrorYellow);
+
         this.buttonStart = new JButton();
         this.buttonStart.setText("Novo Jogo");
         this.buttonStart.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.buttonStart.addActionListener((ActionEvent e) -> {
-            JFrame haruIchiban = new MainFrame();
-            haruIchiban.setVisible(true);
-            this.choiceFrame.setVisible(false);
-            haruController.setGardeners(player1.getText(), player2.getText());
+            if (this.validateFields()) {
+                JFrame haruIchiban = new MainFrame();
+                haruIchiban.setVisible(true);
+                this.choiceFrame.setVisible(false);
+                haruController.setGardeners(player1.getText(), player2.getText());
+            }
         });
         this.buttonStart.setForeground(new Color(52, 52, 52));
         this.buttonStart.setBackground(MainFrame.BG_COLOR);
         this.buttonStart.setOpaque(true);
-        
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
-        
+
         this.choicePanel.add(this.p1Panel);
         this.choicePanel.add(this.p2Panel);
         this.choicePanel.add(this.buttonStart);
