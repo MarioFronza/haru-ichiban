@@ -13,14 +13,4 @@ public class MoveWaterLilyUp extends HaruCommand {
         haruController.moveWaterLilyUp();
     }
 
-    @Override
-    public void undo() {
-
-    }
-
-    @Override
-    public void redo() {
-
-    }
-
 }

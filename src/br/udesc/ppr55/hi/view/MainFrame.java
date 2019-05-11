@@ -8,10 +8,9 @@ import br.udesc.ppr55.hi.controller.observer.Observer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 
-public class MainFrame extends JFrame implements Observer, KeyListener {
+public class MainFrame extends JFrame implements Observer {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,7 +39,6 @@ public class MainFrame extends JFrame implements Observer, KeyListener {
         this.commandInvoker = new CommandInvoker();
         this.haruController = HaruController.getInstance();
         this.haruController.addObserver(this);
-        addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         super.setTitle("Haru Ichiban");
@@ -148,26 +146,6 @@ public class MainFrame extends JFrame implements Observer, KeyListener {
     public void message(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    //Vamos deixar isso pro final
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_Z) {
-            this.commandInvoker.undo();
-        } else if (e.getKeyCode() == KeyEvent.VK_Y) {
-            this.commandInvoker.redo();
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
-
 
 }
 

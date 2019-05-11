@@ -25,7 +25,6 @@ public class HaruController implements IHaruController {
 
     private static HaruController instance; //Singleton
     private AbstractPieceFactory factory; //Abstract Factory
-    private Piece[][] scorePanel;
 
     private Director director; //Builder
     private Builder builderGameTable;
@@ -78,23 +77,9 @@ public class HaruController implements IHaruController {
 
     @Override
     public void initializeScorePanel() {
-
         this.builderScorePanel = new BuildScorePanel();
         this.director = new Director(builderScorePanel);
         this.director.build();
-
-//        scorePanel = new Piece[10][1];
-//
-//        scorePanel[0][0] = factory.createStone(1);
-//        scorePanel[1][0] = factory.createStone(2);
-//        scorePanel[2][0] = factory.createStone(3);
-//        scorePanel[3][0] = factory.createStone(4);
-//        scorePanel[4][0] = factory.createStone(5);
-//        scorePanel[5][0] = factory.createStone(4);
-//        scorePanel[6][0] = factory.createStone(3);
-//        scorePanel[7][0] = factory.createStone(2);
-//        scorePanel[8][0] = factory.createStone(1);
-//        scorePanel[9][0] = factory.createStone(0);
     }
 
     @Override

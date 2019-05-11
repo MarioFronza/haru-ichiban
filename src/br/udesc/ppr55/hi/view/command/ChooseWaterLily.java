@@ -2,15 +2,12 @@ package br.udesc.ppr55.hi.view.command;
 
 import br.udesc.ppr55.hi.controller.IHaruController;
 
-public class ChooseWaterLily extends HaruCommand{
+public class ChooseWaterLily extends HaruCommand {
 
-    private int x;
-    private int y;
-
-    public ChooseWaterLily(IHaruController haruController) {
+    public ChooseWaterLily(int x, int y, IHaruController haruController) {
         super(haruController);
-        this.x = x;
-        this.y = y;
+        super.x = x;
+        super.y = y;
     }
 
     @Override
@@ -18,13 +15,4 @@ public class ChooseWaterLily extends HaruCommand{
         haruController.chooseWaterLily(x, y);
     }
 
-    @Override
-    public void undo() {
-
-    }
-
-    @Override
-    public void redo() {
-
-    }
 }
