@@ -1,13 +1,13 @@
-package br.udesc.ppr55.hi.model.command;
+package br.udesc.ppr55.hi.view.command;
 
 import br.udesc.ppr55.hi.controller.IHaruController;
 
-public class ChooseFlower extends HaruCommand{
+public class ChooseWaterLily extends HaruCommand{
 
     private int x;
     private int y;
 
-    public ChooseFlower(int x, int y, IHaruController haruController) {
+    public ChooseWaterLily(IHaruController haruController) {
         super(haruController);
         this.x = x;
         this.y = y;
@@ -15,7 +15,7 @@ public class ChooseFlower extends HaruCommand{
 
     @Override
     public void execute() {
-        haruController.chooseFlower(x, y);
+        haruController.chooseWaterLily(x, y);
     }
 
     @Override

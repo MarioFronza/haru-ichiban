@@ -1,4 +1,4 @@
-package br.udesc.ppr55.hi.model.command;
+package br.udesc.ppr55.hi.view.command;
 
 
 public interface Command {

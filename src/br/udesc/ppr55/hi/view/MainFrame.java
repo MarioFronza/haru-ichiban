@@ -2,7 +2,7 @@ package br.udesc.ppr55.hi.view;
 
 import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.IHaruController;
-import br.udesc.ppr55.hi.model.command.CommandInvoker;
+import br.udesc.ppr55.hi.view.command.CommandInvoker;
 import br.udesc.ppr55.hi.controller.observer.Observer;
 
 import javax.swing.*;

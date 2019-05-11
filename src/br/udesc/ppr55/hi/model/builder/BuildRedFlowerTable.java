@@ -12,8 +12,6 @@ public class BuildRedFlowerTable extends Builder {
         tablePiece = new Piece[5][2];
         Collections.shuffle(numbers);
 
-
-
         tablePiece[0][0] = factory.createRedFlower(numbers.get(0));
         tablePiece[0][1] = factory.createRedFlower(numbers.get(1));
         tablePiece[1][0] = factory.createRedFlower(numbers.get(2));

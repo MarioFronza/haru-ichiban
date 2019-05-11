@@ -21,9 +21,13 @@ public interface IHaruController extends Observed {
 
     void addFlowerPlayerPanel(Piece piece);
 
+    void updateChooseWaterLily();
+
     List<Piece> getFlowerPlayerPanel();
 
     Piece getCurrentFlower();
+
+    Piece[][] getGridGameTable();
 
     String getCurrentRotation();
 
@@ -32,6 +36,8 @@ public interface IHaruController extends Observed {
     boolean getJuniorPlayer();
 
     void setCurrentFlower(Piece piece);
+
+    void setNextPhase(String previousPhase, String nextPhase);
 
     void setAppropriateRotation();
 

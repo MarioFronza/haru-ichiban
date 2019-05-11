@@ -23,7 +23,6 @@ public class HaruController implements IHaruController {
     final private String CHOOSE_DARK_WATERLILY = "choose_dark_waterlily";
     final private String CHOOSE_FROG = "choose_frog";
 
-
     private static HaruController instance; //Singleton
     private AbstractPieceFactory factory; //Abstract Factory
     private Piece[][] scorePanel;
@@ -32,19 +31,22 @@ public class HaruController implements IHaruController {
     private Builder builderGameTable;
     private Builder builderRedFlowerTable;
     private Builder builderYellowFlowerTable;
+    private Builder builderScorePanel;
 
-    private List<Piece> redPlayerPanel;
-    private List<Piece> yellowPlayerPanel;
+    private List<Piece> redPlayerPanel; //flores do jogador vermelho
+    private List<Piece> yellowPlayerPanel; //flores do jogador amarelo
 
     private List<Observer> observers; //Observer
 
     private Piece currentRedFlower = null; //Flor atual do jogador vermelho
     private Piece currentYellowFlower = null; //Flor atual do jogador amarelo
+    private String currentFrog;
 
     private int currentWaterLilyX = -1;
     private int currentWaterLilyY = -1;
     private String currentRotation = "red"; //No momento o jogador vermelho sempre começa
     private String currentPhase; //Fase atual
+    private String previousPhase; //Fase anterior
 
 
     private RedGardener redGardener;
@@ -69,26 +71,30 @@ public class HaruController implements IHaruController {
 
     @Override
     public void initializeBoard() {
-        builderGameTable = new BuildGameTable();
-        director = new Director(builderGameTable);
-        director.build();
+        this.builderGameTable = new BuildGameTable();
+        this.director = new Director(builderGameTable);
+        this.director.build();
     }
 
     @Override
     public void initializeScorePanel() {
 
-        scorePanel = new Piece[10][1];
+        this.builderScorePanel = new BuildScorePanel();
+        this.director = new Director(builderScorePanel);
+        this.director.build();
 
-        scorePanel[0][0] = factory.createStone(1);
-        scorePanel[1][0] = factory.createStone(2);
-        scorePanel[2][0] = factory.createStone(3);
-        scorePanel[3][0] = factory.createStone(4);
-        scorePanel[4][0] = factory.createStone(5);
-        scorePanel[5][0] = factory.createStone(4);
-        scorePanel[6][0] = factory.createStone(3);
-        scorePanel[7][0] = factory.createStone(2);
-        scorePanel[8][0] = factory.createStone(1);
-        scorePanel[9][0] = factory.createStone(0);
+//        scorePanel = new Piece[10][1];
+//
+//        scorePanel[0][0] = factory.createStone(1);
+//        scorePanel[1][0] = factory.createStone(2);
+//        scorePanel[2][0] = factory.createStone(3);
+//        scorePanel[3][0] = factory.createStone(4);
+//        scorePanel[4][0] = factory.createStone(5);
+//        scorePanel[5][0] = factory.createStone(4);
+//        scorePanel[6][0] = factory.createStone(3);
+//        scorePanel[7][0] = factory.createStone(2);
+//        scorePanel[8][0] = factory.createStone(1);
+//        scorePanel[9][0] = factory.createStone(0);
     }
 
     @Override
@@ -131,8 +137,8 @@ public class HaruController implements IHaruController {
             notifyPlayerPanelUpdate();
             notifyFlowersPanelUpdate();
             if (redPlayerPanel.size() == 3 && yellowPlayerPanel.size() == 3) {
-                this.currentPhase = CHOOSE_FLOWER_VALUE;
-                this.notifyMessage("Cada jogardor deve escolher uma flor");
+                setNextPhase(ADD_FLOWER, CHOOSE_FLOWER_VALUE);
+                this.notifyMessage("Cada jogardor deve escolher uma flor do seu painel");
             }
         }
     }
@@ -149,10 +155,13 @@ public class HaruController implements IHaruController {
                 if (checkFlowerValue()) {
                     if (redGardener.isJunior()) {
                         this.currentRotation = "red";
-                    } else {
+                        setNextPhase(CHOOSE_FLOWER_VALUE, CHOOSE_WATERLILY);
+                    } else if (yellowGardener.isJunior()) {
                         this.currentRotation = "yellow";
+                        setNextPhase(CHOOSE_FLOWER_VALUE, CHOOSE_WATERLILY);
+                    } else {
+                        setNextPhase(CHOOSE_FLOWER_VALUE, CHOOSE_FLOWER_VALUE);
                     }
-                    this.currentPhase = CHOOSE_WATERLILY;
                     notifyMessage("Cada jogador deve escolher uma vitória régia");
                 }
             }
@@ -178,56 +187,65 @@ public class HaruController implements IHaruController {
     @Override
     public void chooseWaterLily(int x, int y) {
         if (currentPhase.equals(CHOOSE_FROG)) {
-            if (builderGameTable.getTable().getGrid()[x][y].getClass() == WaterLily.class) {
-                this.builderGameTable.getTable().getGrid()[x][y] = factory.createYellowFrog();
-                setAppropriateRotation();
-                notifyBoardPanelUpdate();
-                notifyFlowersPanelUpdate();
-                notifyPlayerPanelUpdate();
-                setCurrentFlower(null);
-                currentPhase = MOVE_WATERLILY;
+            if (getGridGameTable()[x][y].getClass() == WaterLily.class) {
+                if (currentFrog.equals("red"))
+                    getGridGameTable()[x][y] = factory.createRedFrog();
+                else getGridGameTable()[x][y] = factory.createYellowFrog();
+                updateChooseWaterLily();
+                if (previousPhase.equals(CHOOSE_WATERLILY)) {
+                    setNextPhase(CHOOSE_FROG, MOVE_WATERLILY);
+                    notifyMessage(getCurrentNamePlayer() + " deve mover uma vitória régia");
+                } else {
+                    setNextPhase(CHOOSE_FROG, ADD_FLOWER);
+                    notifyMessage("Cada jogador adicionar uma flor ao seu painel");
+                }
             } else notifyMessage("Posição inválida");
         } else if (currentPhase.equals(CHOOSE_DARK_WATERLILY)) {
-            if (builderGameTable.getTable().getGrid()[x][y].getClass() == WaterLily.class) {
-                this.builderGameTable.getTable().getGrid()[x][y] = factory.createDarkWaterLily();
-                setAppropriateRotation();
-                notifyBoardPanelUpdate();
-                notifyFlowersPanelUpdate();
-                notifyPlayerPanelUpdate();
-                setCurrentFlower(null);
-                currentPhase = ADD_FLOWER;
-                notifyMessage("Cada jogador deve escolher uma flor");
+            if (getGridGameTable()[x][y].getClass() == WaterLily.class || getGridGameTable()[x][y].getClass() == YellowFrog.class || getGridGameTable()[x][y].getClass() == RedFrog.class) {
+                if (getGridGameTable()[x][y].getClass() == YellowFrog.class || getGridGameTable()[x][y].getClass() == RedFrog.class) {
+                    if (getGridGameTable()[x][y].getClass() == YellowFrog.class)
+                        this.currentFrog = "yellow";
+                    else currentFrog = "red";
+                    setNextPhase(CHOOSE_DARK_WATERLILY, CHOOSE_FROG);
+                    notifyMessage("Escolha um novo local para o sapo");
+                } else {
+                    setNextPhase(CHOOSE_DARK_WATERLILY, ADD_FLOWER);
+                    notifyMessage("Cada jogador adicionar uma flor ao seu painel");
+                }
+                getGridGameTable()[x][y] = factory.createDarkWaterLily();
+                updateChooseWaterLily();
             } else notifyMessage("Posição inválida");
         } else if (currentPhase.equals(CHOOSE_WATERLILY)) {
             this.currentWaterLilyX = x;
             this.currentWaterLilyY = y;
             if (getJuniorPlayer()) {
-                if (builderGameTable.getTable().getGrid()[x][y].getClass() == DarkWaterLily.class) {
+                if (getGridGameTable()[x][y].getClass() == DarkWaterLily.class) {
                     getCurrentFlower().setImage("images/water-lily-dark-with-" + getCurrentRotation() + "-petal.png");
-                    this.builderGameTable.getTable().getGrid()[x][y] = getCurrentFlower();
+                    getGridGameTable()[x][y] = getCurrentFlower();
                     setCurrentFlower(null);
                     setAppropriateRotation();
-                } else {
-                    notifyMessage("Posição inválida");
-                }
+                } else notifyMessage("Posição inválida");
             } else {
                 getCurrentFlower().setImage("images/water-lily-with-" + getCurrentRotation() + "-petal.png");
-                if (builderGameTable.getTable().getGrid()[x][y].getClass() == YellowFrog.class || builderGameTable.getTable().getGrid()[x][y].getClass() == RedFrog.class) {
-                    this.builderGameTable.getTable().getGrid()[x][y] = getCurrentFlower();
-                    this.currentPhase = CHOOSE_FROG;
+                if (getGridGameTable()[x][y].getClass() == YellowFrog.class || getGridGameTable()[x][y].getClass() == RedFrog.class) {
+                    if (getGridGameTable()[x][y].getClass() == YellowFrog.class)
+                        this.currentFrog = "yellow";
+                    else currentFrog = "red";
+                    getGridGameTable()[x][y] = getCurrentFlower();
+                    setNextPhase(CHOOSE_WATERLILY, CHOOSE_FROG);
                     notifyMessage("Escolha um novo local para o sapo");
                 } else {
-                    this.builderGameTable.getTable().getGrid()[x][y] = getCurrentFlower();
+                    getGridGameTable()[x][y] = getCurrentFlower();
                     setAppropriateRotation();
                     setCurrentFlower(null);
-                    this.currentPhase = MOVE_WATERLILY;
-                    notifyMessage("Cada jogador deve mover uma vitória régia");
+                    notifyMessage(getCurrentNamePlayer() + " deve mover uma vitória régia");
+                    setNextPhase(CHOOSE_WATERLILY, MOVE_WATERLILY);
                 }
             }
             notifyBoardPanelUpdate();
             notifyFlowersPanelUpdate();
             notifyPlayerPanelUpdate();
-        } else if (builderGameTable.getTable().getGrid()[x][y].getClass() != Water.class && currentPhase == MOVE_WATERLILY) {
+        } else if (getGridGameTable()[x][y].getClass() != Water.class && currentPhase == MOVE_WATERLILY) {
             setCurrentFlower(null);
             this.currentWaterLilyX = x;
             this.currentWaterLilyY = y;
@@ -246,11 +264,9 @@ public class HaruController implements IHaruController {
                     verifyNextPhase();
                 } else {
                     int x = -1;
-                    for (int i = currentWaterLilyX + 1; i <= 4; i++) {
-                        if (builderGameTable.getTable().getGrid()[i][currentWaterLilyY].getClass() == Water.class) {
+                    for (int i = currentWaterLilyX + 1; i <= 4; i++)
+                        if (builderGameTable.getTable().getGrid()[i][currentWaterLilyY].getClass() == Water.class)
                             x = i;
-                        }
-                    }
                     if (x != -1) {
                         for (int i = x; i > currentWaterLilyX; i--) {
                             Piece auxPosition = builderGameTable.getTable().getGrid()[i][currentWaterLilyY];
@@ -276,9 +292,8 @@ public class HaruController implements IHaruController {
                 } else {
                     int x = -1;
                     for (int i = currentWaterLilyX - 1; i >= 0; i--) {
-                        if (builderGameTable.getTable().getGrid()[i][currentWaterLilyY].getClass() == Water.class) {
+                        if (builderGameTable.getTable().getGrid()[i][currentWaterLilyY].getClass() == Water.class)
                             x = i;
-                        }
                     }
                     if (x != -1) {
                         for (int i = x; i < currentWaterLilyX; i++) {
@@ -305,9 +320,8 @@ public class HaruController implements IHaruController {
                 } else {
                     int x = -1;
                     for (int i = currentWaterLilyY - 1; i >= 0; i--) {
-                        if (builderGameTable.getTable().getGrid()[currentWaterLilyX][i].getClass() == Water.class) {
+                        if (builderGameTable.getTable().getGrid()[currentWaterLilyX][i].getClass() == Water.class)
                             x = i;
-                        }
                     }
                     if (x != -1) {
                         for (int i = x; i < currentWaterLilyY; i++) {
@@ -334,9 +348,8 @@ public class HaruController implements IHaruController {
                 } else {
                     int x = -1;
                     for (int i = currentWaterLilyY + 1; i <= 4; i++) {
-                        if (builderGameTable.getTable().getGrid()[currentWaterLilyX][i].getClass() == Water.class) {
+                        if (builderGameTable.getTable().getGrid()[currentWaterLilyX][i].getClass() == Water.class)
                             x = i;
-                        }
                     }
                     if (x != -1) {
                         for (int i = x; i > currentWaterLilyY; i--) {
@@ -364,7 +377,7 @@ public class HaruController implements IHaruController {
 
     @Override
     public String getScoreStone(int col, int row) {
-        return scorePanel[col][row].getImage();
+        return (builderScorePanel.getTable().getGrid()[col][row] == null ? null : builderScorePanel.getTable().getGrid()[col][row].getImage());
     }
 
     @Override
@@ -408,6 +421,11 @@ public class HaruController implements IHaruController {
     }
 
     @Override
+    public Piece[][] getGridGameTable() {
+        return builderGameTable.getTable().getGrid();
+    }
+
+    @Override
     public boolean getJuniorPlayer() {
         if (currentRotation.equals("red")) return redGardener.isJunior();
         else return yellowGardener.isJunior();
@@ -426,9 +444,24 @@ public class HaruController implements IHaruController {
     }
 
     @Override
+    public void setNextPhase(String previousPhase, String nextPhase) {
+        this.previousPhase = previousPhase;
+        this.currentPhase = nextPhase;
+    }
+
+    @Override
     public void setAppropriateRotation() {
         if (currentRotation.equals("red")) this.currentRotation = "yellow";
         else this.currentRotation = "red";
+    }
+
+    @Override
+    public void updateChooseWaterLily() {
+        setAppropriateRotation();
+        notifyBoardPanelUpdate();
+        notifyFlowersPanelUpdate();
+        notifyPlayerPanelUpdate();
+        setCurrentFlower(null);
     }
 
     @Override
@@ -447,11 +480,25 @@ public class HaruController implements IHaruController {
                 notifyMessage(redGardener.getName() + " é o jardineiro junior");
                 return true;
             } else {
-                //Número igual
+                this.currentYellowFlower = null;
+                this.currentRedFlower = null;
+                notifyMessage("Cada jogador deve escolher novamente uma flor");
                 return true;
             }
         }
         return false;
+    }
+
+    @Override
+    public void verifyNextPhase() {
+        notifyBoardPanelUpdate();
+        notifyHideControlPanel();
+        setAppropriateRotation();
+        setCurrentFlower(null);
+        notifyPlayerPanelUpdate();
+        notifyFlowersPanelUpdate();
+        notifyMessage(getCurrentNamePlayer() + " escolha a próxima vitória régia escura");
+        setNextPhase(MOVE_WATERLILY, CHOOSE_DARK_WATERLILY);
     }
 
     @Override
@@ -465,20 +512,6 @@ public class HaruController implements IHaruController {
         }
     }
 
-    @Override
-    public void verifyNextPhase() {
-        notifyBoardPanelUpdate();
-        notifyHideControlPanel();
-        if (this.getJuniorPlayer()) {
-            this.currentPhase = MOVE_WATERLILY;
-            setAppropriateRotation();
-        } else {
-            this.currentPhase = CHOOSE_DARK_WATERLILY;
-            notifyMessage(getCurrentNamePlayer() + " escolha a próxima vitória régia escura");
-        }
-        notifyPlayerPanelUpdate();
-        notifyFlowersPanelUpdate();
-    }
 
     @Override
     public void addObserver(Observer observer) {
