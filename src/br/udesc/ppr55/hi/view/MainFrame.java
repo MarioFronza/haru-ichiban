@@ -62,6 +62,12 @@ public class MainFrame extends JFrame implements Observer {
         this.initComponents();
         this.addComponents();
     }
+    
+    public void start() {
+//        this.choiceFrame.pack();
+//        this.choiceFrame.setLocationRelativeTo(null);
+//        this.choiceFrame.setVisible(true);
+    }
 
     private void initComponents() {
 
@@ -79,7 +85,6 @@ public class MainFrame extends JFrame implements Observer {
 
         this.testPanel2.setSize(200, 200);
         this.testPanel2.setBackground(new Color(243, 204, 7, 218));
-
     }
 
 
@@ -116,7 +121,6 @@ public class MainFrame extends JFrame implements Observer {
         c.gridx = 2;
         c.gridy = 0;
         this.mainPanel.add(flowersPanel, c);
-
     }
 
 

@@ -113,7 +113,7 @@ public class HaruController implements IHaruController {
 
         notifyHideControlPanel();
         this.currentPhase = ADD_FLOWER;
-        notifyMessage("Cada jogador deve adicionar três flores");
+        notifyMessage("Each player must add three flowers.");
     }
 
     @Override
@@ -128,7 +128,7 @@ public class HaruController implements IHaruController {
             notifyFlowersPanelUpdate();
             if (redPlayerPanel.size() == 3 && yellowPlayerPanel.size() == 3) {
                 setNextPhase(ADD_FLOWER, CHOOSE_FLOWER_VALUE);
-                this.notifyMessage("Cada jogardor deve escolher uma flor do seu painel");
+                this.notifyMessage("Each player must choose a flower from your panel.");
             }
         }
     }
@@ -136,7 +136,7 @@ public class HaruController implements IHaruController {
     @Override
     public void chooseFlower(int x, int y) {
         if (getCurrentFlower() != null) {
-            this.notifyMessage("Você já escolheu uma flor");
+            this.notifyMessage("You have already chosen a flower.");
         } else {
             if (currentPhase.equals(CHOOSE_FLOWER_VALUE)) {
                 setCurrentFlower(getFlowerPlayerPanel().get(y));
@@ -150,7 +150,7 @@ public class HaruController implements IHaruController {
                         this.currentRotation = "yellow";
                         setNextPhase(CHOOSE_FLOWER_VALUE, CHOOSE_WATERLILY);
                     }
-                    notifyMessage("Cada jogador deve escolher uma vitória régia");
+                    notifyMessage("Each player must choose a water lily.");
                 }
             }
             notifyFlowersPanelUpdate();
@@ -161,7 +161,7 @@ public class HaruController implements IHaruController {
     @Override
     public void eyePressed() {
         if (getFlowerPlayerPanel().size() < 3) {
-            notifyMessage("Você precisa escolher todas as flores antes");
+            notifyMessage("You have to choose all the flowers before.");
         } else {
             notifyShowFlowerNumber();
         }
@@ -184,13 +184,13 @@ public class HaruController implements IHaruController {
                 updateChooseWaterLily();
                 if (previousPhase.equals(CHOOSE_WATERLILY)) {
                     setNextPhase(CHOOSE_FROG, MOVE_WATERLILY);
-                    notifyMessage(getCurrentNamePlayer() + " deve mover uma vitória régia");
+                    notifyMessage(getCurrentNamePlayer() + " should move a water lily.");
                 } else {
                     setNextPhase(CHOOSE_FROG, ADD_FLOWER);
-                    notifyMessage("Cada jogador adicionar uma flor ao seu painel");
+                    notifyMessage("Each player must add a new flower in your panel.");
                 }
             } else {
-                notifyMessage("Posição inválida");
+                notifyMessage("Invalid position.");
             }
         } else if (currentPhase.equals(CHOOSE_DARK_WATERLILY)) {
             if (getGridGameTable()[x][y].getClass() == WaterLily.class || getGridGameTable()[x][y].getClass() == YellowFrog.class || getGridGameTable()[x][y].getClass() == RedFrog.class) {
@@ -201,15 +201,15 @@ public class HaruController implements IHaruController {
                         currentFrog = "red";
                     }
                     setNextPhase(CHOOSE_DARK_WATERLILY, CHOOSE_FROG);
-                    notifyMessage("Escolha um novo local para o sapo");
+                    notifyMessage("Choose a new place for your frog.");
                 } else {
                     setNextPhase(CHOOSE_DARK_WATERLILY, ADD_FLOWER);
-                    notifyMessage("Cada jogador adicionar uma flor ao seu painel");
+                    notifyMessage("Each player must add a new flower in your panel.");
                 }
                 getGridGameTable()[x][y] = factory.createDarkWaterLily();
                 updateChooseWaterLily();
             } else {
-                notifyMessage("Posição inválida");
+                notifyMessage("Invalid position.");
             }
         } else if (currentPhase.equals(CHOOSE_WATERLILY)) {
             this.currentWaterLilyX = x;
@@ -221,7 +221,7 @@ public class HaruController implements IHaruController {
                     setCurrentFlower(null);
                     setAppropriateRotation();
                 } else {
-                    notifyMessage("Posição inválida");
+                    notifyMessage("Invalid position.");
                 }
             } else {
                 getCurrentFlower().setImage("images/water-lily-with-" + getCurrentRotation() + "-petal.png");
@@ -233,12 +233,12 @@ public class HaruController implements IHaruController {
                     }
                     getGridGameTable()[x][y] = getCurrentFlower();
                     setNextPhase(CHOOSE_WATERLILY, CHOOSE_FROG);
-                    notifyMessage("Escolha um novo local para o sapo");
+                    notifyMessage("Choose a new place for your frog.");
                 } else {
                     getGridGameTable()[x][y] = getCurrentFlower();
                     setAppropriateRotation();
                     setCurrentFlower(null);
-                    notifyMessage(getCurrentNamePlayer() + " deve mover uma vitória régia");
+                    notifyMessage(getCurrentNamePlayer() + " should move a water lily.");
                     setNextPhase(CHOOSE_WATERLILY, MOVE_WATERLILY);
                 }
             }
@@ -277,14 +277,14 @@ public class HaruController implements IHaruController {
                         }
                         verifyNextPhase();
                     } else {
-                        this.notifyMessage("Não é possível realizar este movimento!");
+                        this.notifyMessage("This move is not possible.");
                     }
                 }
             } else {
-                this.notifyMessage("Não é possível realizar este movimento!");
+                this.notifyMessage("This move is not possible.");
             }
         } else {
-            this.notifyMessage("Escolha uma vitória régia");
+            this.notifyMessage("Choose a water lily.");
         }
     }
 
@@ -312,14 +312,14 @@ public class HaruController implements IHaruController {
                         }
                         verifyNextPhase();
                     } else {
-                        this.notifyMessage("Não é possível realizar este movimento!");
+                        this.notifyMessage("This move is not possible.");
                     }
                 }
             } else {
-                this.notifyMessage("Não é possível realizar este movimento!");
+                this.notifyMessage("This move is not possible.");
             }
         } else {
-            this.notifyMessage("Escolha uma vitória régia");
+            this.notifyMessage("Choose a water lily.");
         }
     }
 
@@ -347,14 +347,14 @@ public class HaruController implements IHaruController {
                         }
                         verifyNextPhase();
                     } else {
-                        this.notifyMessage("Não é possível realizar este movimento!");
+                        this.notifyMessage("This move is not possible.");
                     }
                 }
             } else {
-                this.notifyMessage("Não é possível realizar este movimento!");
+                this.notifyMessage("This move is not possible.");
             }
         } else {
-            this.notifyMessage("Escolha uma vitória régia");
+            this.notifyMessage("Choose a water lily.");
         }
     }
 
@@ -382,14 +382,14 @@ public class HaruController implements IHaruController {
                         }
                         verifyNextPhase();
                     } else {
-                        this.notifyMessage("Não é possível realizar este movimento!");
+                        this.notifyMessage("This move is not possible.");
                     }
                 }
             } else {
-                this.notifyMessage("Não é possível realizar este movimento!");
+                this.notifyMessage("This move is not possible.");
             }
         } else {
-            this.notifyMessage("Escolha uma vitória régia");
+            this.notifyMessage("Choose a water lily.");
         }
 
     }
@@ -529,21 +529,21 @@ public class HaruController implements IHaruController {
             this.redGardener.setJunior(false);
             if (redFlower.getNumber() > yellowFlower.getNumber()) {
                 this.yellowGardener.setJunior(true);
-                notifyMessage(yellowGardener.getName() + " é o jardineiro junior");
+                notifyMessage(yellowGardener.getName() + " is the junior gardener.");
                 return true;
             } else if (redFlower.getNumber() < yellowFlower.getNumber()) {
                 this.redGardener.setJunior(true);
-                notifyMessage(redGardener.getName() + " é o jardineiro junior");
+                notifyMessage(redGardener.getName() + " is the junior gardener.");
                 return true;
             } else {
                 Random random = new Random();
                 int number = random.nextInt(1);
                 if (number == 0) {
                     this.redGardener.setJunior(true);
-                    notifyMessage(redGardener.getName() + " é o jardineiro junior");
+                    notifyMessage(redGardener.getName() + " is the junior gardener.");
                 } else {
                     this.yellowGardener.setJunior(true);
-                    notifyMessage(yellowGardener.getName() + " é o jardineiro junior");
+                    notifyMessage(yellowGardener.getName() + " is the junior gardener.");
                 }
 
 
@@ -561,7 +561,7 @@ public class HaruController implements IHaruController {
         setCurrentFlower(null);
         notifyPlayerPanelUpdate();
         notifyFlowersPanelUpdate();
-        notifyMessage(getCurrentNamePlayer() + " escolha a próxima vitória régia escura");
+        notifyMessage(getCurrentNamePlayer() + ", choose the next dark water lily.");
         setNextPhase(MOVE_WATERLILY, CHOOSE_DARK_WATERLILY);
     }
 
