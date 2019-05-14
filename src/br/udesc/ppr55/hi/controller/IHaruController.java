@@ -3,6 +3,7 @@ package br.udesc.ppr55.hi.controller;
 import br.udesc.ppr55.hi.controller.observer.Observed;
 import br.udesc.ppr55.hi.model.Flower;
 import br.udesc.ppr55.hi.model.Piece;
+import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package br.udesc.ppr55.hi.model.builder;
 
 import br.udesc.ppr55.hi.model.Piece;
+import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
 
 /**
  * Builder game table class
@@ -11,7 +12,7 @@ import br.udesc.ppr55.hi.model.Piece;
  */
 public class BuildGameTable extends Builder {
 
-    public BuildGameTable() {
+    public BuildGameTable(AbstractPieceFactory factory) {
         tablePiece = new Piece[5][5];
 
         tablePiece[0][0] = factory.createWaterLily();

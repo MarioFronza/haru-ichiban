@@ -14,8 +14,8 @@ import java.util.Random;
  * Controller class that has the game logic
  *
  * @author João Pedro Schmitz, Mário Fronza
- * @since 07/04/2019
  * @version 1.0.0
+ * @since 07/04/2019
  */
 public class HaruController implements IHaruController {
 
@@ -35,19 +35,19 @@ public class HaruController implements IHaruController {
     private Builder builderYellowFlowerTable;
     private Builder builderScorePanel;
 
-    private List<Flower> redPlayerPanel; 
-    private List<Flower> yellowPlayerPanel; 
+    private List<Flower> redPlayerPanel;
+    private List<Flower> yellowPlayerPanel;
 
-    private List<Observer> observers; 
+    private List<Observer> observers;
 
-    private Flower currentRedFlower = null; 
-    private Flower currentYellowFlower = null; 
+    private Flower currentRedFlower = null;
+    private Flower currentYellowFlower = null;
     private String currentFrog;
 
     private int currentWaterLilyX = -1;
     private int currentWaterLilyY = -1;
-    private String currentRotation = "red"; 
-    private String currentPhase; 
+    private String currentRotation = "red";
+    private String currentPhase;
     private String previousPhase;
 
     private Gardener redGardener;
@@ -73,14 +73,14 @@ public class HaruController implements IHaruController {
 
     @Override
     public void initializeBoard() {
-        this.builderGameTable = new BuildGameTable();
+        this.builderGameTable = new BuildGameTable(factory);
         this.director = new Director(builderGameTable);
         this.director.build();
     }
 
     @Override
     public void initializeScorePanel() {
-        this.builderScorePanel = new BuildScorePanel();
+        this.builderScorePanel = new BuildScorePanel(factory);
         this.director = new Director(builderScorePanel);
         this.director.build();
     }
@@ -93,8 +93,8 @@ public class HaruController implements IHaruController {
 
     @Override
     public void initializeFlowerPanel() {
-        this.builderRedFlowerTable = new BuildRedFlowerTable();
-        this.builderYellowFlowerTable = new BuildYellowFlowerTable();
+        this.builderRedFlowerTable = new BuildRedFlowerTable(factory);
+        this.builderYellowFlowerTable = new BuildYellowFlowerTable(factory);
 
         this.director = new Director(builderRedFlowerTable);
         this.director.build();
