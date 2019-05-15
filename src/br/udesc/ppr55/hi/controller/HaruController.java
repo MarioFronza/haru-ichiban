@@ -42,6 +42,8 @@ public class HaruController implements IHaruController {
 
     private Flower currentRedFlower = null;
     private Flower currentYellowFlower = null;
+    private Flower redFlowerRemoved = null;
+    private Flower yellowFlowerRemoved = null;
     private String currentFrog;
 
     private int currentWaterLilyX = -1;
@@ -139,18 +141,22 @@ public class HaruController implements IHaruController {
             this.notifyMessage("You have already chosen a flower.");
         } else {
             if (currentPhase.equals(CHOOSE_FLOWER_VALUE)) {
-                setCurrentFlower(getFlowerPlayerPanel().get(y));
-                getFlowerPlayerPanel().remove(y);
+                setCurrentFlower(getFlowerPlayerPanel().get(x));
+                setRemovedFlower(getFlowerPlayerPanel().remove(x));
                 setAppropriateRotation();
                 if (checkFlowerValue()) {
                     if (redGardener.isJunior()) {
                         this.currentRotation = "red";
                         setNextPhase(CHOOSE_FLOWER_VALUE, CHOOSE_WATERLILY);
+                        notifyMessage("Each player must choose a water lily.");
                     } else if (yellowGardener.isJunior()) {
                         this.currentRotation = "yellow";
                         setNextPhase(CHOOSE_FLOWER_VALUE, CHOOSE_WATERLILY);
+                        notifyMessage("Each player must choose a water lily.");
+                    } else {
+                        notifyMessage("Cada jogador deve escolher novamente uma flor");
                     }
-                    notifyMessage("Each player must choose a water lily.");
+
                 }
             }
             notifyFlowersPanelUpdate();
@@ -412,8 +418,8 @@ public class HaruController implements IHaruController {
     }
 
     @Override
-    public String getPlayerFlower(int col) {
-        return (getFlowerPlayerPanel().size() <= col || getFlowerPlayerPanel().isEmpty()) ? null : getFlowerPlayerPanel().get(col).getImage();
+    public String getPlayerFlower(int row) {
+        return (getFlowerPlayerPanel().size() <= row || getFlowerPlayerPanel().isEmpty()) ? null : getFlowerPlayerPanel().get(row).getImage();
     }
 
     @Override
@@ -445,6 +451,15 @@ public class HaruController implements IHaruController {
             this.redPlayerPanel.add(flower);
         } else {
             this.yellowPlayerPanel.add(flower);
+        }
+    }
+
+    @Override
+    public void setRemovedFlower(Flower flower) {
+        if (currentRotation.equals("red")) {
+            this.redFlowerRemoved = flower;
+        } else {
+            this.yellowFlowerRemoved = flower;
         }
     }
 
@@ -527,6 +542,8 @@ public class HaruController implements IHaruController {
         if (currentRedFlower != null && currentYellowFlower != null) {
             Flower redFlower = currentRedFlower;
             Flower yellowFlower = currentYellowFlower;
+            System.out.println(redFlower.getNumber());
+            System.out.println(yellowFlower.getNumber());
             this.yellowGardener.setJunior(false);
             this.redGardener.setJunior(false);
             if (redFlower.getNumber() > yellowFlower.getNumber()) {
@@ -538,15 +555,21 @@ public class HaruController implements IHaruController {
                 notifyMessage(redGardener.getName() + " is the junior gardener.");
                 return true;
             } else {
-                Random random = new Random();
-                int number = random.nextInt(1);
-                if (number == 0) {
-                    this.redGardener.setJunior(true);
-                    notifyMessage(redGardener.getName() + " is the junior gardener.");
-                } else {
-                    this.yellowGardener.setJunior(true);
-                    notifyMessage(yellowGardener.getName() + " is the junior gardener.");
-                }
+//                Random random = new Random();
+//                int number = random.nextInt(1);
+//                if (number == 0) {
+//                    this.redGardener.setJunior(true);
+//                    notifyMessage(redGardener.getName() + " is the junior gardener.");
+//                } else {
+//                    this.yellowGardener.setJunior(true);
+//                    notifyMessage(yellowGardener.getName() + " is the junior gardener.");
+//                }
+                this.currentRedFlower = null;
+                this.currentYellowFlower = null;
+                this.yellowGardener.setJunior(false);
+                this.redGardener.setJunior(false);
+                this.redPlayerPanel.add(redFlowerRemoved);
+                this.yellowPlayerPanel.add(yellowFlowerRemoved);
 
 
                 return true;

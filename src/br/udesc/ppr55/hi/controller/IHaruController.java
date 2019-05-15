@@ -30,6 +30,8 @@ public interface IHaruController extends Observed {
 
     void addFlowerPlayerPanel(Flower flower);
 
+    void setRemovedFlower(Flower flower);
+
     void updateChooseWaterLily();
 
     List<Flower> getFlowerPlayerPanel();
