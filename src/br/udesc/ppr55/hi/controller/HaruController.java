@@ -120,7 +120,7 @@ public class HaruController implements IHaruController {
     public void addFlower(int x, int y) {
         if (currentPhase.equals(ADD_FLOWER) && (getCurrentFlowerTable(x, y).getClass() != RedGardener.class) && (getCurrentFlowerTable(x, y).getClass() != YellowGardener.class) && (getCurrentFlowerTable(x, y).getClass() != Stone.class) && (getFlowerPlayerPanel().size() < 3)) {
             addFlowerPlayerPanel((Flower) getCurrentFlowerTable(x, y));
-            setCurrentFlowerTable(x, y, factory.createStone(0));
+            setCurrentFlowerTable(x, y, factory.createStoneWithoutNumber());
             if (getFlowerPlayerPanel().size() == 3) {
                 setAppropriateRotation();
             }

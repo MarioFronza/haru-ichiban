@@ -25,6 +25,11 @@ public class PieceFactory extends AbstractPieceFactory {
     public Piece createStone(int number) {
         return new Stone(number);
     }
+    
+    @Override
+    public Piece createStoneWithoutNumber() {
+        return new Stone();
+    }
 
     @Override
     public Piece createRedGardener() {

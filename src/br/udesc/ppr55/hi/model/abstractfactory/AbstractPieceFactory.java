@@ -16,6 +16,8 @@ public abstract class AbstractPieceFactory {
     public abstract Piece createWaterLily();
 
     public abstract Piece createStone(int number);
+    
+    public abstract Piece createStoneWithoutNumber();
 
     public abstract Piece createRedGardener();
 
