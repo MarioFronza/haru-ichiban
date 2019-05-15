@@ -1,10 +1,7 @@
 package br.udesc.ppr55.hi.model.builder;
 
-import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.model.Piece;
 import br.udesc.ppr55.hi.model.Table;
-import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
-import br.udesc.ppr55.hi.model.abstractfactory.PieceFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +17,6 @@ public abstract class Builder {
 
     private Table table;
     protected List<Integer> numbers;
-    //protected AbstractPieceFactory factory;
     protected Piece[][] tablePiece;
 
     public Builder() {
