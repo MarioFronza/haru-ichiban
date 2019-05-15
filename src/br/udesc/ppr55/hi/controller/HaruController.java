@@ -73,16 +73,16 @@ public class HaruController implements IHaruController {
 
     @Override
     public void initializeBoard() {
-        this.builderGameTable = new BuildGameTable(factory);
+        this.builderGameTable = new BuildGameTable();
         this.director = new Director(builderGameTable);
-        this.director.build();
+        this.director.build(factory);
     }
 
     @Override
     public void initializeScorePanel() {
-        this.builderScorePanel = new BuildScorePanel(factory);
+        this.builderScorePanel = new BuildScorePanel();
         this.director = new Director(builderScorePanel);
-        this.director.build();
+        this.director.build(factory);
     }
 
     @Override
@@ -93,14 +93,14 @@ public class HaruController implements IHaruController {
 
     @Override
     public void initializeFlowerPanel() {
-        this.builderRedFlowerTable = new BuildRedFlowerTable(factory);
-        this.builderYellowFlowerTable = new BuildYellowFlowerTable(factory);
+        this.builderRedFlowerTable = new BuildRedFlowerTable();
+        this.builderYellowFlowerTable = new BuildYellowFlowerTable();
 
         this.director = new Director(builderRedFlowerTable);
-        this.director.build();
+        this.director.build(factory);
 
         this.director = new Director(builderYellowFlowerTable);
-        this.director.build();
+        this.director.build(factory);
     }
 
     @Override
@@ -223,7 +223,7 @@ public class HaruController implements IHaruController {
                 } else {
                     notifyMessage("Invalid position.");
                 }
-            } else {
+            } else if (getGridGameTable()[x][y].getClass() == WaterLily.class || getGridGameTable()[x][y].getClass() == YellowFrog.class || getGridGameTable()[x][y].getClass() == RedFrog.class) {
                 getCurrentFlower().setImage("images/water-lily-with-" + getCurrentRotation() + "-petal.png");
                 if (getGridGameTable()[x][y].getClass() == YellowFrog.class || getGridGameTable()[x][y].getClass() == RedFrog.class) {
                     if (getGridGameTable()[x][y].getClass() == YellowFrog.class) {
@@ -241,6 +241,8 @@ public class HaruController implements IHaruController {
                     notifyMessage(getCurrentNamePlayer() + " should move a water lily.");
                     setNextPhase(CHOOSE_WATERLILY, MOVE_WATERLILY);
                 }
+            } else {
+                notifyMessage("Invalid position.");
             }
             notifyBoardPanelUpdate();
             notifyFlowersPanelUpdate();
@@ -568,10 +570,10 @@ public class HaruController implements IHaruController {
     @Override
     public int getFlowerNumber(int col, int row) {
         if (currentRotation.equals("red")) {
-            Flower redFlower = getFlowerPlayerPanel().get(row);
+            Flower redFlower = getFlowerPlayerPanel().get(col);
             return redFlower.getNumber();
         } else {
-            Flower yellowFlower = getFlowerPlayerPanel().get(row);
+            Flower yellowFlower = getFlowerPlayerPanel().get(col);
             return yellowFlower.getNumber();
         }
     }

@@ -7,12 +7,14 @@ import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
  * Builder score panel class
  *
  * @author João Pedro Schmitz, Mário Fronza
- * @since 28/04/2019
  * @version 1.0.0
+ * @since 28/04/2019
  */
 public class BuildScorePanel extends Builder {
 
-    public BuildScorePanel(AbstractPieceFactory factory) {
+
+    @Override
+    public void buildTable(AbstractPieceFactory factory) {
         tablePiece = new Piece[10][1];
 
         tablePiece[0][0] = factory.createStone(1);
@@ -25,10 +27,7 @@ public class BuildScorePanel extends Builder {
         tablePiece[7][0] = factory.createStone(2);
         tablePiece[8][0] = factory.createStone(1);
         tablePiece[9][0] = factory.createStone(0);
-    }
 
-    @Override
-    public void buildTable() {
-        super.buildTable();
+        super.table.setGrid(tablePiece);
     }
 }

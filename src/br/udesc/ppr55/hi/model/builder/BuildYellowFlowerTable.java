@@ -9,12 +9,14 @@ import java.util.Collections;
  * Builder yellow flower table class
  *
  * @author João Pedro Schmitz, Mário Fronza
- * @since 28/04/2019
  * @version 1.0.0
+ * @since 28/04/2019
  */
 public class BuildYellowFlowerTable extends Builder {
 
-    public BuildYellowFlowerTable(AbstractPieceFactory factory) {
+
+    @Override
+    public void buildTable(AbstractPieceFactory factory) {
         tablePiece = new Piece[5][2];
         Collections.shuffle(numbers);
 
@@ -28,10 +30,8 @@ public class BuildYellowFlowerTable extends Builder {
         tablePiece[3][1] = factory.createYellowFlower(numbers.get(7));
         tablePiece[4][0] = factory.createRedGardener();
         tablePiece[4][1] = factory.createYellowGardener();
-    }
 
-    @Override
-    public void buildTable() {
-        super.buildTable();
+        super.table.setGrid(tablePiece);
+
     }
 }

@@ -2,6 +2,7 @@ package br.udesc.ppr55.hi.model.builder;
 
 import br.udesc.ppr55.hi.model.Piece;
 import br.udesc.ppr55.hi.model.Table;
+import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public abstract class Builder {
 
-    private Table table;
+    protected Table table;
     protected List<Integer> numbers;
     protected Piece[][] tablePiece;
 
@@ -34,7 +35,7 @@ public abstract class Builder {
         this.table = new Table();
     }
 
-    public void buildTable() {
+    public void buildTable(AbstractPieceFactory factory) {
         this.table.setGrid(tablePiece);
     }
 

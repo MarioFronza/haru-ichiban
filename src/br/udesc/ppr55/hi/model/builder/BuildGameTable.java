@@ -7,12 +7,13 @@ import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
  * Builder game table class
  *
  * @author João Pedro Schmitz, Mário Fronza
- * @since 28/04/2019
  * @version 1.0.0
+ * @since 28/04/2019
  */
 public class BuildGameTable extends Builder {
 
-    public BuildGameTable(AbstractPieceFactory factory) {
+    @Override
+    public void buildTable(AbstractPieceFactory factory) {
         tablePiece = new Piece[5][5];
 
         tablePiece[0][0] = factory.createWaterLily();
@@ -44,10 +45,7 @@ public class BuildGameTable extends Builder {
         tablePiece[4][2] = factory.createWaterLily();
         tablePiece[4][3] = factory.createWater();
         tablePiece[4][4] = factory.createWaterLily();
-    }
 
-    @Override
-    public void buildTable() {
-        super.buildTable();
+        super.table.setGrid(tablePiece);
     }
 }

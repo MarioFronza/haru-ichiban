@@ -1,11 +1,13 @@
 package br.udesc.ppr55.hi.model.builder;
 
+import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
+
 /**
  * Director class
  *
  * @author João Pedro Schmitz, Mário Fronza
- * @since 28/04/2019
  * @version 1.0.0
+ * @since 28/04/2019
  */
 public class Director {
 
@@ -15,8 +17,8 @@ public class Director {
         this.builder = builder;
     }
 
-    public void build() {
+    public void build(AbstractPieceFactory abstractPieceFactory) {
         builder.reset();
-        builder.buildTable();
+        builder.buildTable(abstractPieceFactory);
     }
 }

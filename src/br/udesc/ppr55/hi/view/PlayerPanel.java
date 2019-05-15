@@ -14,8 +14,8 @@ import java.awt.event.MouseListener;
  * Player panel
  *
  * @author João Pedro Schmitz, Mário Fronza
- * @since 13/04/2019
  * @version 1.0.0
+ * @since 13/04/2019
  */
 public class PlayerPanel extends JPanel {
 
@@ -72,7 +72,6 @@ public class PlayerPanel extends JPanel {
 
     public void showNumber() {
         playerTable.setModel(new HaruTableModel(false));
-
     }
 
     public void showFlower() {
