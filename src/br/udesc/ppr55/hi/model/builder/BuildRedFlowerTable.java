@@ -1,6 +1,7 @@
 package br.udesc.ppr55.hi.model.builder;
 
 import br.udesc.ppr55.hi.model.Piece;
+import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
 
 import java.util.Collections;
 
@@ -13,7 +14,7 @@ import java.util.Collections;
  */
 public class BuildRedFlowerTable extends Builder {
 
-    public BuildRedFlowerTable() {
+    public BuildRedFlowerTable(AbstractPieceFactory factory) {
         tablePiece = new Piece[5][2];
         Collections.shuffle(numbers);
 
