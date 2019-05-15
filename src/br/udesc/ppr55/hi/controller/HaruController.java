@@ -154,7 +154,7 @@ public class HaruController implements IHaruController {
                         setNextPhase(CHOOSE_FLOWER_VALUE, CHOOSE_WATERLILY);
                         notifyMessage("Each player must choose a water lily.");
                     } else {
-                        notifyMessage("Cada jogador deve escolher novamente uma flor");
+                        notifyMessage("Each player must choose again a flower in the panel.");
                     }
 
                 }
