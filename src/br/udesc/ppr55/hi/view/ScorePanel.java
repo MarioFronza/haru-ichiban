@@ -24,18 +24,18 @@ public class ScorePanel extends JPanel {
 
         @Override
         public int getRowCount() {
-            return 10;
+            return 1;
         }
 
         @Override
         public int getColumnCount() {
-            return 1;
+            return 10;
         }
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
             try {
-                return new ImageIcon(haruController.getScoreStone(rowIndex, columnIndex));
+                return new ImageIcon(haruController.getScoreStone(columnIndex, rowIndex));
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.toString());
                 return null;
@@ -50,6 +50,7 @@ public class ScorePanel extends JPanel {
     public ScorePanel() {
         this.haruController = HaruController.getInstance();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setOpaque(false);
         initComponents();
     }
 
@@ -57,11 +58,10 @@ public class ScorePanel extends JPanel {
         scoreTable = new JTable();
         scoreTable.setModel(new HaruTableModel());
         for (int x = 0; x < scoreTable.getColumnModel().getColumnCount(); x++) {
-            scoreTable.getColumnModel().getColumn(x).setWidth(100);
-            scoreTable.getColumnModel().getColumn(x).setMinWidth(100);
-            scoreTable.getColumnModel().getColumn(x).setMaxWidth(100);
+            scoreTable.getColumnModel().getColumn(x).setWidth(50);
+            scoreTable.getColumnModel().getColumn(x).setMinWidth(50);
+            scoreTable.getColumnModel().getColumn(x).setMaxWidth(50);
         }
-        scoreTable.setBackground(MainFrame.BG_COLOR);
         scoreTable.setOpaque(false);
         scoreTable.setRowHeight(50);
         scoreTable.setShowGrid(true);

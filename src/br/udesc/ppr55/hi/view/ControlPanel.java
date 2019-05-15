@@ -28,12 +28,14 @@ public class ControlPanel extends JPanel {
     public ControlPanel(IHaruController haruController, CommandInvoker commandInvoker) {
         this.haruController = haruController;
         this.commandInvoker = commandInvoker;
+        this.setPreferredSize(new Dimension(100, 100));
         this.setLayout(new GridLayout(3, 3));
         initComponents();
     }
 
     private void initComponents() {
         this.up = new JButton("\uD83E\uDC45");
+        this.up.setSize(33, 33);
         this.up.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -42,6 +44,7 @@ public class ControlPanel extends JPanel {
             }
         });
         this.left = new JButton("\uD83E\uDC44");
+        this.left.setSize(33, 33);
         this.left.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -50,6 +53,7 @@ public class ControlPanel extends JPanel {
             }
         });
         this.right = new JButton("\uD83E\uDC46");
+        this.right.setSize(33, 33);
         this.right.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,6 +62,7 @@ public class ControlPanel extends JPanel {
             }
         });
         this.down = new JButton("\uD83E\uDC47");
+        this.down.setSize(33, 33);
         this.down.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

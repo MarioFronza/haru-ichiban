@@ -9,6 +9,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  * Main frame
@@ -22,7 +27,6 @@ public class MainFrame extends JFrame implements Observer {
     private static final long serialVersionUID = 1L;
 
     private JPanel mainPanel;
-
     private BoardPanel boardPanel;
     private ScorePanel scorePanel;
     private PlayerPanel playerPanel;
@@ -30,50 +34,43 @@ public class MainFrame extends JFrame implements Observer {
     private ControlPanel controlPanel;
     private EyePanel eyePanel;
 
-    private JPanel testPanel = new JPanel();
-    private JPanel testPanel2 = new JPanel();
-
-    private Dimension dimension;
-
     private IHaruController haruController;
     private CommandInvoker commandInvoker;
 
-    public static final Color BG_COLOR = new Color(178, 190, 195, 168);
-
-    private GridBagConstraints c = new GridBagConstraints();
-
     public MainFrame() {
-        this.dimension = new Dimension(1000, 700);
-        this.commandInvoker = new CommandInvoker();
-        this.haruController = HaruController.getInstance();
-        this.haruController.addObserver(this);
-        setFocusable(true);
-        setFocusTraversalKeysEnabled(false);
-        super.setTitle("Haru Ichiban");
-        super.setSize(dimension);
-        super.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        super.setLocationRelativeTo(null);
-        super.setResizable(false);
-        super.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent windowEvent){
-                System.exit(0);
-            }
-        });
-        this.initComponents();
-        this.addComponents();
-    }
-    
-    public void start() {
-//        this.choiceFrame.pack();
-//        this.choiceFrame.setLocationRelativeTo(null);
-//        this.choiceFrame.setVisible(true);
+        try {
+            JFrame.setDefaultLookAndFeelDecorated(true);
+            this.commandInvoker = new CommandInvoker();
+            this.haruController = HaruController.getInstance();
+            this.haruController.addObserver(this);
+            super.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("images/main-frame.png")))));
+            super.setFocusable(true);
+            super.setFocusTraversalKeysEnabled(false);
+            super.setTitle("Haru Ichiban");
+            super.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            super.setResizable(false);
+            super.setLayout(new BorderLayout());
+            super.pack();
+            super.setLocationRelativeTo(null);
+            super.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent windowEvent) {
+                    System.exit(0);
+                }
+            });
+            initComponents();
+            addComponents();
+
+            super.getContentPane().add(mainPanel);
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void initComponents() {
-
         this.mainPanel = new JPanel();
-
         this.mainPanel.setLayout(new GridBagLayout());
+        this.mainPanel.setOpaque(false);
 
         this.boardPanel = new BoardPanel(this.haruController, this.commandInvoker);
         this.scorePanel = new ScorePanel();
@@ -81,48 +78,46 @@ public class MainFrame extends JFrame implements Observer {
         this.flowersPanel = new FlowersPanel(this.haruController, this.commandInvoker);
         this.eyePanel = new EyePanel(this.haruController);
         this.controlPanel = new ControlPanel(this.haruController, this.commandInvoker);
-
-
-        this.testPanel2.setSize(200, 200);
-        this.testPanel2.setBackground(new Color(243, 204, 7, 218));
     }
-
 
     private void addComponents() {
-        this.setContentPane(mainPanel);
+        GridBagConstraints c = new GridBagConstraints();
 
-        c.fill = GridBagConstraints.VERTICAL;
-        c.gridx = 0;
-        c.gridy = 1;
+        c.gridx = 5;
+        c.gridy = 0;
         this.mainPanel.add(eyePanel, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 1;
-        c.gridy = 1;
-        this.mainPanel.add(playerPanel, c);
-
-        c.fill = GridBagConstraints.VERTICAL;
-        c.gridx = 2;
-        c.gridy = 1;
+        
+        c.gridx = 5;
+        c.gridy = 4;
         this.mainPanel.add(controlPanel, c);
 
-        c.fill = GridBagConstraints.VERTICAL;
+        c.gridx = 5;
+        c.gridy = 1;
+        c.gridwidth = 1;
+        c.gridheight = 3;
+        this.mainPanel.add(playerPanel, c);
+
         c.gridx = 0;
         c.gridy = 0;
-
+        c.gridheight = 1;
+        c.gridwidth = 5;
+        c.insets = new Insets(0, 0, 0, 40);
         this.mainPanel.add(scorePanel, c);
-
-        c.fill = GridBagConstraints.VERTICAL;
-        c.gridx = 1;
-        c.gridy = 0;
+        
+        c.gridx = 0;
+        c.gridy = 1;
+        c.gridwidth = 5;
+        c.gridheight = 5;
+        c.insets = new Insets(0, 0, 0, 40);
         this.mainPanel.add(boardPanel, c);
-
-        c.fill = GridBagConstraints.VERTICAL;
-        c.gridx = 2;
-        c.gridy = 0;
+        
+        c.gridx = 6;
+        c.gridy = 1;
+        c.gridwidth = 2;
+        c.gridheight = 4;
+        c.insets = new Insets(0, 80, 0, 0);
         this.mainPanel.add(flowersPanel, c);
     }
-
 
     @Override
     public void playerPanelUpdate() {
@@ -158,7 +153,7 @@ public class MainFrame extends JFrame implements Observer {
     public void hideControlPanel() {
         this.controlPanel.setVisible(false);
     }
-
+    
     @Override
     public void message(String message) {
         JOptionPane.showMessageDialog(this, message);

@@ -34,7 +34,7 @@ public class EyePanel extends JPanel {
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
             try {
-                return new ImageIcon("images/Eye.png");
+                return new ImageIcon("images/eye.png");
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.toString());
                 return null;
@@ -63,10 +63,8 @@ public class EyePanel extends JPanel {
             eyeTable.getColumnModel().getColumn(x).setWidth(100);
             eyeTable.getColumnModel().getColumn(x).setMinWidth(100);
         }
-
-
         eyeTable.setRowHeight(100);
-        eyeTable.setShowGrid(true);
+        eyeTable.setShowGrid(false);
         eyeTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         eyeTable.setIntercellSpacing(new Dimension(0, 0));
         eyeTable.setDefaultRenderer(Object.class, new HaruItemRender());
@@ -89,7 +87,6 @@ public class EyePanel extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 eyeTable.setBackground(new Color(34, 34, 34, 125));
-
             }
 
             @Override

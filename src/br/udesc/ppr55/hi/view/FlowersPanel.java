@@ -65,14 +65,12 @@ public class FlowersPanel extends JPanel {
     private void initComponents() {
         flowersPanel = new JTable();
         flowersPanel.setModel(new HaruTableModel());
-
         for (int x = 0; x < flowersPanel.getColumnModel().getColumnCount(); x++) {
             flowersPanel.getColumnModel().getColumn(x).setWidth(100);
             flowersPanel.getColumnModel().getColumn(x).setMinWidth(100);
         }
         flowersPanel.setRowHeight(100);
-        flowersPanel.setShowGrid(true);
-        //flowersPanel.setBackground(new Color(53, 178, 72, 162));
+        flowersPanel.setShowGrid(false);
         flowersPanel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         flowersPanel.setIntercellSpacing(new Dimension(0, 0));
         flowersPanel.setDefaultRenderer(Object.class, new HaruItemRender());

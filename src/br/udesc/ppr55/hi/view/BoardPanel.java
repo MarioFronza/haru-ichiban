@@ -53,6 +53,7 @@ public class BoardPanel extends JPanel {
         this.haruController = haruController;
         this.commandInvoker = commandInvoker;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setOpaque(false);
         this.initComponents();
         this.addComponents();
     }
@@ -75,7 +76,7 @@ public class BoardPanel extends JPanel {
             gameBoard.getColumnModel().getColumn(x).setMaxWidth(100);
         }
         gameBoard.setRowHeight(100);
-        gameBoard.setShowGrid(true);
+        gameBoard.setShowGrid(false);
         gameBoard.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         gameBoard.setIntercellSpacing(new Dimension(0, 0));
         gameBoard.setDefaultRenderer(Object.class, new HaruItemRender());

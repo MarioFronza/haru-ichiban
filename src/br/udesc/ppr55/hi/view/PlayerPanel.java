@@ -31,23 +31,22 @@ public class PlayerPanel extends JPanel {
 
         @Override
         public int getRowCount() {
-            return 1;
+            return 3;
         }
 
         @Override
         public int getColumnCount() {
-            return 3;
+            return 1;
         }
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
             try {
                 if (showFlower) {
-                    return new ImageIcon(haruController.getPlayerFlower(columnIndex));
+                    return new ImageIcon(haruController.getPlayerFlower(rowIndex));
                 } else {
                     return new ImageIcon("images/petal-" + haruController.getCurrentRotation() + "-" + haruController.getFlowerNumber(rowIndex, columnIndex) + ".png");
                 }
-
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.toString());
                 return null;
@@ -59,8 +58,6 @@ public class PlayerPanel extends JPanel {
     private JTable playerTable;
     private IHaruController haruController;
     private CommandInvoker commandInvoker;
-    private ImageIcon icon;
-    private JLabel imagem;
 
     public PlayerPanel(IHaruController haruController, CommandInvoker commandInvoker) {
         this.haruController = haruController;
@@ -90,7 +87,7 @@ public class PlayerPanel extends JPanel {
             playerTable.getColumnModel().getColumn(x).setMinWidth(100);
         }
         playerTable.setRowHeight(100);
-        playerTable.setShowGrid(true);
+        playerTable.setShowGrid(false);
         playerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         playerTable.setIntercellSpacing(new Dimension(0, 0));
         playerTable.setDefaultRenderer(Object.class, new HaruItemRender());
