@@ -1,0 +1,25 @@
+package br.udesc.ppr55.hi.view.command;
+
+import br.udesc.ppr55.hi.controller.IHaruController;
+
+/**
+ * Choose water lily command class
+ *
+ * @author João Pedro Schmitz, Mário Fronza
+ * @since 14/04/2019
+ * @version 1.0.0
+ */
+public class ChooseWaterLily extends HaruCommand {
+
+    public ChooseWaterLily(int x, int y, IHaruController haruController) {
+        super(haruController);
+        super.x = x;
+        super.y = y;
+    }
+
+    @Override
+    public void execute() {
+        haruController.chooseWaterLily(x, y);
+    }
+
+}
