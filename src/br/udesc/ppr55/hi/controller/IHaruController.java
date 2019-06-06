@@ -46,6 +46,8 @@ public interface IHaruController extends Observed {
 
     boolean getJuniorPlayer();
 
+    void visitGameTable();
+
     void setCurrentFlower(Flower flower);
 
     void setNextPhase(String previousPhase, String nextPhase);

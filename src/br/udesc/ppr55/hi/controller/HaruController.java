@@ -5,6 +5,7 @@ import br.udesc.ppr55.hi.model.*;
 import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
 import br.udesc.ppr55.hi.model.abstractfactory.PieceFactory;
 import br.udesc.ppr55.hi.model.builder.*;
+import br.udesc.ppr55.hi.model.visitor.ConcretVisitorPiece;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -493,6 +494,11 @@ public class HaruController implements IHaruController {
         } else {
             return yellowGardener.isJunior();
         }
+    }
+
+    @Override
+    public void visitGameTable() {
+        this.builderGameTable.getTable().accept(new ConcretVisitorPiece());
     }
 
     @Override

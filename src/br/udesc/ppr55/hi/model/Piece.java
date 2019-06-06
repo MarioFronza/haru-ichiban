@@ -1,5 +1,7 @@
 package br.udesc.ppr55.hi.model;
 
+import br.udesc.ppr55.hi.model.visitor.Visitor;
+
 /**
  * Piece class
  *
@@ -21,5 +23,9 @@ public abstract class Piece {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitPiece(this);
     }
 }
