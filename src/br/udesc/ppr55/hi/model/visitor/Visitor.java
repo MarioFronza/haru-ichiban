@@ -6,4 +6,6 @@ public interface Visitor {
 
     void visitPiece(Piece piece);
 
+    Piece getPiece();
+
 }

@@ -5,11 +5,10 @@ import br.udesc.ppr55.hi.model.*;
 import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
 import br.udesc.ppr55.hi.model.abstractfactory.PieceFactory;
 import br.udesc.ppr55.hi.model.builder.*;
-import br.udesc.ppr55.hi.model.visitor.ConcretVisitorPiece;
+import br.udesc.ppr55.hi.model.visitor.ConcreteVisitorPiece;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Controller class that has the game logic
@@ -251,6 +250,7 @@ public class HaruController implements IHaruController {
             } else {
                 notifyMessage("Invalid position.");
             }
+            visitGameTable();
             notifyBoardPanelUpdate();
             notifyFlowersPanelUpdate();
             notifyPlayerPanelUpdate();
@@ -498,7 +498,7 @@ public class HaruController implements IHaruController {
 
     @Override
     public void visitGameTable() {
-        this.builderGameTable.getTable().accept(new ConcretVisitorPiece());
+        this.builderGameTable.getTable().accept(new ConcreteVisitorPiece());
     }
 
     @Override
@@ -586,6 +586,7 @@ public class HaruController implements IHaruController {
 
     @Override
     public void verifyNextPhase() {
+        visitGameTable();
         notifyBoardPanelUpdate();
         notifyHideControlPanel();
         setAppropriateRotation();
