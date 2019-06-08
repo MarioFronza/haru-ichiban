@@ -2,6 +2,7 @@ package br.udesc.ppr55.hi.view;
 
 import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.IHaruController;
+import br.udesc.ppr55.hi.model.abstractfactory.PieceFactory;
 import br.udesc.ppr55.hi.view.command.CommandInvoker;
 import br.udesc.ppr55.hi.controller.observer.Observer;
 
@@ -42,6 +43,7 @@ public class MainFrame extends JFrame implements Observer {
             JFrame.setDefaultLookAndFeelDecorated(true);
             this.commandInvoker = new CommandInvoker();
             this.haruController = HaruController.getInstance();
+            this.haruController.setFactory(new PieceFactory());
             this.haruController.addObserver(this);
             super.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("images/main-frame.png")))));
             super.setFocusable(true);

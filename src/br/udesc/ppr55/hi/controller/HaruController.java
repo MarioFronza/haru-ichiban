@@ -7,6 +7,7 @@ import br.udesc.ppr55.hi.model.abstractfactory.PieceFactory;
 import br.udesc.ppr55.hi.model.builder.*;
 import br.udesc.ppr55.hi.model.visitor.ConcreteVisitorPiece;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,13 +65,7 @@ public class HaruController implements IHaruController {
     }
 
     private HaruController() {
-        this.factory = new PieceFactory();
         this.observers = new ArrayList<>();
-
-        this.initializeBoard();
-        this.initializeScorePanel();
-        this.initializePlayerPanel();
-        this.initializeFlowerPanel();
     }
 
     @Override
@@ -497,8 +492,44 @@ public class HaruController implements IHaruController {
     }
 
     @Override
+    public AbstractPieceFactory getFactory() {
+        return factory;
+    }
+
+    @Override
+    public void setFactory(PieceFactory pieceFactory) {
+        this.factory = pieceFactory;
+        this.initializeBoard();
+        this.initializeScorePanel();
+        this.initializePlayerPanel();
+        this.initializeFlowerPanel();
+    }
+
+    @Override
     public void visitGameTable() {
-        this.builderGameTable.getTable().accept(new ConcreteVisitorPiece());
+        boolean redWinner;
+        boolean yellowWinner;
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                redWinner = verifyRedWinner(i, j);
+                yellowWinner = verifyYellowWinner(i, j);
+
+                if (redWinner)
+                    notifyMessage("Vermelho pontuou");
+
+                if (yellowWinner)
+                    notifyMessage("Amarelo pontuou");
+
+                if (yellowWinner || redWinner) {
+                    this.builderGameTable.getTable().accept(new ConcreteVisitorPiece());
+                    initializePlayerPanel();
+                    initializeFlowerPanel();
+                    this.currentPhase = ADD_FLOWER;
+                    notifyMessage("Each player must add three flowers.");
+                    break;
+                }
+            }
+        }
     }
 
     @Override
@@ -508,6 +539,46 @@ public class HaruController implements IHaruController {
         } else {
             return yellowGardener.getName();
         }
+    }
+
+    @Override
+    public boolean verifyRedWinner(int x, int y) {
+        Piece[][] grid = this.builderGameTable.getTable().getGrid();
+        if (x == 0 && y == 0 && grid[x][y].getClass() == RedFlower.class && grid[x + 1][y + 1].getClass() == RedFlower.class && grid[x + 2][y + 2].getClass() == RedFlower.class && grid[x + 3][y + 3].getClass() == RedFlower.class && grid[x + 4][y + 4].getClass() == RedFlower.class)
+            return true;
+        if (x == 4 && y == 0 && grid[x][y].getClass() == RedFlower.class && grid[x - 1][y + 1].getClass() == RedFlower.class && grid[x - 2][y + 2].getClass() == RedFlower.class && grid[x - 3][y + 3].getClass() == RedFlower.class && grid[x - 4][y + 4].getClass() == RedFlower.class)
+            return true;
+        if (x <= 1 && y <= 1 && grid[x][y].getClass() == RedFlower.class && grid[x + 1][y + 1].getClass() == RedFlower.class && grid[x + 2][y + 2].getClass() == RedFlower.class && grid[x + 3][y + 3].getClass() == RedFlower.class)
+            return true;
+        if (x >= 3 && y <= 1 && grid[x][y].getClass() == RedFlower.class && grid[x - 1][y + 1].getClass() == RedFlower.class && grid[x - 2][y + 2].getClass() == RedFlower.class && grid[x - 3][y + 3].getClass() == RedFlower.class)
+            return true;
+        if (x <= 1 && grid[x][y].getClass() == RedFlower.class && grid[x + 1][y].getClass() == RedFlower.class && grid[x + 2][y].getClass() == RedFlower.class && grid[x + 3][y].getClass() == RedFlower.class)
+            return true;
+        if (y <= 1 && grid[x][y].getClass() == RedFlower.class && grid[x][y + 1].getClass() == RedFlower.class && grid[x][y + 2].getClass() == RedFlower.class && grid[x][y + 3].getClass() == RedFlower.class)
+            return true;
+        if (x <= 3 && y <= 3 && grid[x][y].getClass() == RedFlower.class && grid[x + 1][y].getClass() == RedFlower.class && grid[x][y + 1].getClass() == RedFlower.class && grid[x + 1][y + 1].getClass() == RedFlower.class)
+            return true;
+        return false;
+    }
+
+    @Override
+    public boolean verifyYellowWinner(int x, int y) {
+        Piece[][] grid = this.builderGameTable.getTable().getGrid();
+        if (x == 0 && y == 0 && grid[x][y].getClass() == YellowFlower.class && grid[x + 1][y + 1].getClass() == YellowFlower.class && grid[x + 2][y + 2].getClass() == YellowFlower.class && grid[x + 3][y + 3].getClass() == YellowFlower.class && grid[x + 4][y + 4].getClass() == YellowFlower.class)
+            return true;
+        if (x == 4 && y == 0 && grid[x][y].getClass() == YellowFlower.class && grid[x - 1][y + 1].getClass() == YellowFlower.class && grid[x - 2][y + 2].getClass() == YellowFlower.class && grid[x - 3][y + 3].getClass() == YellowFlower.class && grid[x - 4][y + 4].getClass() == YellowFlower.class)
+            return true;
+        if (x <= 1 && y <= 1 && grid[x][y].getClass() == YellowFlower.class && grid[x + 1][y + 1].getClass() == YellowFlower.class && grid[x + 2][y + 2].getClass() == YellowFlower.class && grid[x + 3][y + 3].getClass() == YellowFlower.class)
+            return true;
+        if (x >= 3 && y <= 1 && grid[x][y].getClass() == YellowFlower.class && grid[x - 1][y + 1].getClass() == YellowFlower.class && grid[x - 2][y + 2].getClass() == YellowFlower.class && grid[x - 3][y + 3].getClass() == YellowFlower.class)
+            return true;
+        if (x <= 1 && grid[x][y].getClass() == YellowFlower.class && grid[x + 1][y].getClass() == YellowFlower.class && grid[x + 2][y].getClass() == YellowFlower.class && grid[x + 3][y].getClass() == YellowFlower.class)
+            return true;
+        if (y <= 1 && grid[x][y].getClass() == YellowFlower.class && grid[x][y + 1].getClass() == YellowFlower.class && grid[x][y + 2].getClass() == YellowFlower.class && grid[x][y + 3].getClass() == YellowFlower.class)
+            return true;
+        if (x <= 3 && y <= 3 && grid[x][y].getClass() == YellowFlower.class && grid[x + 1][y].getClass() == YellowFlower.class && grid[x][y + 1].getClass() == YellowFlower.class && grid[x + 1][y + 1].getClass() == YellowFlower.class)
+            return true;
+        return false;
     }
 
     @Override
@@ -561,23 +632,12 @@ public class HaruController implements IHaruController {
                 notifyMessage(redGardener.getName() + " is the junior gardener.");
                 return true;
             } else {
-//                Random random = new Random();
-//                int number = random.nextInt(1);
-//                if (number == 0) {
-//                    this.redGardener.setJunior(true);
-//                    notifyMessage(redGardener.getName() + " is the junior gardener.");
-//                } else {
-//                    this.yellowGardener.setJunior(true);
-//                    notifyMessage(yellowGardener.getName() + " is the junior gardener.");
-//                }
                 this.currentRedFlower = null;
                 this.currentYellowFlower = null;
                 this.yellowGardener.setJunior(false);
                 this.redGardener.setJunior(false);
                 this.redPlayerPanel.add(redFlowerRemoved);
                 this.yellowPlayerPanel.add(yellowFlowerRemoved);
-
-
                 return true;
             }
         }

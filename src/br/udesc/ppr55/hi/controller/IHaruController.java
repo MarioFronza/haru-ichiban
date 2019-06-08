@@ -4,6 +4,7 @@ import br.udesc.ppr55.hi.controller.observer.Observed;
 import br.udesc.ppr55.hi.model.Flower;
 import br.udesc.ppr55.hi.model.Piece;
 import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
+import br.udesc.ppr55.hi.model.abstractfactory.PieceFactory;
 
 import java.util.List;
 
@@ -43,6 +44,14 @@ public interface IHaruController extends Observed {
     String getCurrentRotation();
 
     String getCurrentNamePlayer();
+
+    AbstractPieceFactory getFactory();
+
+    void setFactory(PieceFactory pieceFactory);
+
+    boolean verifyRedWinner(int x, int y);
+
+    boolean verifyYellowWinner(int x, int y);
 
     boolean getJuniorPlayer();
 
