@@ -60,7 +60,6 @@ public class HaruController implements IHaruController {
         if (instance == null) {
             instance = new HaruController();
         }
-
         return instance;
     }
 
@@ -176,7 +175,7 @@ public class HaruController implements IHaruController {
     @Override
     public void chooseWaterLily(int x, int y) {
         if (currentPhase.equals(CHOOSE_FROG)) {
-            if (getGridGameTable()[x][y].getClass() == WaterLily.class) {
+            if (getGridGameTable()[x][y].getClass() == WaterLilyComponent.class) {
                 if (currentFrog.equals("red")) {
                     getGridGameTable()[x][y] = factory.createRedFrog();
                 } else {
@@ -194,7 +193,7 @@ public class HaruController implements IHaruController {
                 notifyMessage("Invalid position.");
             }
         } else if (currentPhase.equals(CHOOSE_DARK_WATERLILY)) {
-            if (getGridGameTable()[x][y].getClass() == WaterLily.class || getGridGameTable()[x][y].getClass() == YellowFrog.class || getGridGameTable()[x][y].getClass() == RedFrog.class) {
+            if (getGridGameTable()[x][y].getClass() == WaterLilyComponent.class || getGridGameTable()[x][y].getClass() == YellowFrog.class || getGridGameTable()[x][y].getClass() == RedFrog.class) {
                 if (getGridGameTable()[x][y].getClass() == YellowFrog.class || getGridGameTable()[x][y].getClass() == RedFrog.class) {
                     if (getGridGameTable()[x][y].getClass() == YellowFrog.class) {
                         this.currentFrog = "yellow";
@@ -224,7 +223,7 @@ public class HaruController implements IHaruController {
                 } else {
                     notifyMessage("Invalid position.");
                 }
-            } else if (getGridGameTable()[x][y].getClass() == WaterLily.class || getGridGameTable()[x][y].getClass() == YellowFrog.class || getGridGameTable()[x][y].getClass() == RedFrog.class) {
+            } else if (getGridGameTable()[x][y].getClass() == WaterLilyComponent.class || getGridGameTable()[x][y].getClass() == YellowFrog.class || getGridGameTable()[x][y].getClass() == RedFrog.class) {
                 getCurrentFlower().setImage("images/water-lily-with-" + getCurrentRotation() + "-petal.png");
                 if (getGridGameTable()[x][y].getClass() == YellowFrog.class || getGridGameTable()[x][y].getClass() == RedFrog.class) {
                     if (getGridGameTable()[x][y].getClass() == YellowFrog.class) {
