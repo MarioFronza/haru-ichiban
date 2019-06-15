@@ -25,7 +25,7 @@ public class BuildGameTable extends Builder {
         tablePiece[1][0] = factory.createWater();
         tablePiece[1][1] = factory.createWaterLily();
         tablePiece[1][2] = factory.createYellowFrog();
-        tablePiece[1][3] = factory.createDarkWaterLily();
+        tablePiece[1][3] = factory.createDarkWaterLily(true);
         tablePiece[1][4] = factory.createWater();
 
         tablePiece[2][0] = factory.createWaterLily();
