@@ -206,7 +206,7 @@ public class HaruController implements IHaruController {
                     setNextPhase(CHOOSE_DARK_WATERLILY, ADD_FLOWER);
                     notifyMessage("Each player must add a new flower in your panel.");
                 }
-                getGridGameTable()[x][y] = factory.createDarkWaterLily(false);
+                getGridGameTable()[x][y] = factory.createDarkWaterLily();
                 updateChooseWaterLily();
             } else {
                 notifyMessage("Invalid position.");
@@ -216,10 +216,7 @@ public class HaruController implements IHaruController {
             this.currentWaterLilyY = y;
             if (getJuniorPlayer()) {
                 if (getGridGameTable()[x][y].getClass() == DarkWaterLily.class) {
-                    DarkWaterLily darkWaterLily = (DarkWaterLily) getGridGameTable()[x][y];
                     getCurrentFlower().setImage("images/water-lily-dark-with-" + getCurrentRotation() + "-petal.png");
-                    if (darkWaterLily.isOriginal())
-                        getCurrentFlower().setOriginalDarkWaterLily(true);
                     getGridGameTable()[x][y] = getCurrentFlower();
                     setCurrentFlower(null);
                     setAppropriateRotation();

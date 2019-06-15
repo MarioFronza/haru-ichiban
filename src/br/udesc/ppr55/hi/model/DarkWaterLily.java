@@ -4,8 +4,8 @@ package br.udesc.ppr55.hi.model;
  * Dark Water Lily class
  *
  * @author João Pedro Schmitz, Mário Fronza
- * @version 1.0.0
  * @since 11/04/2019
+ * @version 1.0.0
  */
 public class DarkWaterLily extends Piece {
 
@@ -15,10 +15,8 @@ public class DarkWaterLily extends Piece {
         return isOriginal;
     }
 
-
-    public DarkWaterLily(boolean isOriginal) {
-        super("images/water-lily-dark.png");
-        this.isOriginal = isOriginal;
+    public void setOriginal(boolean original) {
+        isOriginal = original;
     }
 
     public DarkWaterLily() {

@@ -55,8 +55,8 @@ public class PieceFactory extends AbstractPieceFactory {
     }
 
     @Override
-    public Piece createDarkWaterLily(boolean isOriginal) {
-        return new DarkWaterLily(isOriginal);
+    public Piece createDarkWaterLily() {
+        return new DarkWaterLily();
     }
 
     @Override

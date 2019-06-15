@@ -10,15 +10,6 @@ package br.udesc.ppr55.hi.model;
 public abstract class Flower extends Piece {
 
     protected int number;
-    private boolean isOriginalDarkWaterLily = false;
-
-    public boolean isOriginalDarkWaterLily() {
-        return isOriginalDarkWaterLily;
-    }
-
-    public void setOriginalDarkWaterLily(boolean originalDarkWaterLily) {
-        isOriginalDarkWaterLily = originalDarkWaterLily;
-    }
 
     public Flower(String image) {
         super(image);
