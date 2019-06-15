@@ -19,7 +19,6 @@ public class ControlPanel extends JPanel {
 
     private IHaruController haruController;
     private CommandInvoker commandInvoker;
-    private final int SIZE = 55;
 
     private JButton up;
     private JButton left;
@@ -30,14 +29,13 @@ public class ControlPanel extends JPanel {
         this.haruController = haruController;
         this.commandInvoker = commandInvoker;
         this.setPreferredSize(new Dimension(100, 100));
-        this.setBackground(Color.white);
         this.setLayout(new GridLayout(3, 3));
         initComponents();
     }
 
     private void initComponents() {
-        this.up = new JButton("&#708");
-        this.up.setSize(SIZE, SIZE);
+        this.up = new JButton("\uD83E\uDC45");
+        this.up.setSize(33, 33);
         this.up.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -45,8 +43,8 @@ public class ControlPanel extends JPanel {
                 commandInvoker.execute();
             }
         });
-        this.left = new JButton("\uD83E");
-        this.left.setSize(SIZE, SIZE);
+        this.left = new JButton("\uD83E\uDC44");
+        this.left.setSize(33, 33);
         this.left.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -54,8 +52,8 @@ public class ControlPanel extends JPanel {
                 commandInvoker.execute();
             }
         });
-        this.right = new JButton("\uD83E");
-        this.right.setSize(SIZE, SIZE);
+        this.right = new JButton("\uD83E\uDC46");
+        this.right.setSize(33, 33);
         this.right.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,8 +61,8 @@ public class ControlPanel extends JPanel {
                 commandInvoker.execute();
             }
         });
-        this.down = new JButton("\uD83E");
-        this.down.setSize(SIZE, SIZE);
+        this.down = new JButton("\uD83E\uDC47");
+        this.down.setSize(33, 33);
         this.down.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

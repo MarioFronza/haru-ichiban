@@ -7,10 +7,10 @@ package br.udesc.ppr55.hi.model;
  * @since 07/04/2019
  * @version 1.0.0
  */
-public abstract class WaterLily extends Piece {
-	
-	public WaterLily() {
-		this.setImage("");
-	}
-
+public class WaterLily extends Piece{
+    
+    public WaterLily() {
+        super("images/water-lily.png");
+    }
+    
 }
