@@ -1,6 +1,6 @@
 package br.udesc.ppr55.hi.model;
 
-import br.udesc.ppr55.hi.model.visitor.Visitor;
+import br.udesc.ppr55.hi.controller.visitor.Visitor;
 
 /**
  * Piece class

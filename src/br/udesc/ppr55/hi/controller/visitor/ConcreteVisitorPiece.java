@@ -1,4 +1,4 @@
-package br.udesc.ppr55.hi.model.visitor;
+package br.udesc.ppr55.hi.controller.visitor;
 
 import br.udesc.ppr55.hi.model.*;
 
