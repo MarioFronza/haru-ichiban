@@ -12,6 +12,10 @@ import br.udesc.ppr55.hi.model.visitor.Visitor;
 public abstract class Piece {
 
     private String image;
+    
+    public Piece() {
+    	
+    }
 
     public Piece(String image) {
         this.image = image;
