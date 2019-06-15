@@ -27,7 +27,12 @@ public class Table {
             for (int j = 0; j < 5; j++) {
                 grid[i][j].accept(visitor);
                 if (visitor.getPiece().getClass() == RedFlower.class || visitor.getPiece().getClass() == YellowFlower.class) {
-                    grid[i][j] = HaruController.getInstance().getFactory().createWaterLily();
+                    Flower flower = (Flower) grid[i][j];
+                    if (flower.isOriginalDarkWaterLily()) {
+                        grid[i][j] = HaruController.getInstance().getFactory().createDarkWaterLily(true);
+                    } else {
+                        grid[i][j] = HaruController.getInstance().getFactory().createWaterLily();
+                    }
                 }
             }
         }

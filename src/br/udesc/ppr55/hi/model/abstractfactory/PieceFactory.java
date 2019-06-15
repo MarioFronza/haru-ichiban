@@ -25,7 +25,7 @@ public class PieceFactory extends AbstractPieceFactory {
     public Piece createStone(int number) {
         return new Stone(number);
     }
-    
+
     @Override
     public Piece createStoneWithoutNumber() {
         return new Stone();
@@ -52,8 +52,8 @@ public class PieceFactory extends AbstractPieceFactory {
     }
 
     @Override
-    public Piece createDarkWaterLily() {
-        return new DarkWaterLily();
+    public Piece createDarkWaterLily(boolean isOriginal) {
+        return new DarkWaterLily(isOriginal);
     }
 
     @Override
