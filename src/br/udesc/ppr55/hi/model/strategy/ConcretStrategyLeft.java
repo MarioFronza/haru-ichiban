@@ -19,9 +19,11 @@ public class ConcretStrategyLeft implements MoveStrategyWaterLily {
             } else {
                 int auxX = -1;
                 for (int i = y - 1; i >= 0; i--) {
-                    if (table.getGrid()[x][i].getClass() == Water.class) {
+                    if (table.getGrid()[x][i].getClass() == Water.class)
                         auxX = i;
-                    }
+
+                    if (auxX != -1)
+                        break;
                 }
                 if (auxX != -1) {
                     for (int i = auxX; i < y; i++) {

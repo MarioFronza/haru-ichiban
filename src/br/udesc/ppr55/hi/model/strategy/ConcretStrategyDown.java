@@ -19,9 +19,12 @@ public class ConcretStrategyDown implements MoveStrategyWaterLily {
             } else {
                 int auxX = -1;
                 for (int i = x + 1; i <= 4; i++) {
-                    if (table.getGrid()[i][y].getClass() == Water.class) {
+                    if (table.getGrid()[i][y].getClass() == Water.class)
                         auxX = i;
-                    }
+
+                    if (auxX != -1)
+                        break;
+
                 }
                 if (auxX != -1) {
                     for (int i = auxX; i > x; i--) {

@@ -14,8 +14,8 @@ import java.util.List;
  * Controller interface
  *
  * @author João Pedro Schmitz, Mário Fronza
- * @since 07/04/2019
  * @version 1.0.0
+ * @since 07/04/2019
  */
 public interface IHaruController extends Observed {
 
@@ -37,6 +37,16 @@ public interface IHaruController extends Observed {
 
     void updateChooseWaterLily();
 
+    boolean verifyRedWinner(int x, int y);
+
+    boolean verifyYellowWinner(int x, int y);
+
+    void verifyNextPhase();
+
+    boolean visitGameTable();
+
+    boolean checkFlowerValue();
+
     List<Flower> getFlowerPlayerPanel();
 
     Flower getCurrentFlower();
@@ -47,37 +57,11 @@ public interface IHaruController extends Observed {
 
     String getCurrentNamePlayer();
 
-    AbstractPieceFactory getFactory();
-
-    void setFactory(PieceFactory pieceFactory);
-
-    boolean verifyRedWinner(int x, int y);
-
-    boolean verifyYellowWinner(int x, int y);
-
     boolean getJuniorPlayer();
-
-    void visitGameTable();
-
-    void setCurrentFlower(Flower flower);
-
-    void setAppropriateRotation();
-
-    boolean checkFlowerValue();
 
     int getFlowerNumber(int col, int row);
 
-    void setCurrentFrog(String currentFrog);
-
-    void setCurrentWaterLilyX(int currentWaterLilyX);
-
-    void setCurrentWaterLilyY(int currentWaterLilyY);
-
     String getCurrentFrog();
-
-    HaruState getHaruState();
-
-    void setHaruState(HaruState haruState);
 
     List<Flower> getRedPlayerPanel();
 
@@ -89,9 +73,23 @@ public interface IHaruController extends Observed {
 
     String getPreviousPhase();
 
-    void setCurrentRotation(String currentRotation);
+    AbstractPieceFactory getFactory();
 
-    void verifyNextPhase();
+    void setFactory(PieceFactory pieceFactory);
+
+    void setCurrentFlower(Flower flower);
+
+    void setAppropriateRotation();
+
+    void setCurrentFrog(String currentFrog);
+
+    void setCurrentWaterLilyX(int currentWaterLilyX);
+
+    void setCurrentWaterLilyY(int currentWaterLilyY);
+
+    void setHaruState(HaruState haruState);
+
+    void setCurrentRotation(String currentRotation);
 
     void initializeBoard();
 

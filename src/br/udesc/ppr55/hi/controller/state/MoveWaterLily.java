@@ -1,6 +1,5 @@
 package br.udesc.ppr55.hi.controller.state;
 
-import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.IHaruController;
 import br.udesc.ppr55.hi.model.Water;
 
