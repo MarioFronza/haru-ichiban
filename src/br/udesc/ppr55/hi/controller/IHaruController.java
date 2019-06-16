@@ -1,7 +1,9 @@
 package br.udesc.ppr55.hi.controller;
 
 import br.udesc.ppr55.hi.controller.observer.Observed;
+import br.udesc.ppr55.hi.controller.state.HaruState;
 import br.udesc.ppr55.hi.model.Flower;
+import br.udesc.ppr55.hi.model.Gardener;
 import br.udesc.ppr55.hi.model.Piece;
 import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
 import br.udesc.ppr55.hi.model.abstractfactory.PieceFactory;
@@ -59,19 +61,43 @@ public interface IHaruController extends Observed {
 
     void setCurrentFlower(Flower flower);
 
-    void setNextPhase(String previousPhase, String nextPhase);
-
     void setAppropriateRotation();
 
     boolean checkFlowerValue();
 
     int getFlowerNumber(int col, int row);
 
+    void setCurrentFrog(String currentFrog);
+
+    void setCurrentWaterLilyX(int currentWaterLilyX);
+
+    void setCurrentWaterLilyY(int currentWaterLilyY);
+
+    String getCurrentFrog();
+
+    HaruState getHaruState();
+
+    void setHaruState(HaruState haruState);
+
+    List<Flower> getRedPlayerPanel();
+
+    List<Flower> getYellowPlayerPanel();
+
+    Gardener getRedGardener();
+
+    Gardener getYellowGardener();
+
+    String getPreviousPhase();
+
+    void setCurrentRotation(String currentRotation);
+
     void verifyNextPhase();
 
     void initializeBoard();
 
     void initializeScorePanel();
+
+    void setPreviousPhase(String previousPhase);
 
     void initializePlayerPanel();
 
