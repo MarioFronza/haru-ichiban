@@ -23,6 +23,8 @@ public interface Observer {
 
     void hideControlPanel();
 
+    void endGame();
+
     void message(String message);
 
 }

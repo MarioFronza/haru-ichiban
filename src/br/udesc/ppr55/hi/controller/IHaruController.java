@@ -57,6 +57,8 @@ public interface IHaruController extends Observed {
 
     String getCurrentNamePlayer();
 
+    boolean isMoved();
+
     boolean getJuniorPlayer();
 
     int getFlowerNumber(int col, int row);
@@ -71,11 +73,13 @@ public interface IHaruController extends Observed {
 
     Gardener getYellowGardener();
 
-    String getPreviousPhase();
-
     AbstractPieceFactory getFactory();
 
+    void setState(HaruState haruState);
+
     void setFactory(PieceFactory pieceFactory);
+
+    void setMoved(boolean moved);
 
     void setCurrentFlower(Flower flower);
 
@@ -94,8 +98,6 @@ public interface IHaruController extends Observed {
     void initializeBoard();
 
     void initializeScorePanel();
-
-    void setPreviousPhase(String previousPhase);
 
     void initializePlayerPanel();
 

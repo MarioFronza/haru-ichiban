@@ -1,4 +1,4 @@
-package br.udesc.ppr55.hi.model.strategy;
+package br.udesc.ppr55.hi.controller.strategy;
 
 import br.udesc.ppr55.hi.model.Table;
 

@@ -10,7 +10,7 @@ package br.udesc.ppr55.hi.model;
 public class WaterLily extends Piece{
     
     public WaterLily() {
-        super("images/water-lily.png");
+        super("");
     }
     
 }

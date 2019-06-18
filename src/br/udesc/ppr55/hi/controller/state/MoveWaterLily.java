@@ -17,13 +17,9 @@ public class MoveWaterLily extends HaruState {
             haruController.setCurrentWaterLilyY(y);
             haruController.setCurrentWaterLilyX(x);
             haruController.notifyShowControlPanel();
-            haruController.setPreviousPhase("move_waterlily");
-            nextState(new MoveWaterLily(haruController));
+            haruController.setMoved(true);
+            haruController.setState(new ChooseDarkWaterLily(haruController));
         }
     }
 
-    @Override
-    public void nextState(HaruState haruState) {
-        haruController.setHaruState(haruState);
-    }
 }

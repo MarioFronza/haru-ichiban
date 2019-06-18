@@ -22,5 +22,4 @@ public abstract class HaruState {
         haruController.notifyMessage("Invalid Action!");
     }
 
-    public abstract void nextState(HaruState haruState);
 }

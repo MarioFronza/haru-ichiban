@@ -27,6 +27,8 @@ public interface Observed {
 
     void notifyHideControlPanel();
 
+    void notifyEndGame();
+
     void notifyMessage(String message);
 
 }

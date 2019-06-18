@@ -1,7 +1,7 @@
 package br.udesc.ppr55.hi.model;
 
 import br.udesc.ppr55.hi.controller.HaruController;
-import br.udesc.ppr55.hi.model.strategy.MoveStrategyWaterLily;
+import br.udesc.ppr55.hi.controller.strategy.MoveStrategyWaterLily;
 import br.udesc.ppr55.hi.controller.visitor.Visitor;
 
 /**

@@ -20,8 +20,8 @@ import javax.imageio.ImageIO;
  * Main frame
  *
  * @author João Pedro Schmitz, Mário Fronza
- * @since 13/04/2019
  * @version 1.0.0
+ * @since 13/04/2019
  */
 public class MainFrame extends JFrame implements Observer {
 
@@ -88,7 +88,7 @@ public class MainFrame extends JFrame implements Observer {
         c.gridx = 5;
         c.gridy = 0;
         this.mainPanel.add(eyePanel, c);
-        
+
         c.gridx = 5;
         c.gridy = 4;
         this.mainPanel.add(controlPanel, c);
@@ -105,14 +105,14 @@ public class MainFrame extends JFrame implements Observer {
         c.gridwidth = 5;
         c.insets = new Insets(0, 0, 0, 40);
         this.mainPanel.add(scorePanel, c);
-        
+
         c.gridx = 0;
         c.gridy = 1;
         c.gridwidth = 5;
         c.gridheight = 5;
         c.insets = new Insets(0, 0, 0, 40);
         this.mainPanel.add(boardPanel, c);
-        
+
         c.gridx = 6;
         c.gridy = 1;
         c.gridwidth = 2;
@@ -155,7 +155,14 @@ public class MainFrame extends JFrame implements Observer {
     public void hideControlPanel() {
         this.controlPanel.setVisible(false);
     }
-    
+
+    @Override
+    public void endGame() {
+        ChoiceFrame choiceFrame = new ChoiceFrame();
+        choiceFrame.start();
+        this.dispose();
+    }
+
     @Override
     public void message(String message) {
         JOptionPane.showMessageDialog(this, message);

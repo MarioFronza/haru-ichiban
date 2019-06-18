@@ -4,10 +4,10 @@ import br.udesc.ppr55.hi.controller.observer.Observer;
 import br.udesc.ppr55.hi.controller.state.AddFlower;
 import br.udesc.ppr55.hi.controller.state.ChooseDarkWaterLily;
 import br.udesc.ppr55.hi.controller.state.HaruState;
-import br.udesc.ppr55.hi.model.strategy.ConcretStrategyDown;
-import br.udesc.ppr55.hi.model.strategy.ConcretStrategyLeft;
-import br.udesc.ppr55.hi.model.strategy.ConcretStrategyRight;
-import br.udesc.ppr55.hi.model.strategy.ConcretStrategyUp;
+import br.udesc.ppr55.hi.controller.strategy.ConcretStrategyDown;
+import br.udesc.ppr55.hi.controller.strategy.ConcretStrategyLeft;
+import br.udesc.ppr55.hi.controller.strategy.ConcretStrategyRight;
+import br.udesc.ppr55.hi.controller.strategy.ConcretStrategyUp;
 import br.udesc.ppr55.hi.model.*;
 import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
 import br.udesc.ppr55.hi.model.abstractfactory.PieceFactory;
@@ -52,6 +52,7 @@ public class HaruController implements IHaruController {
     private int currentWaterLilyY = -1;
     private String currentRotation = "red";
     private String previousPhase;
+    private boolean moved = false;
 
     private Gardener redGardener;
     private Gardener yellowGardener;
@@ -66,7 +67,8 @@ public class HaruController implements IHaruController {
 
     private HaruController() {
         this.observers = new ArrayList<>();
-        this.haruState = new AddFlower(this);
+        setState(new AddFlower(this));
+//        this.haruState = new AddFlower(this);
     }
 
     @Override
@@ -281,6 +283,16 @@ public class HaruController implements IHaruController {
     }
 
     @Override
+    public boolean isMoved() {
+        return moved;
+    }
+
+    @Override
+    public void setMoved(boolean moved) {
+        this.moved = moved;
+    }
+
+    @Override
     public void addFlowerPlayerPanel(Flower flower) {
         if (currentRotation.equals("red")) {
             this.redPlayerPanel.add(flower);
@@ -366,9 +378,10 @@ public class HaruController implements IHaruController {
     }
 
     @Override
-    public String getPreviousPhase() {
-        return previousPhase;
+    public void setState(HaruState haruState) {
+        this.haruState = haruState;
     }
+
 
     @Override
     public void setFactory(PieceFactory pieceFactory) {
@@ -383,6 +396,7 @@ public class HaruController implements IHaruController {
     public boolean visitGameTable() {
         boolean redWinner = false;
         boolean yellowWinner = false;
+        boolean winner = false;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 redWinner = verifyRedWinner(i, j);
@@ -395,6 +409,7 @@ public class HaruController implements IHaruController {
                     initializeScorePanel();
                     builderScorePanel.getTable().getGrid()[redGardener.getScore() - 1][0] = gardener;
                     if (redGardener.getScore() >= 5) {
+                        winner = true;
                         notifyMessage("Vermelho vencer o jogo");
                     }
                 }
@@ -406,12 +421,15 @@ public class HaruController implements IHaruController {
                     initializeScorePanel();
                     builderScorePanel.getTable().getGrid()[9 - yellowGardener.getScore()][0] = gardener;
                     if (yellowGardener.getScore() >= 5) {
+                        winner = true;
                         notifyMessage("Amarelo vencer o jogo");
                     }
                 }
 
-
-                if (yellowWinner || redWinner || (getRedPlayerPanel().isEmpty() && getYellowPlayerPanel().isEmpty())) {
+                if (winner) {
+                    notifyEndGame();
+                    return false;
+                } else if (yellowWinner || redWinner || (getRedPlayerPanel().isEmpty() && getYellowPlayerPanel().isEmpty())) {
                     this.builderGameTable.getTable().accept(new ConcreteVisitorPiece());
                     currentYellowFlower = null;
                     currentRedFlower = null;
@@ -420,9 +438,9 @@ public class HaruController implements IHaruController {
                     setHaruState(new AddFlower(this));
                     return true;
                 }
+
             }
         }
-
         return false;
     }
 
@@ -443,7 +461,7 @@ public class HaruController implements IHaruController {
             return true;
         }
         if (x == 4 && y == 0 && grid[x][y].getClass() == RedFlower.class && grid[x - 1][y + 1].getClass() == RedFlower.class && grid[x - 2][y + 2].getClass() == RedFlower.class && grid[x - 3][y + 3].getClass() == RedFlower.class && grid[x - 4][y + 4].getClass() == RedFlower.class) {
-            this.redGardener.setScore(3);
+            this.redGardener.setScore(5);
             return true;
         }
         if (x <= 1 && y <= 1 && grid[x][y].getClass() == RedFlower.class && grid[x + 1][y + 1].getClass() == RedFlower.class && grid[x + 2][y + 2].getClass() == RedFlower.class && grid[x + 3][y + 3].getClass() == RedFlower.class) {
@@ -477,7 +495,7 @@ public class HaruController implements IHaruController {
             return true;
         }
         if (x == 4 && y == 0 && grid[x][y].getClass() == YellowFlower.class && grid[x - 1][y + 1].getClass() == YellowFlower.class && grid[x - 2][y + 2].getClass() == YellowFlower.class && grid[x - 3][y + 3].getClass() == YellowFlower.class && grid[x - 4][y + 4].getClass() == YellowFlower.class) {
-            this.yellowGardener.setScore(3);
+            this.yellowGardener.setScore(5);
             return true;
         }
         if (x <= 1 && y <= 1 && grid[x][y].getClass() == YellowFlower.class && grid[x + 1][y + 1].getClass() == YellowFlower.class && grid[x + 2][y + 2].getClass() == YellowFlower.class && grid[x + 3][y + 3].getClass() == YellowFlower.class) {
@@ -510,11 +528,6 @@ public class HaruController implements IHaruController {
         } else {
             this.currentYellowFlower = flower;
         }
-    }
-
-    @Override
-    public void setPreviousPhase(String previousPhase) {
-        this.previousPhase = previousPhase;
     }
 
     @Override
@@ -567,6 +580,7 @@ public class HaruController implements IHaruController {
 
     @Override
     public void verifyNextPhase() {
+        this.moved = true;
         if (!visitGameTable())
             notifyMessage(getCurrentNamePlayer() + ", choose the next dark water lily.");
 
@@ -576,8 +590,6 @@ public class HaruController implements IHaruController {
         setCurrentFlower(null);
         notifyPlayerPanelUpdate();
         notifyFlowersPanelUpdate();
-        setPreviousPhase("move_waterlily");
-        setHaruState(new ChooseDarkWaterLily(this));
     }
 
     @Override
@@ -647,6 +659,13 @@ public class HaruController implements IHaruController {
     public void notifyHideControlPanel() {
         for (Observer observer : observers) {
             observer.hideControlPanel();
+        }
+    }
+
+    @Override
+    public void notifyEndGame() {
+        for (Observer observer : observers) {
+            observer.endGame();
         }
     }
 

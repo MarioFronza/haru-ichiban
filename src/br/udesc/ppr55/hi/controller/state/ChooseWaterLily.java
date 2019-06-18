@@ -2,10 +2,9 @@ package br.udesc.ppr55.hi.controller.state;
 
 import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.IHaruController;
-import br.udesc.ppr55.hi.model.DarkWaterLily;
-import br.udesc.ppr55.hi.model.RedFrog;
-import br.udesc.ppr55.hi.model.WaterLily;
-import br.udesc.ppr55.hi.model.YellowFrog;
+import br.udesc.ppr55.hi.model.*;
+import br.udesc.ppr55.hi.model.decorator.RedFrogDecorator;
+import br.udesc.ppr55.hi.model.decorator.YellowFrogDecorator;
 
 public class ChooseWaterLily extends HaruState {
 
@@ -29,25 +28,23 @@ public class ChooseWaterLily extends HaruState {
             } else {
                 haruController.notifyMessage("Invalid position.");
             }
-        } else if (haruController.getGridGameTable()[x][y].getClass() == WaterLily.class || haruController.getGridGameTable()[x][y].getClass() == YellowFrog.class || haruController.getGridGameTable()[x][y].getClass() == RedFrog.class) {
+        } else if (haruController.getGridGameTable()[x][y].getClass() == WaterLilyComponent.class || haruController.getGridGameTable()[x][y].getClass() == YellowFrogDecorator.class || haruController.getGridGameTable()[x][y].getClass() == RedFrogDecorator.class) {
             haruController.getCurrentFlower().setImage("images/water-lily-with-" + haruController.getCurrentRotation() + "-petal.png");
-            if (haruController.getGridGameTable()[x][y].getClass() == YellowFrog.class || haruController.getGridGameTable()[x][y].getClass() == RedFrog.class) {
-                if (haruController.getGridGameTable()[x][y].getClass() == YellowFrog.class) {
+            if (haruController.getGridGameTable()[x][y].getClass() == YellowFrogDecorator.class || haruController.getGridGameTable()[x][y].getClass() == RedFrogDecorator.class) {
+                if (haruController.getGridGameTable()[x][y].getClass() == YellowFrogDecorator.class) {
                     haruController.setCurrentFrog("yellow");
                 } else {
                     haruController.setCurrentFrog("red");
                 }
                 haruController.getGridGameTable()[x][y] = haruController.getCurrentFlower();
-                haruController.setPreviousPhase("choose_waterlily");
-                nextState(new ChooseFrog(haruController));
+                haruController.setState(new ChooseFrog(haruController));
                 haruController.notifyMessage("Choose a new place for your frog.");
             } else {
                 haruController.getGridGameTable()[x][y] = haruController.getCurrentFlower();
                 haruController.setAppropriateRotation();
                 haruController.setCurrentFlower(null);
                 haruController.notifyMessage(haruController.getCurrentNamePlayer() + " should move a water lily.");
-                haruController.setPreviousPhase("choose_waterlily");
-                nextState(new MoveWaterLily(haruController));
+                haruController.setState(new MoveWaterLily(haruController));
             }
         } else {
             haruController.notifyMessage("Invalid position.");
@@ -56,11 +53,6 @@ public class ChooseWaterLily extends HaruState {
         haruController.notifyBoardPanelUpdate();
         haruController.notifyFlowersPanelUpdate();
         haruController.notifyPlayerPanelUpdate();
-        haruController.setPreviousPhase("choose_waterlily");
     }
 
-    @Override
-    public void nextState(HaruState haruState) {
-        haruController.setHaruState(haruState);
-    }
 }

@@ -1,6 +1,5 @@
 package br.udesc.ppr55.hi.controller.state;
 
-import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.IHaruController;
 
 public class ChooseFlowerValue extends HaruState {
@@ -17,13 +16,11 @@ public class ChooseFlowerValue extends HaruState {
         if (haruController.checkFlowerValue()) {
             if (haruController.getRedGardener().isJunior()) {
                 haruController.setCurrentRotation("red");
-                haruController.setPreviousPhase("choose_flower");
-                nextState(new ChooseWaterLily(haruController));
+                haruController.setState(new ChooseWaterLily(haruController));
                 haruController.notifyMessage("Each player must choose a water lily.");
             } else if (haruController.getYellowGardener().isJunior()) {
                 haruController.setCurrentRotation("yellow");
-                haruController.setPreviousPhase("choose_flower");
-                nextState(new ChooseWaterLily(haruController));
+                haruController.setState(new ChooseWaterLily(haruController));
                 haruController.notifyMessage("Each player must choose a water lily.");
             } else {
                 haruController.notifyMessage("Each player must choose again a flower in the panel.");
@@ -31,8 +28,4 @@ public class ChooseFlowerValue extends HaruState {
         }
     }
 
-    @Override
-    public void nextState(HaruState haruState) {
-        haruController.setHaruState(haruState);
-    }
 }
