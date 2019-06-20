@@ -7,6 +7,7 @@ import br.udesc.ppr55.hi.model.Gardener;
 import br.udesc.ppr55.hi.model.Piece;
 import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
 import br.udesc.ppr55.hi.model.abstractfactory.PieceFactory;
+import br.udesc.ppr55.hi.model.builder.Builder;
 
 import java.util.List;
 
@@ -37,15 +38,19 @@ public interface IHaruController extends Observed {
 
     void updateChooseWaterLily();
 
-    boolean verifyRedWinner(int x, int y);
+    int verifyRedWinner(int x, int y);
 
-    boolean verifyYellowWinner(int x, int y);
+    int verifyYellowWinner(int x, int y);
 
     void verifyNextPhase();
 
     boolean visitGameTable();
 
+    void updateScore();
+
     boolean checkFlowerValue();
+
+    void newRound();
 
     List<Flower> getFlowerPlayerPanel();
 
@@ -73,9 +78,13 @@ public interface IHaruController extends Observed {
 
     Gardener getYellowGardener();
 
+    int getRound();
+
     AbstractPieceFactory getFactory();
 
     void setState(HaruState haruState);
+
+    void setRound(int round);
 
     void setFactory(PieceFactory pieceFactory);
 

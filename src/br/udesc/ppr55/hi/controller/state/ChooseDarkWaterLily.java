@@ -23,8 +23,13 @@ public class ChooseDarkWaterLily extends HaruState {
                 haruController.setState(new ChooseFrog(haruController));
                 haruController.notifyMessage("Choose a new place for your frog.");
             } else {
-                haruController.setState(new AddFlower(haruController));
-                haruController.notifyMessage("Each player must add a new flower in your panel.");
+                if (haruController.getRound() >= 7) {
+                    haruController.setState(new ChooseFlowerValue(haruController));
+                    haruController.notifyMessage("Each player must choose a flower from your panel.");
+                } else {
+                    haruController.setState(new AddFlower(haruController));
+                    haruController.notifyMessage("Each player must add a new flower in your panel.");
+                }
             }
             haruController.getGridGameTable()[x][y] = haruController.getFactory().createDarkWaterLily(false);
             haruController.updateChooseWaterLily();

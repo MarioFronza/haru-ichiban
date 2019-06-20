@@ -24,7 +24,7 @@ public abstract class Gardener extends Piece {
 
     public void setScore(int score) {
         this.score = this.score + score;
-        System.out.println("score"+score);
+        System.out.println("Score: "+score);
     }
 
     public boolean isJunior() {

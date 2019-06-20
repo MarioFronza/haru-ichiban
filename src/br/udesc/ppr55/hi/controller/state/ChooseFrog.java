@@ -18,13 +18,17 @@ public class ChooseFrog extends HaruState {
                 haruController.getGridGameTable()[x][y] = haruController.getFactory().createYellowFrog();
             }
             haruController.updateChooseWaterLily();
-            System.out.println(haruController.isMoved());
             if (!haruController.isMoved()) {
                 haruController.setState(new MoveWaterLily(haruController));
                 haruController.notifyMessage(haruController.getCurrentNamePlayer() + " should move a water lily.");
             } else {
-                haruController.setState(new AddFlower(haruController));
-                haruController.notifyMessage("Each player must add a new flower in your panel.");
+                if (haruController.getRound() >= 7) {
+                    haruController.setState(new ChooseFlowerValue(haruController));
+                    haruController.notifyMessage("Each player must choose a flower from your panel.");
+                } else {
+                    haruController.setState(new AddFlower(haruController));
+                    haruController.notifyMessage("Each player must add a new flower in your panel.");
+                }
             }
         } else {
             haruController.notifyMessage("Invalid position.");
