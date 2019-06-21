@@ -1,9 +1,10 @@
 package br.udesc.ppr55.hi.controller.state;
 
 import br.udesc.ppr55.hi.controller.IHaruController;
+import br.udesc.ppr55.hi.model.DarkWaterLily;
 import br.udesc.ppr55.hi.model.WaterLilyComponent;
-import br.udesc.ppr55.hi.model.decorator.RedFrogDecorator;
-import br.udesc.ppr55.hi.model.decorator.YellowFrogDecorator;
+import br.udesc.ppr55.hi.model.decorator.RedFrog;
+import br.udesc.ppr55.hi.model.decorator.YellowFrog;
 
 public class ChooseDarkWaterLily extends HaruState {
 
@@ -13,11 +14,18 @@ public class ChooseDarkWaterLily extends HaruState {
 
     @Override
     public void chooseWaterLily(int x, int y) {
-        if (haruController.getGridGameTable()[x][y].getClass() == WaterLilyComponent.class || haruController.getGridGameTable()[x][y].getClass() == YellowFrogDecorator.class || haruController.getGridGameTable()[x][y].getClass() == RedFrogDecorator.class) {
-            if (haruController.getGridGameTable()[x][y].getClass() == YellowFrogDecorator.class || haruController.getGridGameTable()[x][y].getClass() == RedFrogDecorator.class) {
-                if (haruController.getGridGameTable()[x][y].getClass() == YellowFrogDecorator.class) {
+        boolean containsFrog = false;
+        if (haruController.getGridGameTable()[x][y].getClass() == WaterLilyComponent.class || haruController.getGridGameTable()[x][y].getClass() == YellowFrog.class || haruController.getGridGameTable()[x][y].getClass() == RedFrog.class) {
+            if (haruController.getGridGameTable()[x][y].getClass() == YellowFrog.class || haruController.getGridGameTable()[x][y].getClass() == RedFrog.class) {
+                if (haruController.getGridGameTable()[x][y].getClass() == YellowFrog.class) {
+                    YellowFrog yellowFrog = (YellowFrog) haruController.getGridGameTable()[x][y];
+                    if (yellowFrog.getWaterLily().isContaisnEgg())
+                        containsFrog = true;
                     haruController.setCurrentFrog("yellow");
                 } else {
+                    RedFrog redFrog = (RedFrog) haruController.getGridGameTable()[x][y];
+                    if (redFrog.getWaterLily().isContaisnEgg())
+                        containsFrog = true;
                     haruController.setCurrentFrog("red");
                 }
                 haruController.setState(new ChooseFrog(haruController));
@@ -32,6 +40,12 @@ public class ChooseDarkWaterLily extends HaruState {
                 }
             }
             haruController.getGridGameTable()[x][y] = haruController.getFactory().createDarkWaterLily(false);
+            DarkWaterLily darkWaterLily = (DarkWaterLily) haruController.getGridGameTable()[x][y];
+            if (haruController.getCurrentFrog().equals("red") && containsFrog) {
+                darkWaterLily.setOriginalRedEggWaterLily(true);
+            } else if (haruController.getCurrentFrog().equals("yellow") && containsFrog) {
+                darkWaterLily.setOriginalYellowEggWaterLily(true);
+            }
             haruController.updateChooseWaterLily();
         } else {
             haruController.notifyMessage("Invalid position.");

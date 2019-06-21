@@ -1,8 +1,8 @@
 package br.udesc.ppr55.hi.model.abstractfactory;
 
 import br.udesc.ppr55.hi.model.*;
-import br.udesc.ppr55.hi.model.decorator.RedFrogDecorator;
-import br.udesc.ppr55.hi.model.decorator.YellowFrogDecorator;
+import br.udesc.ppr55.hi.model.decorator.RedFrog;
+import br.udesc.ppr55.hi.model.decorator.YellowFrog;
 
 /**
  * Piece factory class
@@ -20,7 +20,7 @@ public class PieceFactory extends AbstractPieceFactory {
 
     @Override
     public Piece createWaterLily() {
-        return new WaterLilyComponent();
+        return new WaterLilyComponent(false);
     }
 
     @Override
@@ -44,13 +44,13 @@ public class PieceFactory extends AbstractPieceFactory {
     }
 
     @Override
-    public Piece createRedFrog() {
-        return new RedFrogDecorator(new WaterLilyComponent());
+    public Piece createRedFrog(boolean contaisnEgg) {
+        return new RedFrog(new WaterLilyComponent(contaisnEgg));
     }
 
     @Override
-    public Piece createYellowFrog() {
-        return new YellowFrogDecorator(new WaterLilyComponent());
+    public Piece createYellowFrog(boolean contaisnEgg) {
+        return new YellowFrog(new WaterLilyComponent(contaisnEgg));
     }
 
     @Override

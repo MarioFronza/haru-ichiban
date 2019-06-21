@@ -23,9 +23,9 @@ public abstract class AbstractPieceFactory {
 
     public abstract Piece createYellowGardener();
 
-    public abstract Piece createRedFrog();
+    public abstract Piece createRedFrog(boolean contaisnEgg);
 
-    public abstract Piece createYellowFrog();
+    public abstract Piece createYellowFrog(boolean contaisnEgg);
 
     public abstract Piece createDarkWaterLily(boolean isOriginal);
 

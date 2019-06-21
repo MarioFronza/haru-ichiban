@@ -13,9 +13,9 @@ public class ChooseFrog extends HaruState {
     public void chooseWaterLily(int x, int y) {
         if (haruController.getGridGameTable()[x][y].getClass() == WaterLilyComponent.class) {
             if (haruController.getCurrentFrog().equals("red")) {
-                haruController.getGridGameTable()[x][y] = haruController.getFactory().createRedFrog();
+                haruController.getGridGameTable()[x][y] = haruController.getFactory().createRedFrog(false);
             } else {
-                haruController.getGridGameTable()[x][y] = haruController.getFactory().createYellowFrog();
+                haruController.getGridGameTable()[x][y] = haruController.getFactory().createYellowFrog(false);
             }
             haruController.updateChooseWaterLily();
             if (!haruController.isMoved()) {

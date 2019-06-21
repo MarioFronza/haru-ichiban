@@ -3,6 +3,8 @@ package br.udesc.ppr55.hi.model;
 import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.strategy.MoveStrategyWaterLily;
 import br.udesc.ppr55.hi.controller.visitor.Visitor;
+import br.udesc.ppr55.hi.model.decorator.RedFrog;
+import br.udesc.ppr55.hi.model.decorator.YellowFrog;
 
 /**
  * Table class
@@ -46,12 +48,21 @@ public class Table {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 grid[i][j].accept(visitor);
+                if (visitor.getPiece().getClass() == YellowFrog.class || visitor.getPiece().getClass() == RedFrog.class) {
+                    grid[i][j] = HaruController.getInstance().getFactory().createWaterLily();
+                }
                 if (visitor.getPiece().getClass() == RedFlower.class || visitor.getPiece().getClass() == YellowFlower.class) {
                     Flower flower = (Flower) grid[i][j];
                     if (flower.isOriginalDarkWaterLily()) {
                         grid[i][j] = HaruController.getInstance().getFactory().createDarkWaterLily(true);
                     } else {
                         grid[i][j] = HaruController.getInstance().getFactory().createWaterLily();
+                    }
+                    if (flower.isOriginalRedEggWaterLily()) {
+                        grid[i][j] = HaruController.getInstance().getFactory().createRedFrog(true);
+                    }
+                    if (flower.isOriginalYellowEggWaterLily()) {
+                        grid[i][j] = HaruController.getInstance().getFactory().createYellowFrog(true);
                     }
                 }
             }
