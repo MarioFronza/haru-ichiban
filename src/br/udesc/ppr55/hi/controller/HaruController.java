@@ -2,6 +2,7 @@ package br.udesc.ppr55.hi.controller;
 
 import br.udesc.ppr55.hi.controller.observer.Observer;
 import br.udesc.ppr55.hi.controller.state.AddFlower;
+import br.udesc.ppr55.hi.controller.state.ChooseWaterLily;
 import br.udesc.ppr55.hi.controller.state.HaruState;
 import br.udesc.ppr55.hi.controller.strategy.ConcretStrategyDown;
 import br.udesc.ppr55.hi.controller.strategy.ConcretStrategyLeft;
@@ -51,6 +52,7 @@ public class HaruController implements IHaruController {
     private int currentWaterLilyY = -1;
     private String currentRotation = "red";
     private boolean moved = false;
+    private int valueFrog = 0;
     private int round = 1;
 
     private Gardener redGardener;
@@ -249,6 +251,11 @@ public class HaruController implements IHaruController {
     }
 
     @Override
+    public int getValueFrog() {
+        return valueFrog;
+    }
+
+    @Override
     public void setCurrentFrog(String currentFrog) {
         this.currentFrog = currentFrog;
     }
@@ -327,6 +334,25 @@ public class HaruController implements IHaruController {
     @Override
     public Gardener getYellowGardener() {
         return yellowGardener;
+    }
+
+    @Override
+    public void setValueFrog(int valueFrog) {
+        this.valueFrog = valueFrog;
+        if (valueFrog == 0) {
+            this.redGardener.setJunior(false);
+            this.yellowGardener.setJunior(true);
+            setCurrentRotation("red");
+            notifyMessage(yellowGardener.getName() + " is the junior gardener.");
+        } else {
+            setCurrentRotation("yellow");
+            this.redGardener.setJunior(true);
+            this.yellowGardener.setJunior(false);
+            notifyMessage(redGardener.getName() + " is the junior gardener.");
+        }
+        setAppropriateRotation();
+        setState(new ChooseWaterLily(this));
+        notifyMessage("Each player must choose a water lily.");
     }
 
     @Override
@@ -592,8 +618,6 @@ public class HaruController implements IHaruController {
         if (currentRedFlower != null && currentYellowFlower != null) {
             Flower redFlower = currentRedFlower;
             Flower yellowFlower = currentYellowFlower;
-            System.out.println(redFlower.getNumber());
-            System.out.println(yellowFlower.getNumber());
             this.yellowGardener.setJunior(false);
             this.redGardener.setJunior(false);
             if (redFlower.getNumber() > yellowFlower.getNumber()) {
@@ -605,12 +629,8 @@ public class HaruController implements IHaruController {
                 notifyMessage(redGardener.getName() + " is the junior gardener.");
                 return true;
             } else {
-                this.currentRedFlower = null;
-                this.currentYellowFlower = null;
-                this.yellowGardener.setJunior(false);
-                this.redGardener.setJunior(false);
-                this.redPlayerPanel.add(redFlowerRemoved);
-                this.yellowPlayerPanel.add(yellowFlowerRemoved);
+//                this.currentRedFlower = null;
+//                this.currentYellowFlower = null;
                 return true;
             }
         }

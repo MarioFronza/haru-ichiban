@@ -41,11 +41,14 @@ public class ChooseDarkWaterLily extends HaruState {
             }
             haruController.getGridGameTable()[x][y] = haruController.getFactory().createDarkWaterLily(false);
             DarkWaterLily darkWaterLily = (DarkWaterLily) haruController.getGridGameTable()[x][y];
-            if (haruController.getCurrentFrog().equals("red") && containsFrog) {
-                darkWaterLily.setOriginalRedEggWaterLily(true);
-            } else if (haruController.getCurrentFrog().equals("yellow") && containsFrog) {
-                darkWaterLily.setOriginalYellowEggWaterLily(true);
+            if (haruController.getCurrentFrog() != null) {
+                if (haruController.getCurrentFrog().equals("red") && containsFrog) {
+                    darkWaterLily.setOriginalRedEggWaterLily(true);
+                } else if (haruController.getCurrentFrog().equals("yellow") && containsFrog) {
+                    darkWaterLily.setOriginalYellowEggWaterLily(true);
+                }
             }
+
             haruController.updateChooseWaterLily();
         } else {
             haruController.notifyMessage("Invalid position.");

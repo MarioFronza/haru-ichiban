@@ -70,6 +70,8 @@ public interface IHaruController extends Observed {
 
     String getCurrentFrog();
 
+    int getValueFrog();
+
     List<Flower> getRedPlayerPanel();
 
     List<Flower> getYellowPlayerPanel();
@@ -85,6 +87,8 @@ public interface IHaruController extends Observed {
     void setState(HaruState haruState);
 
     void setRound(int round);
+
+    void setValueFrog(int valueFrog);
 
     void setFactory(PieceFactory pieceFactory);
 

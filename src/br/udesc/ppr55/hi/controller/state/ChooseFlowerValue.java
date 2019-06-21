@@ -1,6 +1,7 @@
 package br.udesc.ppr55.hi.controller.state;
 
 import br.udesc.ppr55.hi.controller.IHaruController;
+import br.udesc.ppr55.hi.view.FrogFrame;
 
 public class ChooseFlowerValue extends HaruState {
 
@@ -23,7 +24,9 @@ public class ChooseFlowerValue extends HaruState {
                 haruController.setState(new ChooseWaterLily(haruController));
                 haruController.notifyMessage("Each player must choose a water lily.");
             } else {
-                haruController.notifyMessage("Each player must choose again a flower in the panel.");
+                FrogFrame frogFrame = new FrogFrame(haruController);
+                frogFrame.setVisible(true);
+//                haruController.notifyMessage("Each player must choose again a flower in the panel.");
             }
         }
     }
