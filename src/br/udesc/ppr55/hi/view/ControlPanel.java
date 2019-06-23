@@ -4,6 +4,7 @@ import br.udesc.ppr55.hi.controller.IHaruController;
 import br.udesc.ppr55.hi.view.command.*;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicArrowButton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,8 +13,8 @@ import java.awt.event.ActionListener;
  * Control panel
  *
  * @author João Pedro Schmitz, Mário Fronza
- * @since 13/04/2019
  * @version 1.0.0
+ * @since 13/04/2019
  */
 public class ControlPanel extends JPanel {
 
@@ -34,7 +35,7 @@ public class ControlPanel extends JPanel {
     }
 
     private void initComponents() {
-        this.up = new JButton("\uD83E\uDC45");
+        this.up = new BasicArrowButton(BasicArrowButton.NORTH);
         this.up.setSize(33, 33);
         this.up.addActionListener(new ActionListener() {
             @Override
@@ -43,7 +44,7 @@ public class ControlPanel extends JPanel {
                 commandInvoker.execute();
             }
         });
-        this.left = new JButton("\uD83E\uDC44");
+        this.left = new BasicArrowButton(BasicArrowButton.WEST);
         this.left.setSize(33, 33);
         this.left.addActionListener(new ActionListener() {
             @Override
@@ -52,7 +53,7 @@ public class ControlPanel extends JPanel {
                 commandInvoker.execute();
             }
         });
-        this.right = new JButton("\uD83E\uDC46");
+        this.right = new BasicArrowButton(BasicArrowButton.EAST);
         this.right.setSize(33, 33);
         this.right.addActionListener(new ActionListener() {
             @Override
@@ -61,7 +62,7 @@ public class ControlPanel extends JPanel {
                 commandInvoker.execute();
             }
         });
-        this.down = new JButton("\uD83E\uDC47");
+        this.down = new BasicArrowButton(BasicArrowButton.SOUTH);
         this.down.setSize(33, 33);
         this.down.addActionListener(new ActionListener() {
             @Override
