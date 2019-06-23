@@ -78,13 +78,23 @@ public interface IHaruController extends Observed {
 
     Gardener getRedGardener();
 
+    boolean isEqualNumbers();
+
+    boolean isChoseFrogs();
+
     Gardener getYellowGardener();
 
     int getRound();
 
     AbstractPieceFactory getFactory();
 
+    void resetCurrentFlowers();
+
     void setState(HaruState haruState);
+
+    void setChoseFrogs(boolean choseFrogs);
+
+    void setEqualNumbers(boolean equalNumbers);
 
     void setRound(int round);
 

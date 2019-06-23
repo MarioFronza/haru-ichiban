@@ -2,6 +2,7 @@ package br.udesc.ppr55.hi.controller;
 
 import br.udesc.ppr55.hi.controller.observer.Observer;
 import br.udesc.ppr55.hi.controller.state.AddFlower;
+import br.udesc.ppr55.hi.controller.state.ChooseFrog;
 import br.udesc.ppr55.hi.controller.state.ChooseWaterLily;
 import br.udesc.ppr55.hi.controller.state.HaruState;
 import br.udesc.ppr55.hi.controller.strategy.ConcretStrategyDown;
@@ -13,6 +14,8 @@ import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
 import br.udesc.ppr55.hi.model.abstractfactory.PieceFactory;
 import br.udesc.ppr55.hi.model.builder.*;
 import br.udesc.ppr55.hi.controller.visitor.ConcreteVisitorPiece;
+import br.udesc.ppr55.hi.model.decorator.RedFrog;
+import br.udesc.ppr55.hi.model.decorator.YellowFrog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +32,7 @@ public class HaruController implements IHaruController {
     private static HaruController instance;
     private AbstractPieceFactory factory;
 
-    private HaruState haruState;
+    private HaruState haruState; //State
 
     private Director director; //Builder
     private Builder builderGameTable;
@@ -52,6 +55,8 @@ public class HaruController implements IHaruController {
     private int currentWaterLilyY = -1;
     private String currentRotation = "red";
     private boolean moved = false;
+    private boolean equalNumbers = false;
+    private boolean choseFrogs = false;
     private int valueFrog = 0;
     private int round = 1;
 
@@ -256,6 +261,11 @@ public class HaruController implements IHaruController {
     }
 
     @Override
+    public boolean isChoseFrogs() {
+        return choseFrogs;
+    }
+
+    @Override
     public void setCurrentFrog(String currentFrog) {
         this.currentFrog = currentFrog;
     }
@@ -269,6 +279,7 @@ public class HaruController implements IHaruController {
     public void setCurrentWaterLilyY(int currentWaterLilyY) {
         this.currentWaterLilyY = currentWaterLilyY;
     }
+
 
     @Override
     public Piece getCurrentFlowerTable(int col, int row) {
@@ -293,6 +304,7 @@ public class HaruController implements IHaruController {
         }
     }
 
+
     @Override
     public boolean isMoved() {
         return moved;
@@ -301,6 +313,11 @@ public class HaruController implements IHaruController {
     @Override
     public void setMoved(boolean moved) {
         this.moved = moved;
+    }
+
+    @Override
+    public void setChoseFrogs(boolean choseFrogs) {
+        this.choseFrogs = choseFrogs;
     }
 
     @Override
@@ -337,8 +354,14 @@ public class HaruController implements IHaruController {
     }
 
     @Override
+    public boolean isEqualNumbers() {
+        return equalNumbers;
+    }
+
+    @Override
     public void setValueFrog(int valueFrog) {
         this.valueFrog = valueFrog;
+        this.equalNumbers = true;
         if (valueFrog == 0) {
             this.redGardener.setJunior(false);
             this.yellowGardener.setJunior(true);
@@ -351,8 +374,43 @@ public class HaruController implements IHaruController {
             notifyMessage(redGardener.getName() + " is the junior gardener.");
         }
         setAppropriateRotation();
-        setState(new ChooseWaterLily(this));
-        notifyMessage("Each player must choose a water lily.");
+        setState(new ChooseFrog(this));
+        findFrogs();
+        notifyMessage("Choose a new place for your frog.");
+    }
+
+    public void findFrogs() {
+        Piece[][] grid = this.builderGameTable.getTable().getGrid();
+        Flower flower;
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (grid[i][j].getClass() == YellowFrog.class) {
+                    YellowFrog yellowFrog = (YellowFrog) grid[i][j];
+                    grid[i][j] = currentYellowFlower;
+                    grid[i][j].setImage("images/water-lily-with-yellow-petal.png");
+                    if (yellowFrog.getWaterLily().isContaisnEgg()) {
+                        flower = (Flower) grid[i][j];
+                        flower.setOriginalYellowEggWaterLily(true);
+                    }
+                }
+
+                if (grid[i][j].getClass() == RedFrog.class) {
+                    RedFrog redFrog = (RedFrog) grid[i][j];
+                    grid[i][j] = currentRedFlower;
+                    grid[i][j].setImage("images/water-lily-with-red-petal.png");
+                    if (redFrog.getWaterLily().isContaisnEgg()) {
+                        flower = (Flower) grid[i][j];
+                        flower.setOriginalRedEggWaterLily(true);
+                    }
+                }
+
+            }
+        }
+    }
+
+    @Override
+    public void setEqualNumbers(boolean equalNumbers) {
+        this.equalNumbers = equalNumbers;
     }
 
     @Override
@@ -505,6 +563,12 @@ public class HaruController implements IHaruController {
         initializeFlowerPanel();
         setRound(1);
         setHaruState(new AddFlower(this));
+    }
+
+    @Override
+    public void resetCurrentFlowers() {
+        currentYellowFlower = null;
+        currentRedFlower = null;
     }
 
     @Override
