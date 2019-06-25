@@ -3,12 +3,11 @@ package br.udesc.ppr55.hi.controller;
 import br.udesc.ppr55.hi.controller.observer.Observer;
 import br.udesc.ppr55.hi.controller.state.AddFlower;
 import br.udesc.ppr55.hi.controller.state.ChooseFrog;
-import br.udesc.ppr55.hi.controller.state.ChooseWaterLily;
 import br.udesc.ppr55.hi.controller.state.HaruState;
-import br.udesc.ppr55.hi.controller.strategy.ConcretStrategyDown;
-import br.udesc.ppr55.hi.controller.strategy.ConcretStrategyLeft;
-import br.udesc.ppr55.hi.controller.strategy.ConcretStrategyRight;
-import br.udesc.ppr55.hi.controller.strategy.ConcretStrategyUp;
+import br.udesc.ppr55.hi.controller.strategy.ConcreteStrategyDown;
+import br.udesc.ppr55.hi.controller.strategy.ConcreteStrategyLeft;
+import br.udesc.ppr55.hi.controller.strategy.ConcreteStrategyRight;
+import br.udesc.ppr55.hi.controller.strategy.ConcreteStrategyUp;
 import br.udesc.ppr55.hi.model.*;
 import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
 import br.udesc.ppr55.hi.model.abstractfactory.PieceFactory;
@@ -160,7 +159,7 @@ public class HaruController implements IHaruController {
     public void moveWaterLilyDown() {
         if (this.currentWaterLilyX != -1 && getGridGameTable()[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class) {
             Table table = builderGameTable.getTable();
-            table.setMoveStrategyWaterLily(new ConcretStrategyDown());
+            table.setMoveStrategyWaterLily(new ConcreteStrategyDown());
             table.setCurrentX(currentWaterLilyX);
             table.setCurrentY(currentWaterLilyY);
             if (table.move()) {
@@ -177,7 +176,7 @@ public class HaruController implements IHaruController {
     public void moveWaterLilyUp() {
         if (this.currentWaterLilyX != -1 && getGridGameTable()[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class) {
             Table table = builderGameTable.getTable();
-            table.setMoveStrategyWaterLily(new ConcretStrategyUp());
+            table.setMoveStrategyWaterLily(new ConcreteStrategyUp());
             table.setCurrentX(currentWaterLilyX);
             table.setCurrentY(currentWaterLilyY);
             if (table.move()) {
@@ -194,7 +193,7 @@ public class HaruController implements IHaruController {
     public void moveWaterLilyLeft() {
         if (this.currentWaterLilyY != -1 && getGridGameTable()[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class) {
             Table table = builderGameTable.getTable();
-            table.setMoveStrategyWaterLily(new ConcretStrategyLeft());
+            table.setMoveStrategyWaterLily(new ConcreteStrategyLeft());
             table.setCurrentX(currentWaterLilyX);
             table.setCurrentY(currentWaterLilyY);
             if (table.move()) {
@@ -211,7 +210,7 @@ public class HaruController implements IHaruController {
     public void moveWaterLilyRight() {
         if (this.currentWaterLilyY != -1 && getGridGameTable()[currentWaterLilyX][currentWaterLilyY].getClass() != Water.class) {
             Table table = builderGameTable.getTable();
-            table.setMoveStrategyWaterLily(new ConcretStrategyRight());
+            table.setMoveStrategyWaterLily(new ConcreteStrategyRight());
             table.setCurrentX(currentWaterLilyX);
             table.setCurrentY(currentWaterLilyY);
             if (table.move()) {

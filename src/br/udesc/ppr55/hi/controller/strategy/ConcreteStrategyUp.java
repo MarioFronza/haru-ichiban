@@ -4,7 +4,7 @@ import br.udesc.ppr55.hi.model.Piece;
 import br.udesc.ppr55.hi.model.Table;
 import br.udesc.ppr55.hi.model.Water;
 
-public class ConcretStrategyUp implements MoveStrategyWaterLily {
+public class ConcreteStrategyUp implements MoveStrategyWaterLily {
     @Override
     public Table move(Table table) {
         int x = table.getCurrentX();
