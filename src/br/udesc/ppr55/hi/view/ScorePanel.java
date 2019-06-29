@@ -11,8 +11,8 @@ import javax.swing.table.AbstractTableModel;
  * Score panel
  *
  * @author João Pedro Schmitz, Mário Fronza
- * @since 13/04/2019
  * @version 1.0.0
+ * @since 13/04/2019
  */
 public class ScorePanel extends JPanel {
 

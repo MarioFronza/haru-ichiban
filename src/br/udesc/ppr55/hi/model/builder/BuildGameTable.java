@@ -24,8 +24,8 @@ public class BuildGameTable extends Builder {
 
         tablePiece[1][0] = factory.createWater();
         tablePiece[1][1] = factory.createWaterLily();
-        tablePiece[1][2] = factory.createYellowFrog();
-        tablePiece[1][3] = factory.createDarkWaterLily();
+        tablePiece[1][2] = factory.createYellowFrog(true);
+        tablePiece[1][3] = factory.createDarkWaterLily(true);
         tablePiece[1][4] = factory.createWater();
 
         tablePiece[2][0] = factory.createWaterLily();
@@ -37,7 +37,7 @@ public class BuildGameTable extends Builder {
         tablePiece[3][0] = factory.createWater();
         tablePiece[3][1] = factory.createWaterLily();
         tablePiece[3][2] = factory.createWaterLily();
-        tablePiece[3][3] = factory.createRedFrog();
+        tablePiece[3][3] = factory.createRedFrog(true);
         tablePiece[3][4] = factory.createWater();
 
         tablePiece[4][0] = factory.createWaterLily();

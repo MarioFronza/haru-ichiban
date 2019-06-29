@@ -1,9 +1,13 @@
 package br.udesc.ppr55.hi.controller;
 
 import br.udesc.ppr55.hi.controller.observer.Observed;
+import br.udesc.ppr55.hi.controller.state.HaruState;
 import br.udesc.ppr55.hi.model.Flower;
+import br.udesc.ppr55.hi.model.Gardener;
 import br.udesc.ppr55.hi.model.Piece;
 import br.udesc.ppr55.hi.model.abstractfactory.AbstractPieceFactory;
+import br.udesc.ppr55.hi.model.abstractfactory.PieceFactory;
+import br.udesc.ppr55.hi.model.builder.Builder;
 
 import java.util.List;
 
@@ -11,8 +15,8 @@ import java.util.List;
  * Controller interface
  *
  * @author João Pedro Schmitz, Mário Fronza
- * @since 07/04/2019
  * @version 1.0.0
+ * @since 07/04/2019
  */
 public interface IHaruController extends Observed {
 
@@ -34,6 +38,20 @@ public interface IHaruController extends Observed {
 
     void updateChooseWaterLily();
 
+    int verifyRedWinner(int x, int y);
+
+    int verifyYellowWinner(int x, int y);
+
+    void verifyNextPhase();
+
+    boolean visitGameTable();
+
+    void updateScore();
+
+    boolean checkFlowerValue();
+
+    void newRound();
+
     List<Flower> getFlowerPlayerPanel();
 
     Flower getCurrentFlower();
@@ -44,19 +62,61 @@ public interface IHaruController extends Observed {
 
     String getCurrentNamePlayer();
 
+    boolean isMoved();
+
     boolean getJuniorPlayer();
-
-    void setCurrentFlower(Flower flower);
-
-    void setNextPhase(String previousPhase, String nextPhase);
-
-    void setAppropriateRotation();
-
-    boolean checkFlowerValue();
 
     int getFlowerNumber(int col, int row);
 
-    void verifyNextPhase();
+    String getCurrentFrog();
+
+    int getValueFrog();
+
+    List<Flower> getRedPlayerPanel();
+
+    List<Flower> getYellowPlayerPanel();
+
+    Gardener getRedGardener();
+
+    boolean isEqualNumbers();
+
+    boolean isChoseFrogs();
+
+    Gardener getYellowGardener();
+
+    int getRound();
+
+    AbstractPieceFactory getFactory();
+
+    void resetCurrentFlowers();
+
+    void setState(HaruState haruState);
+
+    void setChoseFrogs(boolean choseFrogs);
+
+    void setEqualNumbers(boolean equalNumbers);
+
+    void setRound(int round);
+
+    void setValueFrog(int valueFrog);
+
+    void setFactory(PieceFactory pieceFactory);
+
+    void setMoved(boolean moved);
+
+    void setCurrentFlower(Flower flower);
+
+    void setAppropriateRotation();
+
+    void setCurrentFrog(String currentFrog);
+
+    void setCurrentWaterLilyX(int currentWaterLilyX);
+
+    void setCurrentWaterLilyY(int currentWaterLilyY);
+
+    void setHaruState(HaruState haruState);
+
+    void setCurrentRotation(String currentRotation);
 
     void initializeBoard();
 

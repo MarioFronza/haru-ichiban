@@ -2,6 +2,7 @@ package br.udesc.ppr55.hi.view;
 
 import br.udesc.ppr55.hi.controller.HaruController;
 import br.udesc.ppr55.hi.controller.IHaruController;
+import br.udesc.ppr55.hi.controller.state.AddFlower;
 
 import javax.swing.*;
 import java.awt.*;
@@ -140,6 +141,7 @@ public class ChoiceFrame extends JFrame {
                 haruIchiban.setVisible(true);
                 this.choiceFrame.setVisible(false);
                 haruController.setGardeners(player1.getText(), player2.getText());
+                haruController.setState(new AddFlower(haruController));
             }
         });
         this.buttonStart.setForeground(new Color(52, 52, 52));
